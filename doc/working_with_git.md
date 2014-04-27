@@ -18,7 +18,7 @@ $ git clone https://github.com/<your_username>/rudy.git
 # step 3: Configure remotes
 $ cd rudy
 $ git remote add upstream https://github.com/bunnybuy/rudy.git
-$ git fetch upstream
+$ git pull upstream
 ```
 
 ## Git workflow
