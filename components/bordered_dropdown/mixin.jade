@@ -1,0 +1,10 @@
+mixin bordered-dropdown(defaultValue, label)
+  if label
+    span.bordered-dropdown-label= label
+  .bordered-dropdown
+    a.bordered-dropdown-toggle
+      span.bordered-dropdown-text= defaultValue
+      .bordered-dropdown-toggle-caret
+        span.caret
+    .bordered-dropdown-options
+      block

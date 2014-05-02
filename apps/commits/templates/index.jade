@@ -1,4 +1,5 @@
 include ../../../components/search/mixin
+include ../../../components/bordered_dropdown/mixin
 
 doctype html
 html
@@ -6,6 +7,9 @@ html
     title Artsy GitHub Repos
     link( type='text/css', rel='stylesheet', href=('/assets/commits' + sd.CSS_EXT) )
   body
+    +bordered-dropdown('Recently Added', 'Sort By')
+      a( data-sort='date_created' ) Recently Added
+      a( data-sort='-date_created' ) Artwork Year
     h1 See commits for Artsy repos using the GitHub API!
     mixin search('Try "flux" or "garner" for starters, and hit then enter.')
     ul#commits-list
