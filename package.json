@@ -12,7 +12,8 @@
     "sharify": "*",
     "backbone": "*",
     "backbone-super-sync": "*",
-    "coffee-script": "*"
+    "coffee-script": "*",
+    "underscore": "*"
   },
   "devDependencies": {
     "jquery": "*",

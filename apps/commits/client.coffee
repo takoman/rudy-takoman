@@ -15,6 +15,7 @@ Backbone.$ = $
 sd = require("sharify").data
 Commits = require "../../collections/commits.coffee"
 listTemplate = -> require("./templates/list.jade") arguments...
+#BorderedDropdown = require "../../components/bordered_dropdown/view.coffee"
 
 module.exports.CommitsView = class CommitsView extends Backbone.View
 
@@ -23,6 +24,7 @@ module.exports.CommitsView = class CommitsView extends Backbone.View
 
   render: =>
     @$("#commits-list").html listTemplate(commits: @collection.models)
+    #new BorderedDropdown el: $('.bordered-dropdown')
 
   events:
     "change .search-input": "changeRepo"
