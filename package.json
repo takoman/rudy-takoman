@@ -13,7 +13,10 @@
     "backbone": "*",
     "backbone-super-sync": "*",
     "coffee-script": "*",
-    "underscore": "*"
+    "underscore": "*",
+    "superagent": "*",
+    "passport": "*",
+    "passport-local": "*"
   },
   "devDependencies": {
     "jquery": "*",
@@ -24,6 +27,7 @@
     "should": "*",
     "mocha": "*",
     "sinon": "*",
+    "rewire": "*",
     "benv": "*",
     "zombie": "*",
     "html5": "*",
