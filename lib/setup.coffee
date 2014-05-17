@@ -43,6 +43,7 @@ module.exports = (app) ->
 
   # Mount apps
   app.use require "../apps/commits"
+  app.use require "../apps/auth"
 
   # More general middleware
   app.use express.static(path.resolve __dirname, "../public")
