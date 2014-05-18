@@ -1,8 +1,8 @@
 # Getting Started with Rudy
 
-*Rudy* is the codename for the desktop web app at Bunnybuy.
+*Rudy* is the codename for the desktop web app at Takoman.
 
-Before you can set up Rudy for development you will want to set up [Santa](https://github.com/bunnybuy/santa) which will provide the Bunnybuy API that Rudy consumes. This doc will assume you've set up common development tools after getting started with Santa.
+Before you can set up Rudy for development you will want to set up [Santa](https://github.com/takoman/santa) which will provide the Takoman API that Rudy consumes. This doc will assume you've set up common development tools after getting started with Santa.
 
 ## Ezel
 

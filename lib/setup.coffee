@@ -21,7 +21,7 @@ module.exports = (app) ->
   # Override Backbone to use server-side sync
   Backbone.sync = require "backbone-super-sync"
   # Set some headers for the Github API
-  Backbone.sync.editRequest = (req) -> req.set 'User-Agent': 'artsy'
+  Backbone.sync.editRequest = (req) -> req.set 'User-Agent': 'takoman'
 
   # Mount sharify
   app.use sharify
