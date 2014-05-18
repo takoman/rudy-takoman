@@ -11,6 +11,5 @@ routes = require "./routes"
 app = module.exports = express()
 app.set "views", __dirname + "/templates"
 app.set "view engine", "jade"
-#app.get "/", routes.index
 app.get "/log_in", routes.index
 app.post "/log_in", routes.log_in_check
