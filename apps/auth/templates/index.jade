@@ -4,17 +4,22 @@ html
     title Sign In
     link( type='text/css', rel='stylesheet', href=('/assets/auth' + sd.CSS_EXT) )
   body
-    
-    h1 Sign In
-    form(method="post")
-      fieldset
-        div.form-group
-          label(for="account")
-          input.form-control(name="account" type="text" placeholder="id" requred="required" autofacus)
-        div.form-group
-          label(for="password")
-          input.form-control(name="password" type="password" placeholder="password" requred="required" )
-        button.btn.btn-lg.btn-danger.btn-block(type="submit") Sign In
+    div.container
+      div.row
+        div.col-md-4.col-sm-6.col-md-offset-4.col-sm-offset-3
+          div.panel.panel-default
+            div.panel-heading
+              h3.panel-title Sing In
+            div.panel-body 
+              form(method="post")
+                fieldset
+                  div.form-group
+                    label(for="account") id
+                    input.form-control(name="account" type="text" placeholder="id" requred="required" autofacus)
+                  div.form-group
+                    label(for="password") password
+                    input.form-control(name="password" type="password" placeholder="password" requred="required" )
+                  button.btn.btn-lg.btn-danger.btn-block(type="submit") Sign In
     #scripts
       != sharify.script()
       script( src='/assets/auth' + sd.JS_EXT )
