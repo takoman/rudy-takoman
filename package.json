@@ -34,6 +34,8 @@
     "html5": "*",
     "sqwish": "*",
     "uglify-js": "*",
-    "caching-coffeeify": "*"
+    "caching-coffeeify": "*",
+    "nib": "*",
+    "bootstrap-stylus": "git://github.com/takoman/bootstrap-stylus.git"
   }
 }
