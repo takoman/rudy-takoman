@@ -19,7 +19,8 @@
     "passport-local": "*"
   },
   "devDependencies": {
-    "jquery": "*",
+    "jquery": "2.1.0",
+    "jquery.transition": "git://github.com/dzucconi/jquery.transition.git",
     "browserify": "*",
     "stylus": "*",
     "jadeify": "*",

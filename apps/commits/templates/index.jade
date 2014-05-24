@@ -1,19 +1,20 @@
+extends ../../../components/main_layout/templates/index
 include ../../../components/search/mixin
 include ../../../components/bordered_dropdown/mixin
 
-doctype html
-html
-  head
-    title Artsy GitHub Repos
-    link( type='text/css', rel='stylesheet', href=('/assets/commits' + sd.CSS_EXT) )
-  body
+append locals
+  - assetPackage = 'commits'
+
+block head
+  title Artsy GitHub Repos
+
+block body
+  h1 See commits for Artsy repos using the GitHub API!
+  section
     +bordered-dropdown('Recently Added', 'Sort By')
       a( data-sort='date_created' ) Recently Added
       a( data-sort='-date_created' ) Artwork Year
-    h1 See commits for Artsy repos using the GitHub API!
-    mixin search('Try "flux" or "garner" for starters, and hit then enter.')
-    ul#commits-list
-      include list
-    #scripts
-      != sharify.script()
-      script( src='/assets/commits' + sd.JS_EXT )
+    button.modal-button Open Modal
+  mixin search('Try "flux" or "garner" for starters, and hit then enter.')
+  ul#commits-list
+    include list

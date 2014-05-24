@@ -10,12 +10,12 @@
 #
 
 Backbone = require "backbone"
-$ = require 'jquery'
 Backbone.$ = $
 sd = require("sharify").data
 Commits = require "../../collections/commits.coffee"
 listTemplate = -> require("./templates/list.jade") arguments...
 #BorderedDropdown = require "../../components/bordered_dropdown/view.coffee"
+ModalView = require "../../components/modal/view.coffee"
 
 module.exports.CommitsView = class CommitsView extends Backbone.View
 
@@ -28,10 +28,14 @@ module.exports.CommitsView = class CommitsView extends Backbone.View
 
   events:
     "change .search-input": "changeRepo"
+    "click .modal-button": "openModal"
 
   changeRepo: (e) ->
     @collection.repo = $(e.target).val()
     @collection.fetch()
+
+  openModal: (e) ->
+    new ModalView()
 
 module.exports.init = ->
   new CommitsView

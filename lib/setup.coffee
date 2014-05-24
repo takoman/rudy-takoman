@@ -4,7 +4,7 @@
 # populating sharify data
 #
 
-{ API_URL, NODE_ENV } = require "../config"
+{ API_URL, NODE_ENV, ASSET_PATH } = require "../config"
 express = require "express"
 Backbone = require "backbone"
 sharify = require "sharify"
@@ -13,6 +13,7 @@ path = require "path"
 # Inject some constant data into sharify
 sharify.data =
   API_URL: API_URL
+  ASSET_PATH: ASSET_PATH
   JS_EXT: (if "production" is NODE_ENV then ".min.js" else ".js")
   CSS_EXT: (if "production" is NODE_ENV then ".min.css" else ".css")
 
