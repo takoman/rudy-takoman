@@ -21,6 +21,7 @@ module.exports.CommitsView = class CommitsView extends Backbone.View
 
   initialize: ->
     @collection.on "sync", @render
+    @fetchUsers()
 
   render: =>
     @$("#commits-list").html listTemplate(commits: @collection.models)
@@ -36,6 +37,13 @@ module.exports.CommitsView = class CommitsView extends Backbone.View
 
   openModal: (e) ->
     new ModalView()
+
+  fetchUsers: ->
+    users = new Backbone.Model
+    users.fetch
+      url: "#{sd.API_URL}/api/v1/users"
+      success: (data) ->
+        console.log data
 
 module.exports.init = ->
   new CommitsView

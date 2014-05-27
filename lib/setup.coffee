@@ -4,8 +4,9 @@
 # populating sharify data
 #
 
-{ API_URL, NODE_ENV, TAKOMAN_ID, TAKOMAN_SECRET, COOKIE_DOMAIN, SESSION_SECRET,
-  SESSION_COOKIE_KEY, SESSION_COOKIE_MAX_AGE, FACEBOOK_ID, FACEBOOK_SECRET } = config = require "../config"
+{ API_URL, NODE_ENV, TAKOMAN_ID, TAKOMAN_SECRET, COOKIE_DOMAIN, ASSET_PATH,
+  SESSION_SECRET, SESSION_COOKIE_KEY, SESSION_COOKIE_MAX_AGE, FACEBOOK_ID,
+  FACEBOOK_SECRET } = config = require "../config"
 _               = require "underscore"
 express         = require "express"
 Backbone        = require "backbone"
@@ -15,6 +16,7 @@ bodyParser      = require 'body-parser'
 cookieParser    = require 'cookie-parser'
 session         = require 'cookie-session'
 CurrentUser     = require '../models/current_user'
+localsMiddleware      = require './middleware/locals'
 takomanPassport       = require "./middleware/takoman-passport"
 takomanXappMiddlware  = require "./middleware/takoman-xapp-middleware"
 
@@ -67,6 +69,9 @@ module.exports = (app) ->
     key   : SESSION_COOKIE_KEY
     maxage: SESSION_COOKIE_MAX_AGE # For mobile safari to keep cookies after relaunch
   app.use takomanPassport _.extend config, { CurrentUser: CurrentUser }
+
+  # General helpers and express middleware
+  app.use localsMiddleware
 
   # Mount apps
   app.use require "../apps/commits"
