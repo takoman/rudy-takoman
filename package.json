@@ -16,7 +16,12 @@
     "underscore": "*",
     "superagent": "*",
     "passport": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "passport-facebook": "*",
+    "body-parser": "*",
+    "cookie-parser": "*",
+    "cookie-session": "*",
+    "moment": "*"
   },
   "devDependencies": {
     "jquery": "*",
