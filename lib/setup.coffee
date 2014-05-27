@@ -21,6 +21,7 @@ takomanXappMiddlware  = require "./middleware/takoman-xapp-middleware"
 # Inject some constant data into sharify
 sharify.data =
   API_URL: API_URL
+  ASSET_PATH: ASSET_PATH
   JS_EXT: (if "production" is NODE_ENV then ".min.js" else ".js")
   CSS_EXT: (if "production" is NODE_ENV then ".min.css" else ".css")
 
@@ -69,6 +70,7 @@ module.exports = (app) ->
 
   # Mount apps
   app.use require "../apps/commits"
+  app.use require "../apps/auth"
 
   # More general middleware
   app.use express.static(path.resolve __dirname, "../public")

@@ -1,19 +1,26 @@
+extends ../../../components/main_layout/templates/index
 include ../../../components/search/mixin
 include ../../../components/bordered_dropdown/mixin
 
-doctype html
-html
-  head
-    title Artsy GitHub Repos
-    link( type='text/css', rel='stylesheet', href=('/assets/commits' + sd.CSS_EXT) )
-  body
-    +bordered-dropdown('Recently Added', 'Sort By')
-      a( data-sort='date_created' ) Recently Added
-      a( data-sort='-date_created' ) Artwork Year
-    h1 See commits for Artsy repos using the GitHub API!
-    mixin search('Try "flux" or "garner" for starters, and hit then enter.')
-    ul#commits-list
-      include list
-    #scripts
-      != sharify.script()
-      script( src='/assets/commits' + sd.JS_EXT )
+append locals
+  - assetPackage = 'commits'
+
+block head
+  title Artsy GitHub Repos
+
+block body
+  .container
+    .row
+      #header
+        h1 Takoman is the HERO!
+    .row
+      .col-md-3
+        +bordered-dropdown('Recently Added', 'Sort By')
+          a( data-sort='date_created' ) Recently Added
+          a( data-sort='-date_created' ) Artwork Year
+        a.btn.btn-default.btn-lg.modal-button Open Modal
+      .col-md-9
+        h2 See commits for Artsy repos using the GitHub API!
+        mixin search('Try "flux" or "garner" for starters, and hit then enter.')
+        ul#commits-list
+          include list

@@ -8,6 +8,7 @@
 module.exports =
   
   API_URL                 : "http://localhost:5000"
+  ASSET_PATH              : "/assets/"
   COOKIE_DOMAIN           : null
   FACEBOOK_ID             : '302772989887077'
   FACEBOOK_SECRET         : '02fcc1826933a1e39abce8e22edb8f3e'

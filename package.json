@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "takoman-rudy",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -24,7 +24,8 @@
     "moment": "*"
   },
   "devDependencies": {
-    "jquery": "*",
+    "jquery": "2.1.0",
+    "jquery.transition": "git://github.com/dzucconi/jquery.transition.git",
     "browserify": "*",
     "stylus": "*",
     "jadeify": "*",
@@ -38,6 +39,8 @@
     "html5": "*",
     "sqwish": "*",
     "uglify-js": "*",
-    "caching-coffeeify": "*"
+    "caching-coffeeify": "*",
+    "nib": "*",
+    "bootstrap-stylus": "git://github.com/takoman/bootstrap-stylus.git"
   }
 }
