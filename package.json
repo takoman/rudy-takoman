@@ -16,7 +16,8 @@
     "underscore": "*",
     "superagent": "*",
     "passport": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "body-parser": "*"
   },
   "devDependencies": {
     "jquery": "2.1.0",

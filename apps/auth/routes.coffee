@@ -3,8 +3,9 @@
 #
 
 @index = (req, res, next) ->
-  res.render "index"
+	res.render "index", msg: 'Please Sign In'
 @log_in_check = (req, res, next ) ->
   #res.end "Welcome to the sign in check page!"
-  res.locals.sd.msg = 'hello'
-  res.render "index"
+  #console.log req.body.email
+  Account = req.body.user.account;
+  res.render "index", msg: 'Welcome Back ' + Account
