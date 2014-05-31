@@ -40,4 +40,4 @@ module.exports.CommitsView = class CommitsView extends Backbone.View
 module.exports.init = ->
   new CommitsView
     el: $ "body"
-    collection: new Commits sd.COMMITS, owner: "artsy", repo: "flux"
+    collection: new Commits sd.COMMITS, owner: "artsy", repo: "flare"
