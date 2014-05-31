@@ -14,9 +14,17 @@
     "backbone-super-sync": "*",
     "coffee-script": "*",
     "underscore": "*",
+    "underscore.string": "*",
     "superagent": "*",
     "passport": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "passport-facebook": "*",
+    "body-parser": "*",
+    "cookie-parser": "*",
+    "cookie-session": "*",
+    "moment": "*",
+    "node-uuid": "*",
+    "morgan": "*"
   },
   "devDependencies": {
     "jquery": "2.1.0",
