@@ -14,6 +14,9 @@ Backbone = require "backbone"
 Backbone.$ = $
 sd = require("sharify").data
 ModalView = require "../../components/modal/view.coffee"
+class SingInModal extends ModalView
+  template: -> require "./templates/signin_form.jade"
+
 module.exports.AuthView = class AuthView extends Backbone.View
 
   initialize: ->
@@ -22,7 +25,7 @@ module.exports.AuthView = class AuthView extends Backbone.View
     "click .modal-button": "openModal"
 
   openModal: (e) ->
-    new ModalView()
+    new SingInModal()
 
 module.exports.init = ->
   new AuthView

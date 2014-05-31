@@ -1,0 +1,9 @@
+form(method="post")
+  fieldset
+    div.form-group
+      label( for="user[account]" ) Account
+      input.form-control( name="user[account]", type="text", placeholder="id", requred="required", autofacus )
+    div.form-group
+      label( for="user[password]" ) Password
+      input.form-control( name="user[password]", type="password", placeholder="password", requred="required" )
+    button.btn.btn-lg.btn-danger.btn-block( type="submit" ) Sign In

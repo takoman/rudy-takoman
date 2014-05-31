@@ -28,19 +28,11 @@ block body
   .container
     .jumbotron
       h1 Takoman is the HERO!
-      p hello~
+      p #{msg}
     .row
     .col-md-3.text-center
       a.btn.btn-default.btn-lg.modal-button Register Now
     .col-md-9
-      form(method="post")
-        fieldset
-          div.form-group
-            label( for="account" )
-            input.form-control( name="account", type="text", placeholder="id", requred="required", autofacus )
-          div.form-group
-            label( for="password" )
-            input.form-control( name="password", type="password", placeholder="password", requred="required" )
-          button.btn.btn-lg.btn-danger.btn-block( type="submit" ) Sign In
+      h4 some content here
 
 
