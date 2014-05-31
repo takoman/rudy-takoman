@@ -1,21 +1,46 @@
-doctype html
-html
-  head
-    title Sign In
-    link( type='text/css', rel='stylesheet', href=('/assets/auth' + sd.CSS_EXT) )
-  body
-    
-    h1 Sign In
-    form(method="post")
-      fieldset
-        div.form-group
-          label(for="account")
-          input.form-control(name="account" type="text" placeholder="id" requred="required" autofacus)
-        div.form-group
-          label(for="password")
-          input.form-control(name="password" type="password" placeholder="password" requred="required" )
-        button.btn.btn-lg.btn-danger.btn-block(type="submit") Sign In
-    #scripts
-      != sharify.script()
-      script( src='/assets/auth' + sd.JS_EXT )
-      script( src='/assets/bootstrap.min.js')
+extends ../../../components/main_layout/templates/index
+include ../../../components/search/mixin
+include ../../../components/bordered_dropdown/mixin
+
+append locals
+  - assetPackage = 'auth'
+
+block head
+  title Artsy GitHub Repos
+
+block body
+  .navbar.navbar-default.navbar-fixed-top( role="navigation" )
+    .container
+      .navbar-header
+        button.navbar-toggle( type="button", data-toggle="collapse" data-target=".navbar-collapse" )
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(href="#") Takoman
+      #navbar-collapse-1.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li.active
+            a( href="#") Shopping
+        ul.nav.navbar-nav.navbar-right
+          li
+            a.modal-button( href="#") Sign In
+  .container
+    .jumbotron
+      h1 Takoman is the HERO!
+      p hello~
+    .row
+    .col-md-3.text-center
+      a.btn.btn-default.btn-lg.modal-button Register Now
+    .col-md-9
+      form(method="post")
+        fieldset
+          div.form-group
+            label( for="account" )
+            input.form-control( name="account", type="text", placeholder="id", requred="required", autofacus )
+          div.form-group
+            label( for="password" )
+            input.form-control( name="password", type="password", placeholder="password", requred="required" )
+          button.btn.btn-lg.btn-danger.btn-block( type="submit" ) Sign In
+
+
