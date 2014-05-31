@@ -10,6 +10,20 @@
 #
 
 Backbone = require "backbone"
-$ = require 'jquery'
+#$ = require 'jquery'
 Backbone.$ = $
 sd = require("sharify").data
+ModalView = require "../../components/modal/view.coffee"
+module.exports.AuthView = class AuthView extends Backbone.View
+
+  initialize: ->
+
+  events:
+    "click .modal-button": "openModal"
+
+  openModal: (e) ->
+    new ModalView()
+
+module.exports.init = ->
+  new AuthView
+    el: $ "body"
