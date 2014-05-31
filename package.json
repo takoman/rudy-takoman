@@ -23,7 +23,8 @@
     "cookie-parser": "*",
     "cookie-session": "*",
     "moment": "*",
-    "node-uuid": "*"
+    "node-uuid": "*",
+    "morgan": "*"
   },
   "devDependencies": {
     "jquery": "2.1.0",

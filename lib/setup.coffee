@@ -15,7 +15,7 @@ path            = require "path"
 bodyParser      = require 'body-parser'
 cookieParser    = require 'cookie-parser'
 session         = require 'cookie-session'
-CurrentUser     = require '../models/current_user'
+logger          = require 'morgan'
 localsMiddleware      = require './middleware/locals'
 takomanPassport       = require "./middleware/takoman-passport"
 takomanXappMiddlware  = require "./middleware/takoman-xapp-middleware"
@@ -26,6 +26,9 @@ sharify.data =
   ASSET_PATH: ASSET_PATH
   JS_EXT: (if "production" is NODE_ENV then ".min.js" else ".js")
   CSS_EXT: (if "production" is NODE_ENV then ".min.css" else ".css")
+
+# CurrentUser must be defined after setting sharify.data
+CurrentUser = require '../models/current_user'
 
 module.exports = (app) ->
 
@@ -72,6 +75,7 @@ module.exports = (app) ->
 
   # General helpers and express middleware
   app.use localsMiddleware
+  app.use logger('dev')
 
   # Mount apps
   app.use require "../apps/commits"
