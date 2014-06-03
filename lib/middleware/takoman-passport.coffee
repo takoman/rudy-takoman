@@ -10,6 +10,7 @@ passport    = require 'passport'
 qs          = require 'querystring'
 { parse }   = require 'url'
 LocalStrategy     = require('passport-local').Strategy
+FacebookStrategy  = require('passport-facebook').Strategy
 
 # Hoist the XAPP token out of a request and store it at the module level for
 # the passport callbacks to access. (Seems like there should be a better way to access
@@ -20,6 +21,8 @@ takomanXappToken = null
 opts =
   loginPath             : '/users/login'
   signupPath            : '/users/signup'
+  facebookPath          : '/users/auth/facebook'
+  facebookCallbackPath  : '/users/auth/facebook/callback'
   userKeys : ['id', 'type', 'name', 'email', 'phone', 'default_profile_id']
 
 #
@@ -44,12 +47,20 @@ initPassport = ->
   passport.serializeUser serializeUser
   passport.deserializeUser deserializeUser
   passport.use new LocalStrategy { usernameField: 'email' }, localCallback
+  passport.use new FacebookStrategy
+    clientID: opts.FACEBOOK_ID
+    clientSecret: opts.FACEBOOK_SECRET
+    callbackURL: "#{opts.APP_URL}#{opts.facebookCallbackPath}"
+    passReqToCallback: true
+  , facebookCallback
 
 initApp = ->
   app.use passport.initialize()
   app.use passport.session()
   app.post opts.loginPath, localAuth, afterLocalAuth
   app.post opts.signupPath, signup, passport.authenticate('local'), afterLocalAuth
+  app.get opts.facebookPath, socialAuth('facebook')
+  app.get opts.facebookCallbackPath, socialAuth('facebook'), socialSignup('facebook')
   app.use addLocals
 
 #
@@ -110,6 +121,31 @@ onCreateUser = (next) ->
       error = err?.text
     if error then next(error) else next()
 
+#
+# Use passport.authenticate() as route middleware to authenticate the
+# request.  The first step in Facebook authentication will involve
+# redirecting the user to facebook.com. After authorization, Facebook will
+# redirect the user back to this application at `opts.facebookCallbackPath`.
+#
+socialAuth = (provider) ->
+  (req, res, next) ->
+    takomanXappToken = res.locals.takomanXappToken if res.locals.takomanXappToken
+    passport.authenticate(provider,
+      callbackURL: "#{opts.APP_URL}#{opts[provider + 'CallbackPath']}?#{qs.stringify req.query}"
+      scope: 'email'
+    )(req, res, next)
+
+#
+# Error handling middleware to intercept user creation from social.
+#
+socialSignup = (provider) ->
+  (err, req, res, next) ->
+    return next(err) unless err.message is 'takoman-passport: created user from social'
+
+    querystring = qs.stringify _.omit(req.query, 'code', 'oauth_token', 'oauth_verifier')
+    url = "#{opts.facebookPath}?#{querystring}"
+    res.redirect url
+
 addLocals = (req, res, next) ->
   if req.user
     res.locals.user = req.user
@@ -148,20 +184,59 @@ localCallback = (username, password, done) ->
 accessTokenCallback = (done, params) ->
   (err, res) ->
     # Catch the various forms of error takoman could encounter
-    error = res.error if res.error?
+    error = res.body.message if res?.body?.message?
+    error ?= res.error if res?.error?
     error ?= err
 
     # If there are no errors, create the user from the access token
     unless error
       return done(null, new opts.CurrentUser(accessToken: res.body.access_token))
 
+    # If there's no user linked to this account, create the user via the POST
+    # /user API. Then pass a custom error so our signup middleware can catch
+    # it, login, and move on.
+    if error.match? 'no account linked'
+      request
+        .post("#{opts.API_URL}/api/v1/users")
+        .set('X-XAPP-TOKEN', takomanXappToken)
+        .send(params)
+        .end (err, res) ->
+          if res.status is 200 and res.body._status is 'ERR'
+            error = res.body._issues
+          else if res.status isnt 201
+            error = res.text
+          else
+            error = err?.text
+          return done(error or { message: 'takoman-passport: created user from social', user: res.body })
+
     # Invalid email or password
-    if error.match? 'invalid email or password'
+    else if error.match? 'invalid email or password'
       return done(null, false, error)
 
     # Other errors
     else
       return done(error)
+
+#
+# Facebook will send back the token and profile, and the request
+#
+facebookCallback = (req, accessToken, refreshToken, profile, done) ->
+  # if a logged in user visiting the facebook auth route?
+  if req.user
+    # TODO link the user to its facebook account
+  else
+    # Login using an XAuth Token obtained from a User's OAuth Token
+    request.post("#{opts.API_URL}/oauth2/access_token").send(
+      client_id: opts.TAKOMAN_ID
+      client_secret: opts.TAKOMAN_SECRET
+      grant_type: 'oauth_token'
+      oauth_token: accessToken
+      oauth_provider: 'facebook'
+    ).end accessTokenCallback(done,
+      oauth_token: accessToken
+      provider: 'facebook'
+      name: profile?.displayName
+    )
 
 #
 # Serialize user by fetching and caching user data in the session.
