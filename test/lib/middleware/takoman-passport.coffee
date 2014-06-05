@@ -1,3 +1,4 @@
+_         = require 'underscore'
 Backbone  = require 'backbone'
 rewire    = require 'rewire'
 sinon     = require 'sinon'
@@ -39,17 +40,23 @@ describe 'Takoman Passport methods', ->
 
     it 'sends a false user when invalid email or password', (done) ->
       @accessTokenCallback((err, user, info) ->
-        err?.should.not.be.ok
+        _.isNull(err).should.be.ok
         user.should.not.be.ok
         info.should.include 'invalid email or password'
         done()
-      )(null, error: 'invalid email or password')
+      )(null, body: { status: 'error', message: 'invalid email or password' })
 
-    it 'sends error messages in an error object', (done) ->
+    it 'sends error messages to error handler when unknown error', (done) ->
       @accessTokenCallback((err) ->
         err.should.include 'Epic Fail'
         done()
-      )(null, error: 'Epic Fail')
+      )(null, body: { status: 'error', message: 'Epic Fail' })
+
+    it 'sends error messages to error handler when errors other than 4xx, 5xx', (done) ->
+      @accessTokenCallback((err) ->
+        err.should.include 'error other than 4xx and 5xx'
+        done()
+      )('error other than 4xx and 5xx', body: {})
 
     context 'with a "no account linked" error', ->
 
@@ -57,11 +64,11 @@ describe 'Takoman Passport methods', ->
         @request = @takomanPassport.__get__ 'request'
         post = sinon.stub @request, 'post'
         post.returns set: (set = sinon.stub())
-        set.returns send: (send = sinon.stub())
-        send.returns end: (end = sinon.stub())
+        set.returns send: (@send = sinon.stub())
+        @send.returns end: (end = sinon.stub())
         @done = sinon.stub()
-        @accessTokenCallback(@done, { xapp_token: 'foobar' })(
-          null, { error: 'no account linked' }
+        @accessTokenCallback(@done, { name: 'foobar' })(
+          null, body: { status: 'error', message: 'no account linked' }
         )
         @end = end.args[0][0]
 
@@ -71,7 +78,10 @@ describe 'Takoman Passport methods', ->
       it 'creates a user', ->
         @request.post.args[0][0].should.include '/api/v1/user'
 
-      it 'passes a custom error for our socialSignup callback to redirect to login', ->
+      it 'creates a user with params passed to accessTokenCallback', ->
+        @send.args[0][0].should.eql { name: 'foobar' }
+
+      it 'passes a custom error for our afterSocialSignup callback to redirect to login', ->
         @end null, body: { name: 'Takoman' }
         @done.args[0][0].message.should.equal 'takoman-passport: created user from social'
 
@@ -91,10 +101,12 @@ describe 'Takoman Passport methods', ->
     context 'without a user', ->
 
       beforeEach ->
+        @accessTokenCallback = sinon.stub()
+        @takomanPassport.__set__ 'accessTokenCallback', @accessTokenCallback
         @request = @takomanPassport.__get__ 'request'
         @post = sinon.stub @request, 'post'
         @post.returns send: (@send = sinon.stub())
-        @send.returns end: (@end = sinon.stub())
+        @send.returns end: (end = sinon.stub())
 
       afterEach ->
         @request.post.restore()
@@ -108,4 +120,11 @@ describe 'Takoman Passport methods', ->
         @send.args[0][0].oauth_token.should.equal 'facebook_token'
         @send.args[0][0].oauth_provider.should.equal 'facebook'
 
-      xit 'tries to log in with the XAuth token obtained from the OAuth token', ->
+      it 'logs in with the XAuth token obtained from the OAuth token', ->
+        done = sinon.stub()
+        @facebookCallback({}, 'facebook_token', 'refresh_token', {displayName: 'Hero'}, done)
+        @accessTokenCallback.calledOnce.should.be.ok
+        @accessTokenCallback.args[0][0].should.equal done
+        @accessTokenCallback.args[0][1].oauth_token.should.equal 'facebook_token'
+        @accessTokenCallback.args[0][1].provider.should.equal 'facebook'
+        @accessTokenCallback.args[0][1].name.should.equal 'Hero'

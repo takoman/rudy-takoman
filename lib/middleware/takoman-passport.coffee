@@ -60,7 +60,7 @@ initApp = ->
   app.post opts.loginPath, localAuth, afterLocalAuth
   app.post opts.signupPath, signup, passport.authenticate('local'), afterLocalAuth
   app.get opts.facebookPath, socialAuth('facebook')
-  app.get opts.facebookCallbackPath, socialAuth('facebook'), socialSignup('facebook')
+  app.get opts.facebookCallbackPath, socialAuth('facebook'), afterSocialSignup('facebook')
   app.use addLocals
 
 #
@@ -83,11 +83,11 @@ localAuth = (req, res, next) ->
 
 afterLocalAuth = (req, res, next) ->
   if res.authError
-    res.send 403, { success: false, error: res.authError }
+    res.send 403, { status: "error", message: res.authError }
   else if req.xhr and req.user?
-    res.send { success: true, user: req.user.toJSON() }
+    res.send { status: "success", user: req.user.toJSON() }
   else if req.xhr and not req.user?
-    res.send { success: false, error: "missing user" }
+    res.send { status: "error", message: "missing user" }
   else
     next()
 
@@ -113,10 +113,8 @@ onCreateUser = (next) ->
     # http://python-eve.org/features.html#data-validation
     # May need to change it if we change the interface of error responses.
     # https://github.com/takoman/santa/issues/30
-    if res.status is 200 and res.body._status is 'ERR'
-      error = res.body._issues
-    else if res.status isnt 201
-      error = res.text
+    if res.status isnt 201 or (res.status is 200 and res.body.status is 'error')
+      error = res.body.message
     else
       error = err?.text
     if error then next(error) else next()
@@ -138,7 +136,7 @@ socialAuth = (provider) ->
 #
 # Error handling middleware to intercept user creation from social.
 #
-socialSignup = (provider) ->
+afterSocialSignup = (provider) ->
   (err, req, res, next) ->
     return next(err) unless err.message is 'takoman-passport: created user from social'
 
@@ -149,6 +147,7 @@ socialSignup = (provider) ->
 addLocals = (req, res, next) ->
   if req.user
     res.locals.user = req.user
+    # so we can access user date, e.g. access token, client and server
     res.locals.sd?.CURRENT_USER = req.user.toJSON()
   next()
 
@@ -184,8 +183,7 @@ localCallback = (username, password, done) ->
 accessTokenCallback = (done, params) ->
   (err, res) ->
     # Catch the various forms of error takoman could encounter
-    error = res.body.message if res?.body?.message?
-    error ?= res.error if res?.error?
+    error = res.body.message if res.body.status is 'error'
     error ?= err
 
     # If there are no errors, create the user from the access token
@@ -201,13 +199,11 @@ accessTokenCallback = (done, params) ->
         .set('X-XAPP-TOKEN', takomanXappToken)
         .send(params)
         .end (err, res) ->
-          if res.status is 200 and res.body._status is 'ERR'
-            error = res.body._issues
-          else if res.status isnt 201
-            error = res.text
+          if res.status isnt 201 or (res.status is 200 and res.body.status is 'error')
+            error = res.body.message
           else
             error = err?.text
-          return done(error or { message: 'takoman-passport: created user from social', user: res.body })
+          return done(error or { message: 'takoman-passport: created user from social' })
 
     # Invalid email or password
     else if error.match? 'invalid email or password'
