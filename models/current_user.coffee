@@ -15,3 +15,8 @@ module.exports = class CurrentUser extends Backbone.Model
       # Otherwise overwrite data
       _.defaults(options, { data: { access_token: @get('accessToken') } })
     Backbone.Model::sync.call this, arguments...
+
+  # Convenience for getting the bootstrapped user or returning null.
+  # This should only be used on the client.
+  @orNull: ->
+    if sd.CURRENT_USER then new @(sd.CURRENT_USER) else null
