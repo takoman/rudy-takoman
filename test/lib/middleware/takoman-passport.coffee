@@ -42,19 +42,19 @@ describe 'Takoman Passport methods', ->
       @accessTokenCallback((err, user, info) ->
         _.isNull(err).should.be.ok
         user.should.not.be.ok
-        info.should.include 'invalid email or password'
+        info.should.match 'invalid email or password'
         done()
       )(null, body: { status: 'error', message: 'invalid email or password' })
 
     it 'sends error messages to error handler when unknown error', (done) ->
       @accessTokenCallback((err) ->
-        err.should.include 'Epic Fail'
+        err.should.match 'Epic Fail'
         done()
       )(null, body: { status: 'error', message: 'Epic Fail' })
 
     it 'sends error messages to error handler when errors other than 4xx, 5xx', (done) ->
       @accessTokenCallback((err) ->
-        err.should.include 'error other than 4xx and 5xx'
+        err.should.match 'error other than 4xx and 5xx'
         done()
       )('error other than 4xx and 5xx', body: {})
 
@@ -76,7 +76,7 @@ describe 'Takoman Passport methods', ->
         @request.post.restore()
 
       it 'creates a user', ->
-        @request.post.args[0][0].should.include '/api/v1/user'
+        @request.post.args[0][0].should.endWith "/api/v1/users"
 
       it 'creates a user with params passed to accessTokenCallback', ->
         @send.args[0][0].should.eql { name: 'foobar' }
