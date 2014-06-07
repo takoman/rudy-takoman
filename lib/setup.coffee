@@ -4,7 +4,7 @@
 # populating sharify data
 #
 
-{ API_URL, NODE_ENV, TAKOMAN_ID, TAKOMAN_SECRET, COOKIE_DOMAIN, ASSET_PATH,
+{ API_URL, APP_URL, NODE_ENV, TAKOMAN_ID, TAKOMAN_SECRET, COOKIE_DOMAIN, ASSET_PATH,
   SESSION_SECRET, SESSION_COOKIE_KEY, SESSION_COOKIE_MAX_AGE, FACEBOOK_ID,
   FACEBOOK_SECRET } = config = require "../config"
 _               = require "underscore"
@@ -23,6 +23,7 @@ takomanXappMiddlware  = require "./middleware/takoman-xapp-middleware"
 # Inject some constant data into sharify
 sharify.data =
   API_URL: API_URL
+  APP_URL: APP_URL
   ASSET_PATH: ASSET_PATH
   JS_EXT: (if "production" is NODE_ENV then ".min.js" else ".js")
   CSS_EXT: (if "production" is NODE_ENV then ".min.css" else ".css")
