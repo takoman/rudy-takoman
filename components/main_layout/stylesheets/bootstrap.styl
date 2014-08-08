@@ -1,10 +1,25 @@
+/*!
+ * Bootstrap v3.2.0 (http://getbootstrap.com)
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
 // Bootstrap styles
-// Reset
+// We import each of stylesheets here instead of the the single bootstrap.styl,
+// so that we have control over which we actually need in the final css output.
+
+// Core variables and mixins
+@import "../../../node_modules/bootstrap-stylus/stylus/variables"
+@import "../../../node_modules/bootstrap-stylus/stylus/mixins"
+
+// Reset and dependencies
 @import "../../../node_modules/bootstrap-stylus/stylus/normalize"
 @import "../../../node_modules/bootstrap-stylus/stylus/print"
+@import "../../../node_modules/bootstrap-stylus/stylus/glyphicons"
 
 // Core CSS
 @import "../../../node_modules/bootstrap-stylus/stylus/scaffolding"
+@import "../../../node_modules/bootstrap-stylus/stylus/utilities"
 @import "../../../node_modules/bootstrap-stylus/stylus/type"
 @import "../../../node_modules/bootstrap-stylus/stylus/code"
 @import "../../../node_modules/bootstrap-stylus/stylus/grid"
@@ -14,7 +29,6 @@
 
 // Components
 @import "../../../node_modules/bootstrap-stylus/stylus/component-animations"
-@import "../../../node_modules/bootstrap-stylus/stylus/glyphicons"
 @import "../../../node_modules/bootstrap-stylus/stylus/dropdowns"
 @import "../../../node_modules/bootstrap-stylus/stylus/button-groups"
 @import "../../../node_modules/bootstrap-stylus/stylus/input-groups"
@@ -32,6 +46,7 @@
 @import "../../../node_modules/bootstrap-stylus/stylus/media"
 @import "../../../node_modules/bootstrap-stylus/stylus/list-group"
 @import "../../../node_modules/bootstrap-stylus/stylus/panels"
+@import "../../../node_modules/bootstrap-stylus/stylus/responsive-embed"
 @import "../../../node_modules/bootstrap-stylus/stylus/wells"
 @import "../../../node_modules/bootstrap-stylus/stylus/close"
 
@@ -42,5 +57,4 @@
 @import "../../../node_modules/bootstrap-stylus/stylus/carousel"
 
 // Utility classes
-@import "../../../node_modules/bootstrap-stylus/stylus/utilities"
 @import "../../../node_modules/bootstrap-stylus/stylus/responsive-utilities"
