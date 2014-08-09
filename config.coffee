@@ -21,5 +21,10 @@ module.exports =
   TAKOMAN_ID              : '55050a745ff16a8114b8'
   TAKOMAN_SECRET          : '752dc05799b6fec555f5436a512fccdb'
 
+# Override any values with the ones in config-[RUDY_ENV].coffee
+if (env = process.env.RUDY_ENV)
+  config = require "./config/config-#{env}"
+  module.exports[key] = (config[key] or val) for key, val of module.exports
+
 # Override any values with env variables if they exist
 module.exports[key] = (process.env[key] or val) for key, val of module.exports
