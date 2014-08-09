@@ -12,6 +12,28 @@ BIN = node_modules/.bin
 s:
 	$(BIN)/coffee index.coffee
 
+# Start the server pointing to staging
+ss:
+	APPLICATION_NAME=rudy-staging API_URL=http://stagingapi.takoman.co $(BIN)/coffee index.coffee
+
+# Start the server pointing to production
+sp:
+	APPLICATION_NAME=rudy-production API_URL=http://api.takoman.co $(BIN)/coffee index.coffee
+
+# Start the server monitored by pm2
+# Pass the mode in the `env` environment variable, for example,
+# 	`env=staging make spm2`      # Run Rudy in staging mode
+# 	`env=production make spm2`   # Run Rudy in production mode
+# TODO: Need to check the `env` env var
+spm2:
+	pm2 ping
+	RUNNING_RUDY=$$($(BIN)/pm2 list | grep rudy-$(env) -c); \
+	case $$RUNNING_RUDY in \
+	  0) echo "Starting rudy $(env)..."; RUDY_ENV=$(env) $(BIN)/pm2 start index.coffee --name rudy-$(env) ;; \
+	  1) echo "Reloading rudy $(env)..."; RUDY_ENV=$(env) $(BIN)/pm2 reload index.coffee --name rudy-$(env) ;; \
+	  *) echo "$$RUNNING_RUDY instances of rudy-$(env) is running. Looks like something went wrong?" ;; \
+	esac; \
+
 # Run all of the project-level tests, followed by app-level tests
 test: assets
 	$(BIN)/mocha $(shell find test -name '*.coffee' -not -path 'test/helpers/*')
