@@ -26,7 +26,7 @@ sp:
 # 	`env=production make spm2`   # Run Rudy in production mode
 # TODO: Need to check the `env` env var
 spm2:
-	pm2 ping
+	$(BIN)/pm2 ping
 	RUNNING_RUDY=$$($(BIN)/pm2 list | grep rudy-$(env) -c); \
 	case $$RUNNING_RUDY in \
 	  0) echo "Starting rudy $(env)..."; RUDY_ENV=$(env) $(BIN)/pm2 start index.coffee --name rudy-$(env) ;; \
