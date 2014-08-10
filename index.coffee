@@ -4,7 +4,7 @@
 # be abstracted into modules under /lib.
 # 
 
-{ PORT } = require "./config"
+{ PORT, NODE_ENV } = require "./config"
 express = require "express"
 setup = require "./lib/setup"
 
@@ -14,5 +14,5 @@ setup app
 # Start the server and send a message to IPC for the integration test 
 # helper to hook into.
 app.listen PORT, ->
-  console.log "Listening on port " + PORT
+  console.log "Rudy #{NODE_ENV} listening on port " + PORT
   process.send? "listening"
