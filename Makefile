@@ -25,7 +25,7 @@ sp:
 # 	`env=staging make spm2`      # Run Rudy in staging mode
 # 	`env=production make spm2`   # Run Rudy in production mode
 # TODO: Need to check the `env` env var
-spm2:
+spm2: assets
 	$(BIN)/pm2 ping
 	RUNNING_RUDY=$$($(BIN)/pm2 list | grep rudy-$(env) -c); \
 	case $$RUNNING_RUDY in \
