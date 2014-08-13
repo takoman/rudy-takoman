@@ -7,6 +7,8 @@
 #
 
 BIN = node_modules/.bin
+CDN_DOMAIN_production = d2timokq6uoxgq
+CDN_DOMAIN_staging = d2timokq6uoxgq
 
 # Start the server
 s:
@@ -20,19 +22,24 @@ ss:
 sp:
 	APPLICATION_NAME=rudy-production API_URL=http://api.takoman.co $(BIN)/coffee index.coffee
 
-# Start the server monitored by pm2
+# Start the server with CDN monitored by pm2
 # Pass the mode in the `env` environment variable, for example,
 # 	`env=staging make spm2`      # Run Rudy in staging mode
 # 	`env=production make spm2`   # Run Rudy in production mode
 # TODO: Need to check the `env` env var
-spm2: assets
+spm2: check-env cdn-assets
 	$(BIN)/pm2 ping
 	RUNNING_RUDY=$$($(BIN)/pm2 list | grep rudy-$(env) -c); \
 	case $$RUNNING_RUDY in \
-	  0) echo "Starting rudy $(env)..."; RUDY_ENV=$(env) $(BIN)/pm2 start index.coffee --name rudy-$(env) ;; \
-	  1) echo "Reloading rudy $(env)..."; RUDY_ENV=$(env) $(BIN)/pm2 reload index.coffee --name rudy-$(env) ;; \
+	  0) echo "Starting rudy $(env)..."; RUDY_ENV=$(env) ASSET_PATH=//$(CDN_DOMAIN_$(env)).cloudfront.net/assets/$(shell git rev-parse --short HEAD)/ $(BIN)/pm2 start index.coffee --name rudy-$(env) ;; \
+	  1) echo "Reloading rudy $(env)..."; RUDY_ENV=$(env) ASSET_PATH=//$(CDN_DOMAIN_$(env)).cloudfront.net/assets/$(shell git rev-parse --short HEAD)/ $(BIN)/pm2 reload index.coffee --name rudy-$(env) ;; \
 	  *) echo "$$RUNNING_RUDY instances of rudy-$(env) is running. Looks like something went wrong?" ;; \
 	esac; \
+
+check-env:
+ifndef env
+    $(error Environment variable `env` is undefined.)
+endif
 
 # Run all of the project-level tests, followed by app-level tests
 test: assets
@@ -52,5 +59,14 @@ assets:
 	$(foreach file, $(shell find assets -name '*.styl' | cut -d '.' -f 1), \
 		$(BIN)/sqwish public/$(file).css -o public/$(file).min.css; \
 	)
+
+# Generate minified assets from the /assets folder, output it to /public, and
+# upload them to CDN.
+# Pass the mode in the `env` environment variable, for example,
+# 	`env=staging make cdn-assets`      # Compile and upload assets to the staging bucket
+# 	`env=production make cdn-assets`   # Compile and upload assets to the production bucket
+# TODO: Need to check the `env` env var
+cdn-assets: check-env assets
+	$(BIN)/bucketassets -d public/assets -b rudy-$(env)
 
 .PHONY: test assets
