@@ -26,20 +26,14 @@ sp:
 # Pass the mode in the `env` environment variable, for example,
 # 	`env=staging make spm2`      # Run Rudy in staging mode
 # 	`env=production make spm2`   # Run Rudy in production mode
-# TODO: Need to check the `env` env var
 spm2: check-env cdn-assets
 	$(BIN)/pm2 ping
-	RUNNING_RUDY=$$($(BIN)/pm2 list | grep rudy-$(env) -c); \
+	RUNNING_RUDY=$(shell $(BIN)/pm2 list | grep rudy -c); \
 	case $$RUNNING_RUDY in \
 	  0) echo "Starting rudy $(env)..."; RUDY_ENV=$(env) ASSET_PATH=//$(CDN_DOMAIN_$(env)).cloudfront.net/assets/$(shell git rev-parse --short HEAD)/ $(BIN)/pm2 start index.coffee --name rudy-$(env) ;; \
 	  1) echo "Reloading rudy $(env)..."; RUDY_ENV=$(env) ASSET_PATH=//$(CDN_DOMAIN_$(env)).cloudfront.net/assets/$(shell git rev-parse --short HEAD)/ $(BIN)/pm2 reload index.coffee --name rudy-$(env) ;; \
-	  *) echo "$$RUNNING_RUDY instances of rudy-$(env) is running. Looks like something went wrong?" ;; \
+	  *) echo "$$RUNNING_RUDY instances of rudy-$(env) is running. Abort."; exit 1; \
 	esac; \
-
-check-env:
-ifndef env
-    $(error Environment variable `env` is undefined.)
-endif
 
 # Run all of the project-level tests, followed by app-level tests
 test: assets
@@ -60,13 +54,16 @@ assets:
 		$(BIN)/sqwish public/$(file).css -o public/$(file).min.css; \
 	)
 
-# Generate minified assets from the /assets folder, output it to /public, and
-# upload them to CDN.
-# Pass the mode in the `env` environment variable, for example,
+# Generate minified assets and upload them to CDN.
+# Pass the mode in the `env` environment variable to use different bucket, e.g.
 # 	`env=staging make cdn-assets`      # Compile and upload assets to the staging bucket
 # 	`env=production make cdn-assets`   # Compile and upload assets to the production bucket
-# TODO: Need to check the `env` env var
 cdn-assets: check-env assets
 	$(BIN)/bucketassets -d public/assets -b rudy-$(env)
 
-.PHONY: test assets
+check-env:
+ifndef env
+	$(error Environment variable `env` is undefined.)
+endif
+
+.PHONY: s ss sp spm2 test assets cdn-assets check-env
