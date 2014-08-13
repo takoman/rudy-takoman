@@ -10,6 +10,15 @@ html
     link( type='text/css', rel='stylesheet', href=(sd.ASSET_PATH + assetPackage + sd.CSS_EXT) )
   body
     include ../../modal/template
+    //- May move the navbar to a partial
+    .navbar.navbar-default
+      .container
+        .navbar-header
+          a.navbar-brand( href='#' ) Takoman
+        ul.nav.navbar-nav.navbar-right
+          li: a( href='#' ) Home
+          li: a( href='#' ) Promotion
+          li.active: a( href='#' ) Buy Now
     block body
     #scripts
       //- Wire up sharify
