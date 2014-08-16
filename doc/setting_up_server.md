@@ -123,6 +123,15 @@ $ cp config/config-env.coffee.example config/config-production.coffee  # or conf
 added to GitHub repo. Until we have better way to manage them (like Heroku's
 dashboard to manage env vars), let's just keep them on the server.**
 
+### Set up necessary environment variables
+
+Before we have something similar to Heroku dashboard to manage various
+environment variables, we need to set them up manually. Make sure the
+following env vars are ready prior to deploying Rudy:
+
+- `S3_KEY`: To upload assets to CloudFront CDN
+- `S3_SECRET`: To upload assets to CloudFront CDN
+
 ### Use Fabric to deploy Rudy locally
 
 Install [fabric](http://www.fabfile.org/installing.html) on your local.

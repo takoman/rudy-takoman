@@ -4,11 +4,11 @@ from fabric.api import *
 env.use_ssh_config = True  # use local ssh_config
 
 def staging():
-    env['mode'] = 'staging'
+    env.mode = 'staging'
     env.hosts = ['staging.takoman.co']
 
 def production():
-    env['mode'] = 'production'
+    env.mode = 'production'
     env.hosts = ['takoman.co']
 
 def deploy():
@@ -19,4 +19,4 @@ def deploy():
     with cd(code_dir):
         run("git pull")
         run("npm install")
-        run("env=%s make spm2" % env['mode'])
+        run("env=%s make spm2" % env.mode)
