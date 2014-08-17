@@ -18,10 +18,6 @@ module.exports.AuthView = class AuthView extends Backbone.View
 
   initialize: ->
     @user = CurrentUser.orNull()
-    if @user
-      $('#auth-message').html "Logged in as #{@user?.get 'email'}"
-    else
-      $('#auth-message').html "Not logged in"
 
   events:
     "submit #sign-up": "signUp"

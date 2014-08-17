@@ -21,3 +21,5 @@ app.get "/login", routes.index
 app.post loginPath, routes.redirectBack
 app.post signupPath, routes.redirectBack
 app.get facebookCallbackPath, routes.redirectBack
+
+app.get "/logout", routes.logout, routes.redirectBack
