@@ -4,5 +4,6 @@
 
 @index = (req, res, next) ->
   res.render "index"
-@log_in_check = (req, res, next ) ->
-  res.end "Welcome to the sign in check page!"
+
+@redirectBack = (req, res, next ) ->
+  res.send status: "success", message: "You have successfully logged in!"
