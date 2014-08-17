@@ -57,8 +57,8 @@ initPassport = ->
 initApp = ->
   app.use passport.initialize()
   app.use passport.session()
-  app.post opts.loginPath, localAuth
-  app.post opts.signupPath, signup, localAuth
+  app.post opts.loginPath, localAuth, afterLocalAuth
+  app.post opts.signupPath, signup, localAuth, afterLocalAuth
   app.get opts.facebookPath, socialAuth('facebook')
   app.get opts.facebookCallbackPath, socialAuth('facebook'), afterSocialSignup('facebook')
   app.use addLocals
@@ -92,6 +92,17 @@ localAuth = (req, res, next) ->
     # Invalid login
     next info
   )(req, res, next)
+
+#
+# For successful logins, if the req is xhr, return JSON response. Otherwise,
+# pass to the next middleware to handle it (which will be caught in the auth
+# app and redirect to the previous page).
+#
+afterLocalAuth = (req, res ,next) ->
+  if req.xhr and req.user?
+    res.send { status: "success", message: "successfully logged in", user: req.user.toJSON() }
+  else
+    next()
 
 signup = (req, res, next) ->
   request
