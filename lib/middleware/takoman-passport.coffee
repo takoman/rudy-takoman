@@ -65,7 +65,12 @@ initApp = ->
   app.use errorHandler
 
 errorHandler = (err, req, res, next) ->
-  res.send 400, err
+  switch typeof err
+    when 'string' then error = status: "error", message: err
+    when 'object' then error = err
+    else error = status: "error", message: "unknown error"
+
+  res.send 400, error
 
 #
 # Authenticate a user with the local strategy we specified. Use custom
@@ -85,7 +90,7 @@ localAuth = (req, res, next) ->
     return req.login(user, next) if user
 
     # Invalid login
-    next( status: "error", message: info )
+    next info
   )(req, res, next)
 
 signup = (req, res, next) ->
