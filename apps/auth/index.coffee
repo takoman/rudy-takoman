@@ -7,7 +7,7 @@
 
 express = require "express"
 routes = require "./routes"
-{ loginPath, signupPath } = require("../../lib/middleware/takoman-passport").options
+{ loginPath, signupPath, facebookCallbackPath } = require("../../lib/middleware/takoman-passport").options
 
 app = module.exports = express()
 app.set "views", __dirname + "/templates"
@@ -20,3 +20,4 @@ app.get "/login", routes.index
 # previous page here.)
 app.post loginPath, routes.redirectBack
 app.post signupPath, routes.redirectBack
+app.get facebookCallbackPath, routes.redirectBack

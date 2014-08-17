@@ -207,9 +207,8 @@ accessTokenCallback = (done, params) ->
 # Facebook will send back the token and profile, and the request
 #
 facebookCallback = (req, accessToken, refreshToken, profile, done) ->
-  # if a logged in user visiting the facebook auth route?
   if req.user
-    # TODO link the user to its facebook account
+    # TODO A logged-in user logging in or signing up with facebook
   else
     # Login using an XAuth Token obtained from a User's OAuth Token
     request.post("#{opts.API_URL}/oauth2/access_token").send(
