@@ -16,6 +16,12 @@ block body
         | It includes the responsive CSS and HTML, so it also adapts to your viewport and device.
       p To see the difference between static and fixed top navbars, just scroll.
 
+    #auth-message.alert.alert-info
+      if user
+        | Logged in as #{user.get('email')}
+      else
+        | Not logged in
+
     .col-md-4
       h2 Log in
       form#log-in.form-horizontal

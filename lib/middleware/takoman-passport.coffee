@@ -58,36 +58,49 @@ initApp = ->
   app.use passport.initialize()
   app.use passport.session()
   app.post opts.loginPath, localAuth, afterLocalAuth
-  app.post opts.signupPath, signup, passport.authenticate('local'), afterLocalAuth
+  app.post opts.signupPath, signup, localAuth, afterLocalAuth
   app.get opts.facebookPath, socialAuth('facebook')
   app.get opts.facebookCallbackPath, socialAuth('facebook'), afterSocialSignup('facebook')
   app.use addLocals
+  app.use errorHandler
+
+errorHandler = (err, req, res, next) ->
+  switch typeof err
+    when 'string' then error = status: "error", message: err
+    when 'object' then error = err
+    else error = status: "error", message: "unknown error"
+
+  res.send 400, error
 
 #
 # Authenticate a user with the local strategy we specified. Use custom
 # callback to process the auth results manually.
 # https://github.com/jaredhanson/passport/blob/master/lib/authenticator.js#L138-L168
 #
-# TODO Consider just calling passport.authenticate('local'), if we don't need
-# a custom callback here.
-#
 localAuth = (req, res, next) ->
+  # TODO If the user has already logged in...
+  # next() if req.user?
   passport.authenticate('local', (err, user, info) ->
+    # Severe errors
     return next(err) if err
+
+    # Successful login
     # Since we are using custom callback, we have to establish a session
     # (by calling req.login()) and send a response.
     return req.login(user, next) if user
 
-    res.authError = info; next()
+    # Invalid login
+    next info
   )(req, res, next)
 
-afterLocalAuth = (req, res, next) ->
-  if res.authError
-    res.send 403, { status: "error", message: res.authError }
-  else if req.xhr and req.user?
-    res.send { status: "success", user: req.user.toJSON() }
-  else if req.xhr and not req.user?
-    res.send { status: "error", message: "missing user" }
+#
+# For successful logins, if the req is xhr, return JSON response. Otherwise,
+# pass to the next middleware to handle it (which will be caught in the auth
+# app and redirect to the previous page).
+#
+afterLocalAuth = (req, res ,next) ->
+  if req.xhr and req.user?
+    res.send { status: "success", message: "successfully logged in", user: req.user.toJSON() }
   else
     next()
 
@@ -108,16 +121,9 @@ signup = (req, res, next) ->
 #
 onCreateUser = (next) ->
   (err, res) ->
-    # Eve will return 200 on validation errors, so we have to check the
-    # response manually.
-    # http://python-eve.org/features.html#data-validation
-    # May need to change it if we change the interface of error responses.
-    # https://github.com/takoman/santa/issues/30
-    if res.status isnt 201 or (res.status is 200 and res.body.status is 'error')
-      error = res.body.message
-    else
-      error = err?.text
-    if error then next(error) else next()
+    return next(err) if err
+    return next({ status: "error", message: res.body.message }) if res.status isnt 201
+    next()
 
 #
 # Use passport.authenticate() as route middleware to authenticate the
@@ -190,16 +196,16 @@ accessTokenCallback = (done, params) ->
     unless error
       return done(null, new opts.CurrentUser(accessToken: res.body.access_token))
 
-    # If there's no user linked to this account, create the user via the POST
-    # /user API. Then pass a custom error so our signup middleware can catch
-    # it, login, and move on.
+    # For social auth, if there's no user linked to this account, create the
+    # user via /users endpoint. Then pass a custom error so our signup
+    # middleware can catch it, login, and move on.
     if error.match? 'no account linked'
       request
         .post("#{opts.API_URL}/api/v1/users")
         .set('X-XAPP-TOKEN', takomanXappToken)
         .send(params)
         .end (err, res) ->
-          if res.status isnt 201 or (res.status is 200 and res.body.status is 'error')
+          if res.status isnt 201
             error = res.body.message
           else
             error = err?.text
@@ -217,9 +223,8 @@ accessTokenCallback = (done, params) ->
 # Facebook will send back the token and profile, and the request
 #
 facebookCallback = (req, accessToken, refreshToken, profile, done) ->
-  # if a logged in user visiting the facebook auth route?
   if req.user
-    # TODO link the user to its facebook account
+    # TODO A logged-in user logging in or signing up with facebook
   else
     # Login using an XAuth Token obtained from a User's OAuth Token
     request.post("#{opts.API_URL}/oauth2/access_token").send(

@@ -23,6 +23,29 @@ describe 'Takoman Passport methods', ->
         (user.bam?).should.not.be.ok
         done()
 
+  describe '#onCreateUser', ->
+
+    before ->
+      @onCreateUser = @takomanPassport.__get__ 'onCreateUser'
+
+    it 'calls the next middleware if user creation returns 201', (done) ->
+      @onCreateUser((err) ->
+        _.isUndefined(err).should.be.ok
+        done()
+      )(null, status: 201)
+
+    it 'calls the error handler middleware if severe errors', (done) ->
+      @onCreateUser((err) ->
+        err.should.equal 'error other than 4xx and 5xx'
+        done()
+      )('error other than 4xx and 5xx', null)
+
+    it 'calls the next middleware if user creation returns other than 201', (done) ->
+      @onCreateUser((err) ->
+        err.should.eql status: 'error', message: 'email already exists'
+        done()
+      )(null, status: 400, body: message: 'email already exists')
+
   describe '#accessTokenCallback', ->
 
     before ->
