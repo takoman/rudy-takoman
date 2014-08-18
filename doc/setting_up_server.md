@@ -127,10 +127,19 @@ dashboard to manage env vars), let's just keep them on the server.**
 
 Before we have something similar to Heroku dashboard to manage various
 environment variables, we need to set them up manually. Make sure the
-following env vars are ready prior to deploying Rudy:
+following env vars are ready on the remote server prior to deploying Rudy:
 
 - `S3_KEY`: To upload assets to CloudFront CDN
 - `S3_SECRET`: To upload assets to CloudFront CDN
+
+For example, edit the `~/.bash_profile` file on the remote server
+
+```bash
+S3_KEY=<your Amazon S3 key>
+S3_SECRET=<your Amazon S3 secret >
+
+export S3_KEY S3_SECRET
+```
 
 ### Use Fabric to deploy Rudy locally
 
