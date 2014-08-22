@@ -6,7 +6,7 @@
 
 { API_URL, APP_URL, NODE_ENV, TAKOMAN_ID, TAKOMAN_SECRET, COOKIE_DOMAIN, ASSET_PATH,
   SESSION_SECRET, SESSION_COOKIE_KEY, SESSION_COOKIE_MAX_AGE, FACEBOOK_ID,
-  FACEBOOK_SECRET } = config = require "../config"
+  FACEBOOK_SECRET, GOOGLE_ANALYTICS_ID } = config = require "../config"
 _               = require "underscore"
 express         = require "express"
 Backbone        = require "backbone"
@@ -27,6 +27,7 @@ sharify.data =
   ASSET_PATH: ASSET_PATH
   JS_EXT: (if "production" is NODE_ENV then ".min.js" else ".js")
   CSS_EXT: (if "production" is NODE_ENV then ".min.css" else ".css")
+  GOOGLE_ANALYTICS_ID: GOOGLE_ANALYTICS_ID
 
 # CurrentUser must be defined after setting sharify.data
 CurrentUser = require '../models/current_user'
