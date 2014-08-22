@@ -11,10 +11,11 @@ module.exports =
   COOKIE_DOMAIN           : null
   FACEBOOK_ID             : '302847289879647'
   FACEBOOK_SECRET         : '2fea10f1093a56b1999bcc14124f1b25'
+  GOOGLE_ANALYTICS_ID     : null
   NODE_ENV                : 'staging'
+  PORT                    : 4000
   SESSION_SECRET          : 'F0rc3'
   SESSION_COOKIE_MAX_AGE  : 31536000000
   SESSION_COOKIE_KEY      : 'rudy.sess'
-  PORT                    : 4000
   TAKOMAN_ID              : '55050a745ff16a8114b8'
   TAKOMAN_SECRET          : '752dc05799b6fec555f5436a512fccdb'

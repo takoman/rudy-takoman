@@ -25,6 +25,10 @@ html
             li: a( href='/login' ) Log in
     block body
     #scripts
+      if sd.NODE_ENV != 'test'
+        //- Google analytics script (and potentially others, e.g. Mixpanel)
+        include ./google_analytics.html
+
       //- Wire up sharify
       if sharify
         != sharify.script()
