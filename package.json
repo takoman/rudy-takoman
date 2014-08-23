@@ -26,7 +26,7 @@
     "underscore": "1.6.0",
     "underscore.string": "2.3.3",
     "pm2": "0.9.6",
-    "newrelic": "*"
+    "newrelic": "1.10.1"
   },
   "devDependencies": {
     "benv": "0.1.5",
