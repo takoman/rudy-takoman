@@ -8,12 +8,14 @@
 module.exports =
   
   API_URL                 : "http://localhost:5000"
+  APP_NAME                : 'Rudy'
   APP_URL                 : "http://localhost:4000"
   ASSET_PATH              : "/assets/"
   COOKIE_DOMAIN           : null
   FACEBOOK_ID             : '302847289879647'
   FACEBOOK_SECRET         : '2fea10f1093a56b1999bcc14124f1b25'
   GOOGLE_ANALYTICS_ID     : null
+  NEW_RELIC_LICENSE_KEY   : null
   NODE_ENV                : 'development'
   PORT                    : 4000
   SESSION_SECRET          : 'F0rc3'

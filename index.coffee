@@ -5,6 +5,10 @@
 # 
 
 { PORT, NODE_ENV } = require "./config"
+
+# Require New Relic as the first line of the app's main module.
+require 'newrelic' unless NODE_ENV is 'development'
+
 express = require "express"
 setup = require "./lib/setup"
 
