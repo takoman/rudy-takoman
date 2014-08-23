@@ -5,10 +5,10 @@
 
 module.exports =
   
-  API_URL                 : "http://stagingapi.takoman.co"
+  API_URL                 : 'http://stagingapi.takoman.co'
   APP_NAME                : 'Rudy'
-  APP_URL                 : "http://staging.takoman.co"
-  ASSET_PATH              : "/assets/"
+  APP_URL                 : 'http://staging.takoman.co'
+  ASSET_PATH              : '/assets/'
   COOKIE_DOMAIN           : null
   FACEBOOK_ID             : '302847289879647'
   FACEBOOK_SECRET         : '2fea10f1093a56b1999bcc14124f1b25'
