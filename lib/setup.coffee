@@ -6,7 +6,7 @@
 
 { API_URL, APP_URL, NODE_ENV, TAKOMAN_ID, TAKOMAN_SECRET, COOKIE_DOMAIN, ASSET_PATH,
   SESSION_SECRET, SESSION_COOKIE_KEY, SESSION_COOKIE_MAX_AGE, FACEBOOK_ID,
-  FACEBOOK_SECRET, GOOGLE_ANALYTICS_ID } = config = require "../config"
+  FACEBOOK_SECRET, GOOGLE_ANALYTICS_ID, SENTRY_DSN, SENTRY_PUBLIC_DSN } = config = require "../config"
 _               = require "underscore"
 express         = require "express"
 Backbone        = require "backbone"
@@ -16,6 +16,7 @@ bodyParser      = require 'body-parser'
 cookieParser    = require 'cookie-parser'
 session         = require 'cookie-session'
 logger          = require 'morgan'
+raven           = require 'raven'
 localsMiddleware      = require './middleware/locals'
 takomanPassport       = require "./middleware/takoman-passport"
 takomanXappMiddlware  = require "./middleware/takoman-xapp-middleware"
@@ -28,6 +29,7 @@ sharify.data =
   JS_EXT: (if "production" is NODE_ENV then ".min.js" else ".js")
   CSS_EXT: (if "production" is NODE_ENV then ".min.css" else ".css")
   GOOGLE_ANALYTICS_ID: GOOGLE_ANALYTICS_ID
+  SENTRY_PUBLIC_DSN: SENTRY_PUBLIC_DSN
 
 # CurrentUser must be defined after setting sharify.data
 CurrentUser = require '../models/current_user'
@@ -89,3 +91,12 @@ module.exports = (app) ->
 
   # More general middleware
   app.use express.static(path.resolve __dirname, "../public")
+
+  if SENTRY_DSN
+    client = new raven.Client SENTRY_DSN, {
+      stackFunction: Error.prepareStackTrace
+    }
+    app.use raven.middleware.express(client)
+    client.patchGlobal ->
+      console.log('Uncaught Exception. Process exited by raven.patchGlobal.')
+      process.exit(1)
