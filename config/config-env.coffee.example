@@ -16,6 +16,8 @@ module.exports =
   NEW_RELIC_LICENSE_KEY   : null
   NODE_ENV                : 'staging'
   PORT                    : 4000
+  SENTRY_DSN              : null
+  SENTRY_PUBLIC_DSN       : null
   SESSION_SECRET          : 'F0rc3'
   SESSION_COOKIE_MAX_AGE  : 31536000000
   SESSION_COOKIE_KEY      : 'rudy.sess'
