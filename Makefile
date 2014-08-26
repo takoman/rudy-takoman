@@ -42,6 +42,10 @@ test: assets
 	$(BIN)/mocha $(shell find components/**/*/test -name '*.coffee' -not -path 'test/helpers/*')
 	$(BIN)/mocha $(shell find apps/*/test -name '*.coffee' -not -path 'test/helpers/*')
 
+# Run Coffeelint to check coffeescript styles
+lint:
+	$(BIN)/coffeelint $(shell find . -name '*.coffee' -not -path './node_modules/*')
+
 # Generate minified assets from the /assets folder and output it to /public.
 assets:
 	mkdir -p public/assets
@@ -66,4 +70,4 @@ ifndef env
 	$(error Environment variable `env` is undefined.)
 endif
 
-.PHONY: s ss sp spm2 test assets cdn-assets check-env
+.PHONY: s ss sp spm2 test lint assets cdn-assets check-env
