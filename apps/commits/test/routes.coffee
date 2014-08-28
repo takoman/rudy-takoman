@@ -1,4 +1,4 @@
-# 
+#
 # Route tests. Exporting the route handlers into their own function
 # makes testing straightforward. Because Backbone.sync acts as our layer
 # of abstraction over HTTP, we use [sinon](http://sinonjs.org/) to stub it

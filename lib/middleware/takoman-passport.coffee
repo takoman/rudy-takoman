@@ -29,7 +29,7 @@ opts =
 # Main function that overrides/injects any options, sets up passport, sets up an app to
 # handle routing and injecting locals, and returns that app to be mounted as middleware.
 #
-module.exports = (options) =>
+module.exports = (options) ->
   module.exports.options = _.extend opts, options
   initPassport()
   initApp()

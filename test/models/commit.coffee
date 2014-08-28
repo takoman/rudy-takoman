@@ -1,6 +1,6 @@
-# 
+#
 # Test your Backbone model code like any other node modules.
-# 
+#
 
 Commit = require("../../models/commit")
 Commits = require("../../collections/commits")

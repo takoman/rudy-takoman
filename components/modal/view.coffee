@@ -81,7 +81,7 @@ module.exports = class ModalView extends Backbone.View
     @$dialog = @$('.modal-dialog')
     @setWidth()
 
-  postRender: -> #
+  postRender: -> undefined
 
   open: ->
     @setup()
@@ -96,9 +96,9 @@ module.exports = class ModalView extends Backbone.View
 
     mediator.off null, null, this
 
-    @$el.
-      attr('data-state', 'closed').
-      one($.support.transition.end, =>
+    @$el
+      .attr('data-state', 'closed')
+      .one($.support.transition.end, =>
         # Re-enable scrolling
         $('body').removeClass 'is-modal'
 

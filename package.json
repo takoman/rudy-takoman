@@ -48,6 +48,7 @@
     "stylus": "0.47.0",
     "uglify-js": "2.4.13",
     "zombie": "2.0.0-alpha31",
-    "bucket-assets": "git://github.com/artsy/bucket-assets.git"
+    "bucket-assets": "git://github.com/artsy/bucket-assets.git",
+    "coffeelint": "1.5.6"
   }
 }
