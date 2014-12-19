@@ -84,6 +84,7 @@ module.exports = (app) ->
   # Mount apps
   app.use require "../apps/commits"
   app.use require "../apps/auth"
+  app.use require "../apps/profile"
 
   # Route to ping for system up
   app.get '/system/up', (req, res) ->

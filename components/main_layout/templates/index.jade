@@ -5,24 +5,27 @@ block locals
 doctype html
 html
   head
-    block head
+    meta(charset="utf-8")
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    block head    
     link( type='text/css', rel='stylesheet', href=(sd.ASSET_PATH + 'main_layout' + sd.CSS_EXT) )
     link( type='text/css', rel='stylesheet', href=(sd.ASSET_PATH + assetPackage + sd.CSS_EXT) )
   body
     include ../../modal/template
     //- May move the navbar to a partial
-    .navbar.navbar-default
-      .container
-        .navbar-header
-          a.navbar-brand( href='#' ) Takoman
-        ul.nav.navbar-nav.navbar-right
-          li: a( href='#' ) Home
-          li: a( href='#' ) Promotion
-          li.active: a( href='#' ) Buy Now
-          if user
-            li: a( href='/logout' ) Log out
-          else
-            li: a( href='/login' ) Log in
+    //
+      .navbar.navbar-default.navbar-fixed-top
+        .container
+          .navbar-header
+            a.navbar-brand( href='#' ) Takoman
+          ul.nav.navbar-nav.navbar-right
+            li: a( href='#' ) Home
+            li: a( href='#' ) Promotion
+            li.active: a( href='#' ) Buy Now
+            if user
+              li: a( href='/logout' ) Log out
+            else
+              li: a( href='/login' ) Log in
     block body
     #scripts
       if sd.NODE_ENV != 'test'
