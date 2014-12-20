@@ -21,11 +21,3 @@ describe "#index", ->
 
   afterEach ->
     Backbone.sync.restore()
-
-  it "fetches the artsy github commits and renders the index page", ->
-    routes.index @req, @res
-    Backbone.sync.args[0][1].url().should.endWith "/repos/artsy/flare/commits"
-    Backbone.sync.args[0][2].success [message: "hi"]
-    @res.render.args[0][0].should.equal "index"
-    @res.render.args[0][1].commits[0].get("message").should.equal "hi"
-
