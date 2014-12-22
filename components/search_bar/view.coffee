@@ -9,10 +9,20 @@ emptyItemTemplate = -> require('./templates/empty-item.jade') arguments...
 
 ###
 
+ When input on focus
+
+ +========================+
+ | |                      |  <- Input field
+ +========================+
+ | Search Takoman         |  <- Feedback
+ +========================+
+
+ When typing
+
  +========================+
  | bag                    |  <- Input field
  +========================+
- | Search for "bag"       |  <- Feedback
+ | Search for "bag"       |  <- Header
  +========================+
  | School bag             |
  +------------------------+
@@ -59,32 +69,22 @@ module.exports = class SearchBarView extends Backbone.View
     return if !(e.which is 13) or @selected?
     @trigger 'search:entered', @$input.val()
 
-  indicateLoading: ->
-    @renderFeedback()
-    @$el.addClass 'is-loading'
+  indicateLoading: -> @$el.addClass 'is-loading'
 
-  concealLoading: ->
-    @$el.removeClass 'is-loading'
-
-  feedbackString: -> 'Search Takoman'
+  concealLoading: -> @$el.removeClass 'is-loading'
 
   displayFeedback: ->
     @hideSuggestions() if @searchResults.length
 
   renderFeedback: (feedback) ->
-    (@$feedback ?= @$('.autocomplete-feedback'))
-      .text feedback or @feedbackString()
-
-  shouldDisplaySuggestions: ->
-    _.isEmpty(_s.trim(@$input.val()))
+    @$feedback ?= @$ '.autocomplete-feedback'
+    @$feedback.text feedback or 'Search Takoman'
 
   displaySuggestions: ->
-    if @shouldDisplaySuggestions()
-      @renderFeedback()
-      @$el.addClass 'is-display-suggestions'
+    @renderFeedback()
+    @$el.addClass 'is-display-suggestions'
 
-  hideSuggestions: ->
-    @$el.removeClass 'is-display-suggestions'
+  hideSuggestions: -> @$el.removeClass 'is-display-suggestions'
 
   setupTypeahead: ->
     # Set up Typeahead custom events
