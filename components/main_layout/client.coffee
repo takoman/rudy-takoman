@@ -9,6 +9,7 @@ module.exports = ->
   setupAnalytics()
 
 setupJquery = ->
+  require '../../node_modules/typeahead.js/dist/typeahead.bundle.min.js'
   require 'jquery.transition'
   $.ajaxSettings.headers =
     'X-XAPP-TOKEN'  : sd.TAKOMAN_XAPP_TOKEN
