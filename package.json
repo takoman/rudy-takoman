@@ -23,6 +23,7 @@
     "passport-local": "1.0.0",
     "sharify": "0.1.4",
     "superagent": "0.18.0",
+    "typeahead.js": "git://github.com/twitter/typeahead.js.git",
     "underscore": "1.6.0",
     "underscore.string": "2.3.3",
     "pm2": "0.9.6",
