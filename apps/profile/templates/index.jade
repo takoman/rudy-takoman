@@ -21,7 +21,8 @@ block body
         li: a( href='#' ) 尋找好物
       .nav.navbar-nav.navbar-search
         i.fa.fa-search
-      include ../../../components/search_bar/template
+      .nav.navbar-nav.navbar-search-bar
+        include ../../../components/search_bar/template
       p.navbar-text.navbar-right
         if user
           a( href='/logout' ) 登出
