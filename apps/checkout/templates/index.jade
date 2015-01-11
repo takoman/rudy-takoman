@@ -1,0 +1,10 @@
+extends ../../../components/main_layout/templates/index
+
+append locals
+  - assetPackage = 'checkout'
+
+append head
+  title Takoman checkout
+
+block body
+  include ../../../components/checkout_header/mixin
