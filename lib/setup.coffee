@@ -85,7 +85,7 @@ module.exports = (app) ->
   app.use require "../apps/commits"
   app.use require "../apps/auth"
   app.use require "../apps/profile"
-  app.use require "../apps/checkout"
+  app.use require "../apps/order"
 
   # Route to ping for system up
   app.get '/system/up', (req, res) ->
