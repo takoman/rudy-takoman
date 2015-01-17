@@ -1,0 +1,35 @@
+#checkout-header.container-fluid
+  .navbar
+    a.brand
+      img( src='/assets/img/logo/top_logo_center.png')
+    p.navbar-text.navbar-right
+      if user
+        a( href='/logout' ) 登出
+      else
+        a( href='#' ) 註冊
+        span |
+        a( href='/login' ) 登入
+        //a.navbar-search( href='#') S
+  .steps
+    .step-block
+      img( src='/assets/img/checkout/step_1.png')
+      .caption-step STEP1
+      .caption-desc 確認報價單
+    .arrow-block
+      img( src='/assets/img/checkout/arrow.png')
+    .step-block
+      img( src='/assets/img/checkout/step_2.png')
+      .caption-step STEP2
+      .caption-desc 完成付款
+    .arrow-block
+      img( src='/assets/img/checkout/arrow.png')
+    .step-block
+      img( src='/assets/img/checkout/step_3.png')
+      .caption-step STEP3
+      .caption-desc 賣家送出包裹
+    .arrow-block
+      img( src='/assets/img/checkout/arrow.png')
+    .step-block
+      img( src='/assets/img/checkout/step_4.png')
+      .caption-step STEP4
+      .caption-desc 收到貨品，評鑑賣家
