@@ -13,7 +13,7 @@ describe 'CheckoutHeaderView', ->
       Backbone.$ = $
       benv.render resolve(__dirname, '../mixin.jade'), {}, =>
         @el = $('#checkout-header')
-        @el.waypoint = sinon.stub()
+        $.fn.waypoint = sinon.stub()
         @view = new CheckoutHeaderView el: $('#checkout-header')
         done()
 
@@ -22,4 +22,4 @@ describe 'CheckoutHeaderView', ->
 
   describe '#initialize', ->
     it 'Shoud have background color #fd5650', ->
-      @view.$block.css( "background-color" ).should.containEql '#fd5650'
+      @view.$el.css( "background-color" ).should.containEql '#fd5650'
