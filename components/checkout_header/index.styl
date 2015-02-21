@@ -1,6 +1,7 @@
 #checkout-header
   height 398px
   background-color #FD5650
+  transition background-color 1000ms linear
   .navbar
     .brand
       position absolute
@@ -21,36 +22,33 @@
         margin-left 14px
         margin-right 14px
         letter-spacing 0.2em
-  .steps
-    width 1000px
-    max-width 100%
-    margin 62px auto 0 auto
-    .step-block
-      float left
-      width 19%
-      height 200px
+  .checkout-steps
+    margin-top 62px
+    .step
+      position relative
+      text-align center
+      color #ffffff
       img
+        width 200px
         max-width 100%
       .caption-step
-        display block
         padding-top 10px
-        color #ffffff
-        text-align center
         letter-spacing 0.2em
         line-height 20px
         font-size 9px
       .caption-desc
-        display block
-        color #ffffff
-        text-align center
         letter-spacing 0.2em
         line-height 20px
-    .arrow-block
-      float left
-      width 8%
-      height 200px
-      text-align center
-      line-height 160px
-      img
+      .arrow-block
+        position absolute
+        top 70px
+        right -10px
         width 20px
         height 22px
+        text-align center
+        img
+          width 20px
+          height 22px
+  @media (max-width: 991px)
+    .checkout-steps
+      width 100%
