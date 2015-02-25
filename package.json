@@ -32,7 +32,7 @@
     "raven": "0.7.1"
   },
   "devDependencies": {
-    "benv": "0.1.5",
+    "benv": "0.1.7",
     "bootstrap-stylus": "git://github.com/Acquisio/bootstrap-stylus.git#349c9f5d644b3f44b15e38442a711ef63e6ac0c6",
     "browserify": "4.1.8",
     "browserify-dev-middleware": "0.0.5",
