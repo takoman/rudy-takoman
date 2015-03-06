@@ -11,7 +11,7 @@ module.exports = ->
 setupJquery = ->
   require 'typeahead.js/dist/typeahead.bundle.min.js'
   require 'jquery.transition'
-  require 'jquery-waypoints/lib/jquery.waypoints.min.js'
+  require 'waypoints/lib/jquery.waypoints.min.js'
   $.ajaxSettings.headers =
     'X-XAPP-TOKEN'  : sd.TAKOMAN_XAPP_TOKEN
     'X-ACCESS-TOKEN': sd.CURRENT_USER?.accessToken
