@@ -36,7 +36,7 @@
     "bootstrap-stylus": "git://github.com/Acquisio/bootstrap-stylus.git#349c9f5d644b3f44b15e38442a711ef63e6ac0c6",
     "browserify": "4.1.8",
     "browserify-dev-middleware": "0.0.5",
-    "bucket-assets": "*",
+    "bucket-assets": "0.2.5",
     "caching-coffeeify": "0.3.0",
     "coffeelint": "1.5.6",
     "html5": "0.4.1",
