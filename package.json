@@ -36,7 +36,9 @@
     "bootstrap-stylus": "git://github.com/Acquisio/bootstrap-stylus.git#349c9f5d644b3f44b15e38442a711ef63e6ac0c6",
     "browserify": "4.1.8",
     "browserify-dev-middleware": "0.0.5",
+    "bucket-assets": "*",
     "caching-coffeeify": "0.3.0",
+    "coffeelint": "1.5.6",
     "html5": "0.4.1",
     "jadeify": "2.3.0",
     "jquery": "2.1.0",
@@ -49,8 +51,6 @@
     "sqwish": "0.2.2",
     "stylus": "0.47.0",
     "uglify-js": "2.4.13",
-    "zombie": "2.0.0-alpha31",
-    "bucket-assets": "git://github.com/artsy/bucket-assets.git",
-    "coffeelint": "1.5.6"
+    "zombie": "2.0.0-alpha31"
   }
 }

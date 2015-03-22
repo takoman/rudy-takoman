@@ -21,6 +21,7 @@ describe "CommitsView", ->
     benv.setup =>
       benv.render resolve(__dirname, "../templates/index.jade"),
         sd: {}
+        asset: -> undefined
         sharify: script: -> undefined
         commits: new Commits([], { owner: "foo", repo: "bar" }).models
       , =>

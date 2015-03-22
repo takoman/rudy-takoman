@@ -10,7 +10,7 @@ module.exports =
   API_URL                 : 'http://localhost:5000'
   APP_NAME                : 'Rudy'
   APP_URL                 : 'http://localhost:4000'
-  ASSET_PATH              : '/assets/'
+  CDN_URL                 : 'replace-me'
   COOKIE_DOMAIN           : null
   FACEBOOK_ID             : '302847289879647'
   FACEBOOK_SECRET         : '2fea10f1093a56b1999bcc14124f1b25'
@@ -18,6 +18,9 @@ module.exports =
   NEW_RELIC_LICENSE_KEY   : null
   NODE_ENV                : 'development'
   PORT                    : 4000
+  S3_KEY                  : 'replace-me'
+  S3_SECRET               : 'replace-me'
+  S3_BUCKET               : 'replace-me'
   SENTRY_DSN              : null
   SENTRY_PUBLIC_DSN       : null
   SESSION_SECRET          : 'F0rc3'
