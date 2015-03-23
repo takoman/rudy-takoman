@@ -12,15 +12,23 @@ CDN_DOMAIN_staging = d2timokq6uoxgq
 
 # Start the server
 s:
-	$(BIN)/coffee index.coffee
+	foreman start
 
 # Start the server pointing to staging
 ss:
-	APPLICATION_NAME=rudy-staging API_URL=http://stagingapi.takoman.co $(BIN)/coffee index.coffee
+	API_URL=http://stagingapi.takoman.co foreman start
 
 # Start the server pointing to production
 sp:
-	APPLICATION_NAME=rudy-production API_URL=http://api.takoman.co $(BIN)/coffee index.coffee
+	API_URL=http://api.takoman.co foreman start
+
+# Start the server with forever
+# Stop (anyway and ignore errors) and start the app again, because forever
+# does not support reloading env vars via `restart` yet.
+# https://github.com/foreverjs/forever/issues/116#issuecomment-67889564
+sf:
+	-$(BIN)/forever stop rudy
+	foreman run $(BIN)/forever start --uid "rudy" --append $(BIN)/coffee index.coffee
 
 # Start the server with CDN monitored by pm2
 # Pass the mode in the `env` environment variable, for example,

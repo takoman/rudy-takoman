@@ -6,14 +6,13 @@
 #
 
 module.exports =
-  
   API_URL                 : 'http://localhost:5000'
   APP_NAME                : 'Rudy'
   APP_URL                 : 'http://localhost:4000'
   ASSET_PATH              : '/assets/'
   COOKIE_DOMAIN           : null
-  FACEBOOK_ID             : '302847289879647'
-  FACEBOOK_SECRET         : '2fea10f1093a56b1999bcc14124f1b25'
+  FACEBOOK_ID             : 'replace-me'
+  FACEBOOK_SECRET         : 'replace-me'
   GOOGLE_ANALYTICS_ID     : null
   NEW_RELIC_LICENSE_KEY   : null
   NODE_ENV                : 'development'
@@ -23,13 +22,15 @@ module.exports =
   SESSION_SECRET          : 'F0rc3'
   SESSION_COOKIE_MAX_AGE  : 31536000000
   SESSION_COOKIE_KEY      : 'rudy.sess'
-  TAKOMAN_ID              : '55050a745ff16a8114b8'
-  TAKOMAN_SECRET          : '752dc05799b6fec555f5436a512fccdb'
+  TAKOMAN_ID              : 'replace-me'
+  TAKOMAN_SECRET          : 'replace-me'
 
-# Override any values with the ones in config-[RUDY_ENV].coffee
-if (env = process.env.RUDY_ENV)
-  config = require "./config/config-#{env}"
-  module.exports[key] = (config[key] or val) for key, val of module.exports
+# Override any values with env variables if they exist.
+# You can set JSON-y values for env variables as well such as "true" or
+# "['foo']" and config will attempt to JSON.parse them into non-string types.
+for key, val of module.exports
+  val = (process.env["RUDY_#{key}"] or val)
+  module.exports[key] = try JSON.parse(val) catch then val
 
-# Override any values with env variables if they exist
-module.exports[key] = (process.env[key] or val) for key, val of module.exports
+# Warn if this file is included client-side.
+alert("WARNING: Do not require config.coffee, please require('sharify').data instead.") if window?
