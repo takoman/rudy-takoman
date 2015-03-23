@@ -24,7 +24,7 @@ express = require "express"
     API_URL: "http://localhost:5000/__api"
     PORT: 5000
   envVars[k] = val for k, val of process.env when not envVars[k]?
-  @child = spawn "make", ["s"],
+  @child = spawn "node_modules/.bin/coffee", ["index.coffee"],
     customFds: [0, 1, 2]
     stdio: ["ipc"]
     env: envVars
