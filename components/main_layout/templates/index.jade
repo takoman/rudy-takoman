@@ -8,8 +8,8 @@ html
     meta(charset="utf-8")
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     block head
-    link( type='text/css', rel='stylesheet', href=(sd.ASSET_PATH + 'main_layout' + sd.CSS_EXT) )
-    link( type='text/css', rel='stylesheet', href=(sd.ASSET_PATH + assetPackage + sd.CSS_EXT) )
+    link( type='text/css', rel='stylesheet', href=asset('/assets/main_layout' + sd.CSS_EXT) )
+    link( type='text/css', rel='stylesheet', href=asset('/assets/' + assetPackage + sd.CSS_EXT) )
   body
     include ../../modal/template
     //- May move the navbar to a partial
@@ -52,6 +52,6 @@ html
             whitelistUrls: [/d2timokq6uoxgq\.cloudfront\.net/, /takoman\.co/]
           }).install();
 
-      script( src=(sd.ASSET_PATH + 'main_layout' + sd.JS_EXT) )
-      script( src=(sd.ASSET_PATH + assetPackage + sd.JS_EXT) )
+      script( src=asset('/assets/main_layout' + sd.JS_EXT) )
+      script( src=asset('/assets/' + assetPackage + sd.JS_EXT) )
       block scripts

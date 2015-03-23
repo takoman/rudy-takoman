@@ -4,30 +4,31 @@
 # populating sharify data
 #
 
-{ API_URL, APP_URL, NODE_ENV, TAKOMAN_ID, TAKOMAN_SECRET, COOKIE_DOMAIN, ASSET_PATH,
+{ API_URL, APP_URL, NODE_ENV, TAKOMAN_ID, TAKOMAN_SECRET, COOKIE_DOMAIN, CDN_URL,
   SESSION_SECRET, SESSION_COOKIE_KEY, SESSION_COOKIE_MAX_AGE, FACEBOOK_ID,
   FACEBOOK_SECRET, GOOGLE_ANALYTICS_ID, SENTRY_DSN, SENTRY_PUBLIC_DSN } = config = require "../config"
-_               = require "underscore"
-express         = require "express"
-Backbone        = require "backbone"
-sharify         = require "sharify"
-path            = require "path"
-bodyParser      = require 'body-parser'
-cookieParser    = require 'cookie-parser'
-session         = require 'cookie-session'
-logger          = require 'morgan'
-raven           = require 'raven'
+_                     = require 'underscore'
+express               = require 'express'
+Backbone              = require 'backbone'
+sharify               = require 'sharify'
+path                  = require 'path'
+bodyParser            = require 'body-parser'
+cookieParser          = require 'cookie-parser'
+session               = require 'cookie-session'
+logger                = require 'morgan'
+raven                 = require 'raven'
+bucketAssets          = require 'bucket-assets'
 localsMiddleware      = require './middleware/locals'
-takomanPassport       = require "./middleware/takoman-passport"
-takomanXappMiddlware  = require "./middleware/takoman-xapp-middleware"
+takomanPassport       = require './middleware/takoman-passport'
+takomanXappMiddlware  = require './middleware/takoman-xapp-middleware'
 
 # Inject some constant data into sharify
 sharify.data =
   API_URL: API_URL
   APP_URL: APP_URL
-  ASSET_PATH: ASSET_PATH
   JS_EXT: (if "production" is NODE_ENV then ".min.js" else ".js")
   CSS_EXT: (if "production" is NODE_ENV then ".min.css" else ".css")
+  CDN_URL: CDN_URL
   GOOGLE_ANALYTICS_ID: GOOGLE_ANALYTICS_ID
   SENTRY_PUBLIC_DSN: SENTRY_PUBLIC_DSN
 
@@ -78,6 +79,7 @@ module.exports = (app) ->
   app.use takomanPassport _.extend config, { CurrentUser: CurrentUser }
 
   # General helpers and express middleware
+  app.use bucketAssets()
   app.use localsMiddleware
   app.use logger('dev')
 
