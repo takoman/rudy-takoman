@@ -17,4 +17,5 @@ def deploy():
     with cd(code_dir):
         run("git pull")
         run("npm install")
+        run("make cdn-assets")
         run("make sf")

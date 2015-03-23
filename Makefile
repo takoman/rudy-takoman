@@ -38,8 +38,8 @@ spm2: check-env cdn-assets
 	$(BIN)/pm2 ping
 	RUNNING_RUDY=$(shell $(BIN)/pm2 list | grep rudy -c); \
 	case $$RUNNING_RUDY in \
-	  0) echo "Starting rudy $(env)..."; RUDY_ENV=$(env) $(BIN)/pm2 start index.coffee --name rudy-$(env) ;; \
-	  1) echo "Reloading rudy $(env)..."; RUDY_ENV=$(env) $(BIN)/pm2 reload index.coffee --name rudy-$(env) ;; \
+	  0) echo "Starting rudy $(env)..."; $(BIN)/pm2 start index.coffee --name rudy-$(env) ;; \
+	  1) echo "Reloading rudy $(env)..."; $(BIN)/pm2 reload index.coffee --name rudy-$(env) ;; \
 	  *) echo "$$RUNNING_RUDY instances of rudy-$(env) is running. Abort."; exit 1; \
 	esac; \
 
@@ -67,11 +67,8 @@ assets:
 	)
 
 # Generate minified assets and upload them to CDN.
-# Pass the mode in the `env` environment variable to use different bucket, e.g.
-# 	`env=staging make cdn-assets`      # Compile and upload assets to the staging bucket
-# 	`env=production make cdn-assets`   # Compile and upload assets to the production bucket
-cdn-assets: check-env assets
-	$(BIN)/bucket-assets
+cdn-assets: assets
+	foreman run $(BIN)/bucket-assets
 
 check-env:
 ifndef env

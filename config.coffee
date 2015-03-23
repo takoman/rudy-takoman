@@ -32,7 +32,7 @@ module.exports =
 # You can set JSON-y values for env variables as well such as "true" or
 # "['foo']" and config will attempt to JSON.parse them into non-string types.
 for key, val of module.exports
-  val = (process.env["RUDY_#{key}"] or val)
+  val = (process.env[key] or val)
   module.exports[key] = try JSON.parse(val) catch then val
 
 # Warn if this file is included client-side.
