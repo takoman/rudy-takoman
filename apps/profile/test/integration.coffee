@@ -15,7 +15,7 @@ Browser = require "zombie"
 integration = require "../../../test/helpers/integration"
 
 describe "commits", ->
-  
+
   before (done) ->
     integration.startServer -> done()
 
