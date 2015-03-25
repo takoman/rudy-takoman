@@ -100,105 +100,46 @@ $ make s
 ## Deploy Rudy from your local
 
 Instead of logging into the server and deploying Rudy everytime, we use
-[fabric](http://www.fabfile.org/) to deploy Rudy from our locals. It will pull
-the latest master from GitHub repo, run `npm install`, and reload the app.
-To make sure the app is running **forever** and to monitor it, we use [pm2]
-(https://github.com/Unitech/pm2) for now. If it's not stable enough, we may
-fall back and use [forever](https://github.com/nodejitsu/forever) by nodejitsu.
+[fabric](http://www.fabfile.org/) for streamlining the deployment process
+from local to remote environments (e.g. staging and production.)
+After setting up [SSH config files](http://docs.fabfile.org/en/1.10/usage/execution.html#leveraging-native-ssh-config-files)
+on both your local and server, you should be able to deploy Rudy to
+different environments via:
 
-### Create config files for your environment (staging or production)
-
-Before we run Rudy on the server, we have to provide configurations to be used
-under different env (i.e. staging or production). Log in to the server and
-create your config file using `config/config-env.coffee.example` as an example.
-
-```bash
-$ ssh takoman@takoman.co
-$ cd path/to/rudy
-$ cp config/config-env.coffee.example config/config-production.coffee  # or config/config-staging.coffee
-# Then, modify the values as needed
+```
+fab staging deploy
+fab production deploy
 ```
 
-**Remember that the config files for staging and production should never be
-added to GitHub repo. Until we have better way to manage them (like Heroku's
+Note that we use ssh config in the fabric deployment. If it prmopts you to enter
+password, make sure your local public key was in `authorized_keys` on the
+server, and you have set up your `~/.ssh/config` correctly.
+
+See the [fabfile](https://github.com/takoman/rudy/blob/master/fabfile.py) for more details.
+
+### Deployment Overview
+
+We use ["The Twelve-Factor App"](http://12factor.net/) as a reference all
+configuration will live in environment variables. Make sure you have modified
+the .env file accordingly on the server before deployment. On the server,
+
+```
+cp .env.example .env
+# Modify the environment variables as needed
+```
+
+What will happen on the remote server after you run `fab <env> deploy`?
+
+1. Pull the latest master from GitHub repo
+2. Run `npm install` to install packages
+3. Compile assets and use [bucket-assets](https://github.com/artsy/bucket-assets) (with necessary S3 credentials in the env vars on the server) to upload them to our S3 bucket
+4. Restart the app
+
+To make sure the app is running **forever** and to monitor it, we use [forever]
+(https://github.com/foreverjs/forever) to manage our Rudy processes. [PM2]
+(https://github.com/Unitech/pm2) was a good candidate for us, but looks like
+it has some [minor issues](https://github.com/takoman/rudy/issues/84).
+
+**Remember that the .env file on staging and production should never be
+added to version control. Until we have better way to manage them (like Heroku's
 dashboard to manage env vars), let's just keep them on the server.**
-
-### Set up necessary environment variables
-
-Before we have something similar to Heroku dashboard to manage various
-environment variables, we need to set them up manually. Make sure the
-following env vars are ready on the remote server prior to deploying Rudy:
-
-- `S3_KEY`: To upload assets to CloudFront CDN
-- `S3_SECRET`: To upload assets to CloudFront CDN
-
-For example, edit the `~/.bash_profile` file on the remote server
-
-```bash
-S3_KEY=<your Amazon S3 key>
-S3_SECRET=<your Amazon S3 secret >
-
-export S3_KEY S3_SECRET
-```
-
-### Use Fabric to deploy Rudy locally
-
-Install [fabric](http://www.fabfile.org/installing.html) on your local.
-
-Then, you should be able to deploy Rudy to staging with
-
-```bash
-$ fab staging deploy
-```
-
-And deploy Rudy to production with
-
-```bash
-$ fab production deploy
-```
-
-Then, you should be able to see something like this:
-
-```bash
-$ fab staging deploy
-[staging.takoman.co] Executing task 'deploy'
-[staging.takoman.co] run: test -d /home/takoman/rudy
-[staging.takoman.co] run: git pull
-[staging.takoman.co] out: Already up-to-date.
-[staging.takoman.co] out: 
-
-[staging.takoman.co] run: npm install
-[staging.takoman.co] out: npm WARN package.json backbone-super-sync@0.0.10 No repository field.
-[staging.takoman.co] out: npm WARN package.json bootstrap-stylus@3.2.0 No repository field.
-[staging.takoman.co] out: npm WARN package.json sqwish@0.2.2 No repository field.
-[staging.takoman.co] out: 
-[staging.takoman.co] run: env=staging make spm2
-[staging.takoman.co] out: node_modules/.bin/pm2 ping
-[staging.takoman.co] out: { msg: 'pong' }
-[staging.takoman.co] out: RUNNING_RUDY=$(node_modules/.bin/pm2 list | grep rudy-staging -c); \
-[staging.takoman.co] out:       case $RUNNING_RUDY in \
-[staging.takoman.co] out:         0) echo "Starting rudy staging..."; RUDY_ENV=staging node_modules/.bin/pm2 start index.coffee --name rudy-staging ;; \
-[staging.takoman.co] out:         1) echo "Reloading rudy staging..."; RUDY_ENV=staging node_modules/.bin/pm2 reload index.coffee --name rudy-staging ;; \
-[staging.takoman.co] out:         *) echo "$RUNNING_RUDY instances of rudy-staging is running. Looks like something went wrong?" ;; \
-[staging.takoman.co] out:       esac; \
-[staging.takoman.co] out: 
-[staging.takoman.co] out: Reloading rudy staging...
-[staging.takoman.co] out: PM2 Reloading process by name index.coffee
-[staging.takoman.co] out: PM2 Process rudy-staging succesfully reloaded
-[staging.takoman.co] out: All processes reloaded
-[staging.takoman.co] out: ┌──────────────┬────┬─────────┬───────┬────────┬───────────┬────────┬─────────────┬─────────────┐
-[staging.takoman.co] out: │ App name     │ id │ mode    │ PID   │ status │ restarted │ uptime │      memory │    watching │
-[staging.takoman.co] out: ├──────────────┼────┼─────────┼───────┼────────┼───────────┼────────┼─────────────┼─────────────┤
-[staging.takoman.co] out: │ rudy-staging │ 0  │ cluster │ 28121 │ online │         1 │ 1s     │ 46.270 MB   │ unactivated │
-[staging.takoman.co] out: └──────────────┴────┴─────────┴───────┴────────┴───────────┴────────┴─────────────┴─────────────┘
-[staging.takoman.co] out:  Use `pm2 desc[ribe] <id>` to get more details
-[staging.takoman.co] out: 
-
-
-Done.
-Disconnecting from takoman@staging.takoman.co... done.
-```
-
-Note that we use ssh config in the fabric deployment. If it prmopts you enter
-password, make sure your local public key was in `authorized_keys` in the
-server, and you set up your `~/.ssh/config` correctly.
