@@ -26,7 +26,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @commissionTotal = 0
     @currencySource = 'TWD'
     @exchangeRate = '0.00'
-    @OrderLineItems = []
+    @orderLineItems = []
 
   events:
     'click #btn-add-product': 'addProduct'
@@ -55,7 +55,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @productTotal = 0
     @shippingTotal = 0
     @commissionTotal = 0
-    for item in @OrderLineItems
+    for item in @orderLineItems
       @total += parseInt item.twdprice
       if item.type == 'product'
         @productTotal += parseInt item.twdprice
@@ -68,25 +68,25 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     $('#commission-total').html ' NT '+@commissionTotal
 
     console.log @total
-    console.log @OrderLineItems
+    console.log @orderLineItems
 
   addProduct: (e) ->
-    item = new OrderLineItemView(type: 'product', id: @OrderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
+    item = new OrderLineItemView(type: 'product', id: @orderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
     @.listenTo(item, 'totalChange', @countTotal)
     $('#order-data').append (item.el)
-    @OrderLineItems.push(item)
+    @orderLineItems.push(item)
 
   addCommission: (e) ->
-    item = new OrderLineItemView(type: 'commission', id: @OrderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
+    item = new OrderLineItemView(type: 'commission', id: @orderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
     @.listenTo(item, 'totalChange', @countTotal)
     $('#order-data').append (item.el)
-    @OrderLineItems.push(item)
+    @orderLineItems.push(item)
 
   addShipping: (e) ->
-    item = new OrderLineItemView(type: 'shipping', id: @OrderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
+    item = new OrderLineItemView(type: 'shipping', id: @orderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
     @.listenTo(item, 'totalChange', @countTotal)
     $('#order-data').append (item.el)
-    @OrderLineItems.push(item)
+    @orderLineItems.push(item)
 
   createOrder: (e) ->
     (new Order(
