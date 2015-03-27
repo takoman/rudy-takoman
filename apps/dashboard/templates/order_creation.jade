@@ -10,11 +10,15 @@ block body
   .container
     .col-md-12
       h2 建立訂單
-      div.form-horizontal
-        div( id="step1-block" )
-          legend Step 1. 設定外幣
+      .form-horizontal
+        legend Step 1. 訂單匯率
+        #step1-block-1
           .form-group
-            label.col-md-2.control-label( for="currency_source" ) 選擇外幣
+            label.col-md-2.control-label( for="expiring_date" ) 保留期限
+            .col-sm-6
+              input.form-control( type="text" id="expiring_date" placeholder="YYYY/MM/DD")
+          .form-group
+            label.col-md-2.control-label( for="currency_source" ) 選擇貨幣 *
             .col-md-6
               select.form-control( id="currency-source" name="currency_source")
                 option( value="TWD" id="currency-TWD" ) TWD
@@ -47,26 +51,40 @@ block body
                 option( value="ZAR" id="currency-ZAR" ) ZAR
 
           .form-group
-            label.col-md-2.control-label( for="exchange_rate" ) 對台幣匯率
+            label.col-md-2.control-label( for="exchange_rate" ) 對台幣匯率 *
             .col-md-6
-              input.form-control( id="exchange-rate", name="exchange_rate" type="text" placeholder="填入數字，如：31.33" requred="required")
+              input.form-control( id="exchange-rate" name="exchange_rate" type="number" step="any" placeholder="填入數字，如：31.33" requred="required")
+              p.help-block#currency-msg( style="display: none;")
           .form-group
             .col-md-6.col-md-offset-2
-              button.btn.btn-danger( id="btn-set-exchange-rate" type="button" ) 設定
-        .well( id="currency-msg" ) 還未設定外幣匯率
+              button.btn.btn-danger( id="btn-set-exchange-rate" type="button" ) 繼續下一步
+        #step1-block-2( style="display:none;" )
 
       div( id="step2-block" style="display:none;")
         form.form-horizontal
           legend Step 2. 建立訂單內容
           #order-data(style="margin: 20px 0;")
-          .btn-group(style="margin: 20px 0;")
+          .btn-group(style="margin: 20px 0; margin-right: 20px;")
             button.btn.btn-default( id="btn-add-product" type="button" ) 新增商品
+            button.btn.btn-default( id="btn-select-product" type="button" ) 從商品清單新增商品
+          .btn-group(style="margin: 20px 0;")
             button.btn.btn-default( id="btn-add-commission" type="button" ) 新增手續費
             button.btn.btn-default( id="btn-add-shipping" type="button" ) 新增運費
+          hr
+          .row
+            .col-md-6.col-md-offset-6
+              p 商品總額
+                span#product-total
+              p 運費
+                span#shipping-total
+              p 代買費
+                span#commission-total
           hr
           .form-group
             label.col-md-2.control-label( for="notes" ) 附註
             .col-md-10
               textarea.form-control( id="notes", name="notes" type="text" placeholder="訂單附註說明" )
-          p
-            button.btn.btn-danger( id="order-submit" type="button" ) 送出
+          p.btn-toolbar
+            button.btn.btn-danger( id="order-cancel" type="button" ) 取消
+            button.btn.btn-danger( id="order-submit" type="button" ) 儲存
+            button.btn.btn-danger( id="order-preview" type="button" ) 預覽
