@@ -54,7 +54,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @shippingTotal = 0
     @commissionTotal = 0
     for item in @orderLineItems
-      @total += parseInt item.twdprice
+      @total += parseInt item.twdprice if _.contains(['product', 'shipping', 'commission'], item.type)
       if item.type == 'product'
         @productTotal += parseInt item.twdprice
       if item.type == 'shipping'
