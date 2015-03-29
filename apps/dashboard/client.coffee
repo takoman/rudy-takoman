@@ -10,7 +10,6 @@
 #
 _        = require 'underscore'
 Backbone = require "backbone"
-Backbone.$ = $
 sd = require("sharify").data
 Order = require "../../models/order.coffee"
 orderLineItemTemplate = -> require("./templates/order_line_item_form.jade") arguments...
@@ -43,7 +42,6 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
       $('#currency-msg').html '<span class="text-danger">請輸入正確匯率</span>'
       $('#currency-msg').show()
     else
-      console.log @exchangeRate
       $('#currency-msg').hide()
       $('#step1-block-2').html "貨幣： #{@currencySource}<br>對台幣匯率為：#{@exchangeRate}"
       $('#step1-block-2').fadeIn()
@@ -63,12 +61,9 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
         @shippingTotal += parseInt item.twdprice
       if item.type == 'commission'
         @commissionTotal += parseInt item.twdprice
-    $('#product-total').html ' NT '+@productTotal
-    $('#shipping-total').html ' NT '+@shippingTotal
-    $('#commission-total').html ' NT '+@commissionTotal
-
-    console.log @total
-    console.log @orderLineItems
+    $('#product-total').html " NT #{@productTotal}"
+    $('#shipping-total').html " NT #{@shippingTotal}"
+    $('#commission-total').html " NT #{@commissionTotal}"
 
   addProduct: (e) ->
     item = new OrderLineItemView(type: 'product', id: @orderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)

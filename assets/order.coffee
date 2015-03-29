@@ -6,4 +6,5 @@
 # small, often just a line of initialize code like this.
 #
 
-require('jquery') require("../apps/order/client.coffee").init
+require('backbone').$ = $
+$ require("../apps/order/client.coffee").init
