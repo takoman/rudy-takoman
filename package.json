@@ -33,7 +33,7 @@
     "underscore.string": "2.3.3"
   },
   "devDependencies": {
-    "benv": "0.1.7",
+    "benv": "1.0.0",
     "bootstrap-stylus": "git://github.com/Acquisio/bootstrap-stylus.git#349c9f5d644b3f44b15e38442a711ef63e6ac0c6",
     "browserify": "4.1.8",
     "browserify-dev-middleware": "0.0.5",
@@ -44,9 +44,9 @@
     "jadeify": "2.3.0",
     "jquery": "2.1.0",
     "jquery.transition": "git://github.com/dzucconi/jquery.transition.git",
-    "mocha": "1.20.1",
+    "mocha": "2.2.1",
     "nib": "1.0.2",
-    "rewire": "2.0.1",
+    "rewire": "2.3.1",
     "should": "4.0.1",
     "sinon": "1.10.2",
     "sqwish": "0.2.2",
