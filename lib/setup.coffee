@@ -42,7 +42,7 @@ module.exports = (app) ->
   # Set some headers for the santa API
   Backbone.sync.editRequest = (req) -> req.set
     'User-Agent'    : 'takoman'
-    'X-XAPP-TOKEN'  : takomanXappMiddlware.token
+    'X-XAPP-TOKEN'  : takomanXappMiddlware.token or ''
 
   # Mount sharify
   app.use sharify

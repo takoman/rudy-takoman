@@ -10,6 +10,7 @@
 
 benv = require("benv")
 sinon = require("sinon")
+Backbone = require("backbone")
 Commits = require("../../../collections/commits")
 resolve = require("path").resolve
 
@@ -26,6 +27,7 @@ describe "CommitsView", ->
         commits: new Commits([], { owner: "foo", repo: "bar" }).models
       , =>
         benv.expose $: require('jquery')
+        Backbone.$ = $
         @CommitsView = benv.requireWithJadeify(
           "../client.coffee",
           ["listTemplate"]

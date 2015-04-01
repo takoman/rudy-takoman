@@ -36,5 +36,6 @@ describe 'Dashboard routes', ->
           routes.orderCreation req, @res
 
         it 'renders the order creation page', ->
+          @res.redirect.called.should.not.be.ok
           @res.render.args[0][0].should.equal 'order_creation'
 

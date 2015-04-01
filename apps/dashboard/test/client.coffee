@@ -9,7 +9,7 @@ Backbone    = require 'backbone'
 
 describe 'OrderFormView', ->
   before (done) ->
-    benv.setup =>
+    benv.setup ->
       benv.expose $: benv.require 'jquery'
       Backbone.$ = $
       done()
@@ -19,7 +19,7 @@ describe 'OrderFormView', ->
 
   beforeEach (done) ->
     sinon.stub Backbone, 'sync'
-    benv.render resolve(__dirname, '../templates/order_creation.jade'), { asset: (->), sd: {} }, =>
+    benv.render resolve(__dirname, '../templates/order_creation.jade'), { asset: (-> undefined), sd: {} }, =>
       @view = new OrderFormView el: $('body')
       done()
 
