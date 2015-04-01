@@ -2,7 +2,8 @@
 # Routes file that exports route handlers for ease of testing.
 #
 
-{ parse } = require "url"
-
 @orderCreation = (req, res, next) ->
-  res.render "order_creation"
+  # TODO In addition, we have to check if the user is a merchant.
+  # If he/she is a regular user, 404.
+  return res.redirect '/login' unless req.user
+  res.render 'order_creation'

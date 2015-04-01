@@ -10,48 +10,9 @@
 
 benv = require("benv")
 sinon = require("sinon")
+Backbone = require("backbone")
 Commits = require("../../../collections/commits")
 resolve = require("path").resolve
 
-describe "CommitsView", ->
-
-  # In this before hook we setup our browser environemnt using
-  # [benv](https://github.com/artsy/benv).
-  before (done) ->
-    benv.setup =>
-      benv.render resolve(__dirname, "../templates/index.jade"),
-        sd: {}
-        asset: -> undefined
-        sharify: script: -> undefined
-        commits: new Commits([], { owner: "foo", repo: "bar" }).models
-      , =>
-        benv.expose $: require('jquery')
-        @CommitsView = benv.requireWithJadeify(
-          "../client.coffee",
-          ["listTemplate"]
-        ).CommitsView
-        done()
-
-  beforeEach (done) ->
-    @view = new @CommitsView
-      el: 'body'
-      collection: new Commits [], { owner: "artsy", repo: "flare" }
-    done()
-
-  afterEach ->
-    benv.teardown()
-
-  describe "#render", ->
-
-    it "renders the commits", ->
-      @view.collection.reset [commit: { message: "Bump package.json version" }]
-      @view.render()
-      @view.$el.html().should.match /.*Bump package.json version.*/
-
-  describe "#changeRepo", ->
-
-    it "changes the repo and fetches", ->
-      sinon.stub @view.collection, "fetch"
-      @view.$(".search-input").val("Garner").trigger "change"
-      @view.collection.repo.should.equal "Garner"
-      @view.collection.fetch.called.should.be.ok
+describe "ProfileView", ->
+  undefined

@@ -1,5 +1,4 @@
 Backbone = require 'backbone'
-Backbone.$ = $
 sd = require('sharify').data
 SearchBarView = require '../../components/search_bar/view.coffee'
 
