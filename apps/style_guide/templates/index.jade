@@ -7,4 +7,27 @@ block head
   title Style Guide | Takoman
 
 block body
-  #style-guide
+  .container-fluid.style-guide-container
+
+    .style-guide-sidebar
+      nav.style-guide-nav
+        ul.list-unstyled
+          li: a( href="#colors" ) Colors
+          li: a( href="#buttons" ) Buttons
+          li: a( href="#typography" ) Typography
+
+    .style-guide-content
+      h1 Takoman Style Guide
+      section
+        h2#colors Colors
+        .row
+          for hex, name in colors
+            .col-md-3
+              .color-sample
+                .color-swatch( style="background-color: #{hex};" )
+                .color-name $#{name}
+                .color-hex #{hex}
+      section
+        h2#buttons Buttons
+      section
+        h2#typography Typography
