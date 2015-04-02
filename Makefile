@@ -7,6 +7,7 @@
 #
 
 BIN = node_modules/.bin
+BOOTSTRAP_STYLUS = node_modules/bootstrap-styl
 CDN_DOMAIN_production = d2timokq6uoxgq
 CDN_DOMAIN_staging = d2timokq6uoxgq
 
@@ -61,7 +62,7 @@ assets:
 		$(BIN)/browserify $(file).coffee -t jadeify -t caching-coffeeify > public/$(file).js; \
 		$(BIN)/uglifyjs public/$(file).js > public/$(file).min.js; \
 	)
-	$(BIN)/stylus assets -o public/assets
+	$(BIN)/stylus assets -o public/assets -I $(BOOTSTRAP_STYLUS)
 	$(foreach file, $(shell find assets -name '*.styl' | cut -d '.' -f 1), \
 		$(BIN)/sqwish public/$(file).css -o public/$(file).min.css; \
 	)

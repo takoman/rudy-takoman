@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "benv": "1.0.0",
-    "bootstrap-stylus": "git://github.com/Acquisio/bootstrap-stylus.git#349c9f5d644b3f44b15e38442a711ef63e6ac0c6",
+    "bootstrap-styl": "4.0.3",
     "browserify": "4.1.8",
     "browserify-dev-middleware": "0.0.5",
     "bucket-assets": "0.2.5",
