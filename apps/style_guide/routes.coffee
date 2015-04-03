@@ -17,4 +17,5 @@
     "black"            : "#000"
     "brand-primary"    : "#fd5650"
     "brand-secondary"  : "#3f5562"
+
   res.render 'index', colors: colors

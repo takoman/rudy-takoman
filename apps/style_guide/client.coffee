@@ -16,6 +16,14 @@ module.exports.StyleGuideView = class StyleGuideView extends Backbone.View
 
   initialize: -> undefined
 
+  events:
+    'click .btn': 'buttonLoading'
+
+  buttonLoading: (e) ->
+    $btn = $(e.currentTarget)
+    $btn.addClass 'is-loading'
+    setTimeout (-> $btn.removeClass 'is-loading'), 1500
+
 module.exports.init = ->
   new StyleGuideView
     el: $ "body"

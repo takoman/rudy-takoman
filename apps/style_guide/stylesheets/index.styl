@@ -35,13 +35,30 @@ body
   text-align left
   padding 20px
 
-a
-a:hover
-a:active
-  color $white
+.style-guide-container
 
-.color-sample
-  padding 10px
-  .color-swatch
-    border 1px solid $gray-lightest
-    height 70px
+  .style-guide-nav
+    a, a:hover, a:active
+      color $white
+
+  .color-sample
+    padding 10px
+    .color-swatch
+      border 1px solid $gray-lighter
+      border-radius 3px
+      height 70px
+    code
+      color $gray-dark
+      background-color $gray-lightest
+
+  .component-section
+    margin-bottom 150px
+
+  .component-subsection
+    margin-bottom 30px
+
+  .button-sample
+    padding 15px 0
+    border-bottom 1px solid $gray-light
+    .btn
+      margin-bottom 1em

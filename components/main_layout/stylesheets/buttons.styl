@@ -1,0 +1,167 @@
+//
+// Buttons
+// --------------------------------------------------
+
+// animation
+@keyframes spin
+  100%
+    transform rotate(360deg)
+
+spinner($width = 25px, $height = 6px, $color = "")
+  background $color
+  width $width
+  height $height
+  position absolute
+  top "calc(50% - %s / 2)" % $height
+  left "calc(50% - %s / 2)" % $width
+  animation spin 1s infinite linear
+
+// basic
+input[type="submit"].btn,
+input[type="submit"].btn:visited,
+.btn, .btn:visited
+  position relative
+  display inline-block
+  *display inline
+  /* IE7 inline-block hack */
+  *zoom 1
+  padding 17px 70px 18px
+  margin-bottom 0
+  border 4px solid $gray-lightest
+  font normal 22px/1 sans-serif
+  font-smoothing antialiased
+  color $black
+  background-color $gray-lightest
+  cursor pointer
+  vertical-align middle
+  text-align center
+  text-decoration none
+  text-transform uppercase
+  transition all 0.15s ease-in-out
+  &:hover
+    background-color $red
+    border-color $red
+    color $white
+    text-decoration none
+  &[data-state='loading'],
+  &.is-loading
+    background-color $red
+    border-color $red
+    color transparent
+    &:after
+      content ''
+      display block
+      spinner(25px, 6px, $white)
+
+.btn:first-child
+  *margin-left 0
+
+// disabled
+input[type="submit"].btn.btn-disabled,
+button.btn.btn-disabled,
+a.btn.btn-disabled
+  background-color lighten($black, 90%)
+  border-color lighten($black, 90%)
+  color $white
+  cursor default
+  &:hover, &:visited
+    background-color $white
+    background-color lighten($black, 90%)
+    border-color lighten($black, 90%)
+  &[data-state='loading'],
+  &.is-loading
+    color $white
+    &:after
+      display none
+
+// primary
+input[type="submit"].btn.btn-primary,
+button.btn.btn-primary,
+a.btn.btn-primary,
+.btn-primary:visited
+  background-color $white
+  border-color $brand-primary
+  color $brand-primary
+  box-shadow 4px 4px 0 0 $brand-primary
+  &:hover
+    background-color $brand-primary
+    border-color $brand-primary
+    color $white
+    transform translate(4px, 4px)
+    box-shadow 0 0 0 0 $brand-primary
+  &[data-state='loading'],
+  &.is-loading
+    background-color $brand-primary
+    color transparent
+    transform translate(4px, 4px)
+    box-shadow none
+    &:after
+      content ''
+      display block
+      spinner(25px, 6px, white)
+
+// secondary
+input[type="submit"].btn.btn-secondary,
+button.btn.btn-secondary,
+a.btn.btn-secondary,
+.btn-secondary:visited
+  background-color $white
+  border-color $brand-secondary
+  color $brand-secondary
+  box-shadow 4px 4px 0 0 $brand-secondary
+  &:hover
+    background-color $brand-secondary
+    color $white
+    transform translate(4px, 4px)
+    box-shadow 0 0 0 0 $brand-secondary
+  &[data-state='loading'],
+  &.is-loading
+    background-color $brand-secondary
+    color transparent
+    transform translate(4px, 4px)
+    box-shadow none
+    &:after
+      content ''
+      display block
+      spinner(25px, 6px, $purple)
+
+// sizes
+input[type="submit"].btn.btn-small,
+input[type="submit"].btn.btn-small:visited,
+button.btn.btn-small, button.btn.btn-small:visited,
+a.btn.btn-small, a.btn.btn-small:visited
+  padding 12px 30px 12px
+  font-size 15px
+  border-width 3px
+  box-shadow none
+  &:hover
+    transform none
+  &[data-state='loading'],
+  &.is-loading
+    transform none
+    &:after
+      spinner(16px, 4px)
+
+input[type="submit"].btn.btn-tiny,
+input[type="submit"].btn.btn-tiny:visited,
+button.btn.btn-tiny, button.btn.btn-tiny:visited,
+a.btn.btn-tiny, a.btn.btn-tiny:visited
+  padding 8px 20px 8px
+  font-size 12px
+  border-width 2px
+  box-shadow none
+  &:hover
+    transform none
+  &[data-state='loading'],
+  &.is-loading
+    transform none
+    &:after
+      spinner(10px, 3px)
+
+// full width
+input[type="submit"].btn.btn-full-width,
+input[type="submit"].btn.btn-full-width:visited,
+button.btn.btn-full-width,
+a.btn.btn-full-width
+  width 100%
+  display block
