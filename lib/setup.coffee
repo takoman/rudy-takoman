@@ -42,7 +42,7 @@ module.exports = (app) ->
   # Set some headers for the santa API
   Backbone.sync.editRequest = (req) -> req.set
     'User-Agent'    : 'takoman'
-    'X-XAPP-TOKEN'  : takomanXappMiddlware.token
+    'X-XAPP-TOKEN'  : takomanXappMiddlware.token or ''
 
   # Mount sharify
   app.use sharify
@@ -50,9 +50,14 @@ module.exports = (app) ->
   # Development only
   if "development" is NODE_ENV
     # Compile assets on request in development
-    app.use require("stylus").middleware
+    bootstrap = require 'bootstrap-styl'
+    stylus = require 'stylus'
+    compile = (str, path) ->
+      stylus(str).set('filename', path).use(bootstrap())
+    app.use stylus.middleware
       src: path.resolve(__dirname, "../")
       dest: path.resolve(__dirname, "../public")
+      compile: compile
     app.use require("browserify-dev-middleware")
       src: path.resolve(__dirname, "../")
       transforms: [require("jadeify"), require('caching-coffeeify')]
@@ -89,6 +94,8 @@ module.exports = (app) ->
   app.use require "../apps/merchant"
   app.use require "../apps/profile"
   app.use require "../apps/order"
+  app.use require "../apps/dashboard"
+  app.use require "../apps/style_guide"
 
   # Route to ping for system up
   app.get '/system/up', (req, res) ->

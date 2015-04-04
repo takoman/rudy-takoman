@@ -10,7 +10,6 @@
 #
 
 Backbone = require "backbone"
-Backbone.$ = $
 sd = require("sharify").data
 Commits = require "../../collections/commits.coffee"
 listTemplate = -> require("./templates/list.jade") arguments...

@@ -10,7 +10,6 @@
 #
 
 Backbone = require "backbone"
-Backbone.$ = $
 sd = require("sharify").data
 CurrentUser = require "../../models/current_user.coffee"
 
