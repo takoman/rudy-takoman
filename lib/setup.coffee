@@ -91,7 +91,7 @@ module.exports = (app) ->
   # Mount apps
   app.use require "../apps/commits"
   app.use require "../apps/auth"
-  app.use require "../apps/merchant"
+  app.use require "../apps/merchant-onboard"
   app.use require "../apps/profile"
   app.use require "../apps/order"
   app.use require "../apps/dashboard"
