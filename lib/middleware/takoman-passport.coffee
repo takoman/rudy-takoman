@@ -23,7 +23,7 @@ opts =
   signupPath            : '/users/signup'
   facebookPath          : '/users/auth/facebook'
   facebookCallbackPath  : '/users/auth/facebook/callback'
-  userKeys : ['id', 'type', 'name', 'email', 'phone', 'default_profile_id']
+  userKeys : ['id', '_id', 'type', 'name', 'email', 'phone', 'default_profile_id']
 
 #
 # Main function that overrides/injects any options, sets up passport, sets up an app to

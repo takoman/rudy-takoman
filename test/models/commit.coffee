@@ -6,7 +6,7 @@ Commit = require("../../models/commit")
 Commits = require("../../collections/commits")
 
 describe "Commit", ->
-  
+
   beforeEach ->
     @commit = new Commit(sha: "qux")
 
