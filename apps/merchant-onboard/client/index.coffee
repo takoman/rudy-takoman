@@ -1,5 +1,5 @@
 #
-# The client-side code for the merchant page.
+# The client-side code for the merchant onboard page.
 #
 # [Browserify](https://github.com/substack/node-browserify) lets us write this
 # code as a common.js module, which means requiring dependecies instead of
@@ -16,7 +16,7 @@ sd = require("sharify").data
 CurrentUser = require "../../../models/current_user.coffee"
 Merchant = require "../../../models/merchant.coffee"
 
-module.exports.MerchantView = class MerchantView extends Backbone.View
+module.exports.MerchantSignUpView = class MerchantSignUpView extends Backbone.View
 
   initialize: ->
     @user = CurrentUser.orNull()
@@ -28,16 +28,16 @@ module.exports.MerchantView = class MerchantView extends Backbone.View
     $form = $ e.currentTarget
     new Merchant(
       user: @user.get('_id')
-      merchant_name: $form.find('input[name="merchant-name"]').val()
+      merchant_name: $form.find('[name="merchant-name"]').val()
       source_countries: _.reduce($form.find('[name="source-countries"]:checked'),
         ((m, c) -> m.push($(c).val()); m), [])
     ).save(null,
       success: (model, response, options) ->
-        $('#results').html JSON.stringify(model.attributes)
-      error: (model, response, options) ->
-        $('#results').html response
+        window.location.href = '/merchants/dashboard/profile'
+      error: (model, response, options) =>
+        @$('#merchant-sign-up-message').html response.responseJSON.message
     )
     false
 
 module.exports.init = ->
-  new MerchantView el: $ "body"
+  new MerchantSignUpView el: $ "body"

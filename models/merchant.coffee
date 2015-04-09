@@ -4,4 +4,4 @@ Backbone = require 'backbone'
 
 module.exports = class Merchant extends Backbone.Model
 
-  urlRoot: "#{sd.API_URL}/api/v1/merchants"
+  urlRoot: "#{API_URL}/api/v1/merchants"
