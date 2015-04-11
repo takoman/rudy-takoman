@@ -1,0 +1,25 @@
+extends ../../../components/main_layout/templates/index
+
+append locals
+  - assetPackage = 'merchant-onboard'
+
+block head
+  title Merchant Sign Up | Takoman.co
+
+block body
+  .container
+    h1 Merchant Sign Up
+
+    .panel#merchant-sign-up-message
+
+    form#merchant-sign-up
+      .form-group
+        label( for="merchant-name" ) 賣場的名字
+        input.form-control( id="merchant-name", name="merchant-name" type="text" placeholder="例如：美國時尚代購" requred="required" autofacus )
+      .checkbox
+        - var countries = [{ value: "TW", label: "台灣" }, { value: "US", label: "美國" }, { value: "JP", label: "日本" }, { value: "KR", label: "韓國" }, { value: "CN", label: "中國" }, { value: "GB", label: "英國" }, { value: "AU", label: "澳洲" }, { value: "CA", label: "加拿大" }, { value: "FR", label: "法國" }, { value: "DE", label: "德國" }, { value: "IT", label: "義大利" }, { value: "NL", label: "荷蘭" }, { value: "NZ", label: "紐西蘭" }, { value: "PT", label: "葡萄牙" }, { value: "SG", label: "新加坡" }, { value: "ES", label: "西班牙" }];
+        for c in countries
+          label( for=c.value )
+            input( type="checkbox", name="source-countries", id=c.value, value=c.value )
+            = c.label
+      button.btn.btn-lg.btn-primary( type="submit" ) 註冊成為賣家
