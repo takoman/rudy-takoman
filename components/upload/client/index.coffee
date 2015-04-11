@@ -11,13 +11,13 @@ module.exports = class UploadForm extends Backbone.View
   initialize: (options) ->
     @$el.html template()
     $form = @$('form.s3-upload-form')
-    $progressBar = @$('.progress-bar')
-    $uploadResults = @$('.upload-results')
     $form.fileupload
       url: "https://#{S3_BUCKET}.s3.amazonaws.com"
       type: 'POST'
       dataType: 'xml'
       autoUpload: true
+      # Refer to all the callback options in the official doc.
+      # https://github.com/blueimp/jQuery-File-Upload/wiki/Options#callback-options
       add: (e, data) ->
         $.ajax
           url: '/s3-signed'
@@ -35,11 +35,10 @@ module.exports = class UploadForm extends Backbone.View
       send: (e, data) ->
         # Callback for the start of each file upload request.
         # If this callback returns false, the file upload request is aborted.
-        undefined
+        options.onSend?(e, data)
       progress: (e, data) ->
         # Callback for upload progress events.
-        progress = parseInt(data.loaded / data.total * 100, 10)
-        $progressBar.css 'width', progress + '%'
+        options.onProgress?(e, data)
       fail: (e, data) ->
         # Callback for failed (abort or error) upload requests. This callback
         # is the equivalent to the error callback provided by jQuery ajax()
@@ -49,10 +48,7 @@ module.exports = class UploadForm extends Backbone.View
         #   data.errorThrown
         #   data.textStatus
         #   data.jqXHR
-        undefined
-      success: (data) ->
-        url = $(data).find('Location').text()
-        $uploadResults.html "<img src='#{url}'>"
+        options.onFail?(e, data)
       done: (e, data) ->
         # Callback for successful upload requests. This callback is the
         # equivalent to the success callback provided by jQuery ajax() and
@@ -61,4 +57,6 @@ module.exports = class UploadForm extends Backbone.View
         #   data.result
         #   data.textStatus;
         #   data.jqXHR;
-        undefined
+        # URL of the file upload to S3 can be found via
+        #   $(data.result).find('Location').text()
+        options.onDone?(e, data)
