@@ -20,6 +20,7 @@ module.exports =
   S3_KEY                  : 'replace-me'
   S3_SECRET               : 'replace-me'
   S3_BUCKET               : 'replace-me'
+  S3_UPLOAD_DIR           : 'uploads'
   SENTRY_DSN              : null
   SENTRY_PUBLIC_DSN       : null
   SESSION_SECRET          : 'F0rc3'
