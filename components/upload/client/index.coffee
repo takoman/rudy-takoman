@@ -1,4 +1,8 @@
 _ = require 'underscore'
+# We "require" the blueimp-file-upload module, which uses the "required"
+# jQuery module, instead of the global jQuery.
+# https://github.com/blueimp/jQuery-File-Upload/blob/6c352d87b9e59af254884ed6bc61475779ec4e5e/js/jquery.fileupload.js#L26
+# So we require jQuery first and make Backbone use that one.
 $ = require 'jquery'
 Backbone = require 'backbone'
 Backbone.$ = $

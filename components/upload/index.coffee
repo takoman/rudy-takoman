@@ -12,7 +12,7 @@ opts =
   maxFileSize: 5242880   # 5MB limit
 
 module.exports = (options) ->
-  module.exports.options = _.extend opts, options
+  _.extend opts, options
   module.exports
 
 module.exports.s3UploadFormData = (req, res) ->
