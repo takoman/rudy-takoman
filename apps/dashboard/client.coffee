@@ -38,14 +38,15 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @currencySource = $('#currency-source').val()
     @exchangeRate = $('#exchange-rate').val()
     if (isNaN @exchangeRate) or !@exchangeRate
-      $('#step2-block').hide()
+      $('#step2-block').find('.panel-body').hide()
       $('#currency-msg').html '<span class="text-danger">請輸入正確匯率</span>'
       $('#currency-msg').show()
     else
       $('#currency-msg').hide()
       $('#step1-block-2').html "貨幣： #{@currencySource}<br>對台幣匯率為：#{@exchangeRate}"
       $('#step1-block-2').fadeIn()
-      $('#step2-block').show()
+      $('#step2-block').find('.panel-body').show()
+      $('#step2-block').addClass('panel-default').removeClass('panel-gray')
       $('#step1-block-1').slideUp()
 
   countTotal: (e) ->
