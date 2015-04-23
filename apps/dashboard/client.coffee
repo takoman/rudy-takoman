@@ -18,71 +18,108 @@ orderLineItemTemplate = -> require("./templates/order_line_item_form.jade") argu
 module.exports.OrderFormView = class OrderFormView extends Backbone.View
 
   initialize: ->
-    @itemCount = 0
     @total = 0
-    @productTotal = 0
-    @shippingTotal = 0
-    @commissionTotal = 0
+    @totalProduct = 0
+    @totalShipping = 0
+    @totalCommission = 0
     @currencySource = 'TWD'
     @exchangeRate = '0.00'
     @orderLineItems = []
+    @setWaypoint()
+
+  setWaypoint: ->
+    @waypoint = $('#add-item-bar-position').waypoint(
+      (direction) ->
+        if direction is 'down'
+          $('#add-item-bar').removeClass('add-item-bar-fixed')
+        if direction is 'up'
+          $('#add-item-bar').addClass('add-item-bar-fixed')
+      , offset: 'bottom-in-view'
+    )
+
+  resetWaypoint: ->
+    Waypoint.refreshAll()
 
   events:
     'click #btn-add-product': 'addProduct'
     'click #btn-add-commission': 'addCommission'
     'click #btn-add-shipping': 'addShipping'
     'click #order-submit': 'createOrder'
-    'click #btn-set-exchange-rate': 'setExchangeRate'
+    'click #btn-set-exchange-rate': 'setCurrencyExchangeRate'
+    'click #edit-step1': 'editStep1'
+  
+  editStep1: (e) ->
+    $('#currency-msg').hide()
+    $('#step1-block-2').slideUp()
+    $('#step2-block-content').slideUp()
+    $('#step2-block').addClass('panel-gray').removeClass('panel-default')
+    $('#step1-block-1').slideDown()
+    $('#edit-step1').fadeOut()
 
-  setExchangeRate: (e) ->
+  setCurrencyExchangeRate: (e) ->
     @currencySource = $('#currency-source').val()
     @exchangeRate = $('#exchange-rate').val()
     if (isNaN @exchangeRate) or !@exchangeRate
-      $('#step2-block').find('.panel-body').hide()
+      $('#step2-block-content').hide()
       $('#currency-msg').html '<span class="text-danger">請輸入正確匯率</span>'
       $('#currency-msg').show()
     else
       $('#currency-msg').hide()
       $('#step1-block-2').html "貨幣： #{@currencySource}<br>對台幣匯率為：#{@exchangeRate}"
-      $('#step1-block-2').fadeIn()
-      $('#step2-block').find('.panel-body').show()
+      $('#step1-block-2').show()
+      $('#step2-block-content').show()
       $('#step2-block').addClass('panel-default').removeClass('panel-gray')
-      $('#step1-block-1').slideUp()
+      $('#step1-block-1').hide()
+      $('#edit-step1').show()
+      @resetLineItems()
 
-  countTotal: (e) ->
+  resetLineItems: (e) ->
+    for lineItem in @orderLineItems
+      lineItem.currencySource = @currencySource
+      lineItem.exchangeRate = @exchangeRate
+      lineItem.resetCurrencyExchangeRate()
+    @itemsChanged()
+
+  itemsChanged: (e) ->
     @total = 0
-    @productTotal = 0
-    @shippingTotal = 0
-    @commissionTotal = 0
-    for item in @orderLineItems
-      @total += parseInt item.twdprice if _.contains(['product', 'shipping', 'commission'], item.type)
-      if item.type == 'product'
-        @productTotal += parseInt item.twdprice
-      if item.type == 'shipping'
-        @shippingTotal += parseInt item.twdprice
-      if item.type == 'commission'
-        @commissionTotal += parseInt item.twdprice
-    $('#product-total').html " NT #{@productTotal}"
-    $('#shipping-total').html " NT #{@shippingTotal}"
-    $('#commission-total').html " NT #{@commissionTotal}"
+    @totalProduct = 0
+    @totalShipping = 0
+    @totalCommission = 0
+    for lineItem in @orderLineItems
+      @total += parseInt lineItem.twdPrice if _.contains(['product', 'shipping', 'commission'], lineItem.type)
+      if lineItem.type == 'product'
+        @totalProduct += parseInt lineItem.twdPrice
+      if lineItem.type == 'shipping'
+        @totalShipping += parseInt lineItem.twdPrice
+      if lineItem.type == 'commission'
+        @totalCommission += parseInt lineItem.twdPrice
+
+    $('#total-product').html if (@totalProduct == 0) then '--' else " NT. #{@totalProduct}"
+    $('#total-shipping').html if (@totalShipping == 0) then '--' else " NT. #{@totalShipping}"
+    $('#total-commission').html if (@totalCommission == 0) then '--' else " NT. #{@totalCommission}"
+    $('#total-all').html if (@total == 0) then '--' else " NT. #{@total}"
+    @resetWaypoint()
 
   addProduct: (e) ->
-    item = new OrderLineItemView(type: 'product', id: @orderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
-    @.listenTo(item, 'totalChange', @countTotal)
-    $('#order-data').append (item.el)
-    @orderLineItems.push(item)
+    lineItem = new OrderLineItemView(type: 'product', id: @orderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
+    @.listenTo(lineItem, 'itemChanged', @itemsChanged)
+    $('#order-line-items').append (lineItem.el)
+    @orderLineItems.push(lineItem)
+    @resetWaypoint()    
 
   addCommission: (e) ->
-    item = new OrderLineItemView(type: 'commission', id: @orderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
-    @.listenTo(item, 'totalChange', @countTotal)
-    $('#order-data').append (item.el)
-    @orderLineItems.push(item)
+    lineItem = new OrderLineItemView(type: 'commission', id: @orderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
+    @.listenTo(lineItem, 'itemChanged', @itemsChanged)
+    $('#order-line-items').append (lineItem.el)
+    @orderLineItems.push(lineItem)
+    @resetWaypoint()
 
   addShipping: (e) ->
-    item = new OrderLineItemView(type: 'shipping', id: @orderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
-    @.listenTo(item, 'totalChange', @countTotal)
-    $('#order-data').append (item.el)
-    @orderLineItems.push(item)
+    lineItem = new OrderLineItemView(type: 'shipping', id: @orderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
+    @.listenTo(lineItem, 'itemChanged', @itemsChanged)
+    $('#order-line-items').append (lineItem.el)
+    @orderLineItems.push(lineItem)
+    @resetWaypoint()
 
   createOrder: (e) ->
     (new Order(
@@ -107,68 +144,100 @@ module.exports.OrderLineItemView = class OrderLineItemView extends Backbone.View
     @render()
     @currency = 'TWD'
     @$priceField = @$el.find("input.price-field")
-    @$twdPriceField = @$el.find("input[name=twd_price_#{@id}]")
     @$pricePreviewField = @$el.find(".preview-price")
     @$pricehelpBlock = @$el.find('.price-help')
     @price = 0
-    @twdprice = 0
+    price = 0
+    @twdPrice = 0
+    @twdPricePreview = 0
+    @saved = false
+
+  resetCurrencyExchangeRate: ->
+    @$el.find('.currency-source-field').val(@currencySource)
+    @$el.find('.currency-source-text').html(@currencySource)
+    @$el.find(".preview-brand").html(@$el.find("input[name=brand_#{@id}]").val())
+    if @saved
+      @pricePreview()
+      @setPrice()
+    else
+      @pricePreview()
 
   render: ->
     @$el.html orderLineItemTemplate(type: @type, id: @id, currencySource: @currencySource, exchangeRate: @exchangeRate)
-
-  recalculate: ->
+  
+  pricePreview: ->
     @currency = @$el.find("input[name=currency_source_#{@id}]:checked").val()
-    @price = @$priceField.val()
-    if (@price != null) && (@price != '')
-      if (isNaN @price) or (!@price)
+    price = @$priceField.val()
+    if (price != null) && (price != '')
+      if (isNaN price) or (!price)
         @$pricehelpBlock.html '<span class="text-danger">請輸入正確金額（純數字，不用加逗號）</span>'
       else
         if @currency == 'TWD'
-          @twdprice = @price
-          @$pricehelpBlock.html "顯示金額為： TWD #{@twdprice}"
-          @$twdPriceField.val @price
-          @$pricePreviewField.html "TWD #{@twdprice}"
+          @twdPricePreview = price
+          @$pricehelpBlock.html "顯示金額為： TWD #{@twdPricePreview}"
         else
-          @twdprice = Math.round(parseFloat(@price) * parseFloat(@exchangeRate))
-          @$pricehelpBlock.html "顯示金額為： #{@price} (#{@currency}) * #{@exchangeRate} = #{@twdprice} (TWD)"
-          @$twdPriceField.val @twdprice
-          @$pricePreviewField.html "#{@price} (#{@currency}) * #{@exchangeRate} = #{@twdprice} (TWD)"
+          @twdPricePreview = Math.round(parseFloat(price) * parseFloat(@exchangeRate))
+          @$pricehelpBlock.html "顯示金額為： #{price} (#{@currency}) * #{@exchangeRate} = #{@twdPricePreview} (TWD)"
     else
       @$pricehelpBlock.html ''
 
+  setPrice: ->
+    @currency = @$el.find("input[name=currency_source_#{@id}]:checked").val()
+    price = @$priceField.val()
+    if (price != null) && (price != '')
+      if (isNaN price) or (!price)
+        false
+      else
+        @price = price
+        if @currency == 'TWD'
+          @twdPricePreview = price
+          @$pricehelpBlock.html "顯示金額為： TWD #{@twdPricePreview}"
+        else
+          @twdPricePreview = Math.round(parseFloat(@price) * parseFloat(@exchangeRate))
+          @$pricehelpBlock.html "顯示金額為： #{@price} (#{@currency}) * #{@exchangeRate} = #{@twdPricePreview} (TWD)"
+        @twdPrice = @twdPricePreview
+        @$pricePreviewField.html "NT. #{@twdPrice} (TWD)"
+        true
+    else
+      false
+
   editItem: ->
-    @$el.find(".form-block").show()
-    @$el.find(".preview-block").hide()
-    false
+    @$el.find(".order-line-item-form").show()
+    @$el.find(".order-line-item-preview").hide()
+    @saved = false
+    @.trigger('itemChanged')
 
   saveItem: ->
-    if (@type == 'product')
-      @$el.find(".preview-brand").html(@$el.find("input[name=brand_#{@id}]").val())
-      @$el.find(".preview-title").html(@$el.find("input[name=title_#{@id}]").val())
-      @$el.find(".preview-url").html(@$el.find("input[name=urls_#{@id}]").val())
-      @$el.find(".preview-image").html(@$el.find("input[name=images_#{@id}]").val())
-      @$el.find(".preview-color-size").html(@$el.find("input[name=color_size_#{@id}]").val())
-      @$el.find(".preview-quantity").html(@$el.find("input[name=quantity_#{@id}]").val())
-      @$el.find(".preview-notes").html(@$el.find("textarea[name=notes_#{@id}]").val())
-    if (@type == 'commission' || @type == 'shipping')
-      @$el.find(".preview-notes").html(@$el.find("textarea[name=notes_#{@id}]").val())
+    if @setPrice()
+      @saved = true
+      if (@type == 'product')
+        @$el.find(".preview-brand").html(@$el.find("input[name=brand_#{@id}]").val())
+        @$el.find(".preview-title").html(@$el.find("input[name=title_#{@id}]").val())
+        #@$el.find(".preview-url").html(@$el.find("input[name=urls_#{@id}]").val())
+        #@$el.find(".preview-image").html(@$el.find("input[name=images_#{@id}]").val())
+        @$el.find(".preview-color-size").html(@$el.find("input[name=color_size_#{@id}]").val())
+        @$el.find(".preview-quantity").html(@$el.find("input[name=quantity_#{@id}]").val())
+        #@$el.find(".preview-notes").html(@$el.find("textarea[name=notes_#{@id}]").val())
+      if (@type == 'commission' || @type == 'shipping')
+        @$el.find(".preview-notes").html(@$el.find("textarea[name=notes_#{@id}]").val())
 
-    @$el.find(".preview-block").show()
-    @$el.find(".form-block").hide()
-    @.trigger('totalChange')
+      @$el.find(".order-line-item-preview").show()
+      @$el.find(".order-line-item-form").hide()
+      @.trigger('itemChanged')
+    else
+      @$priceField.focus()
 
   removeItem: ->
     @price = 0
-    @twdprice = 0
+    @twdPrice = 0
     @remove()
-    @.trigger('totalChange')
+    @.trigger('itemChanged')
     false
 
   events:
-    #'click .remove-item': 'remove'
     'click .remove-item': 'removeItem'
-    'change .currency-source-field': 'recalculate'
-    'keyup input.price-field': 'recalculate'
+    'change .currency-field': 'pricePreview'
+    'keyup input.price-field': 'pricePreview'
     'click .save-btn': 'saveItem'
     'click .edit-btn': 'editItem'
 

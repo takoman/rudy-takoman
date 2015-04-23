@@ -1,178 +1,181 @@
 if type == 'product'
-  .panel.panel-default
-    .panel-heading.clearfix
-      h3.panel-title.pull-left 商品 #{id}
-      .pull-right
-        a.remove-item( href="#") 移除
-    .panel-body
-      .form-block
+  .order-line-item
+    .order-line-item-form
+      .order-line-item-form-header.clearfix
+        h3.pull-left 新增商品
+        .pull-right
+          a.remove-item( href="#") 移除
+      .order-line-item-form-body
         input.form-control( id="type-#{id}" name="type#{id}" type="hidden" value="product")
         .form-group
-          label.col-md-2.control-label( for="brand-#{id}" ) 品牌
-          .col-md-10
-            input.form-control( id="brand-#{id}" name="brand_#{id}" type="text" placeholder="商品品牌" autofacus )
+          label( for="brand-#{id}" ) 品牌
+          .row
+            .col-md-12
+              input.form-control( id="brand-#{id}" name="brand_#{id}" type="text" placeholder="商品品牌" autofacus )
         .form-group
-          label.col-md-2.control-label( for="title-#{id}" ) 商品名稱*
-          .col-md-10
-            input.form-control( id="title-#{id}" name="title_#{id}" type="text" placeholder="商品名稱" requred="required" )
+          label( for="title-#{id}" ) 商品名稱*
+          .row
+            .col-md-12
+              input.form-control( id="title-#{id}" name="title_#{id}" type="text" placeholder="商品名稱" requred="required" )
         .form-group
-          label.col-md-2.control-label( for="url-#{id}" ) 參考網址
-          .col-md-10
-            input.form-control( id="url-#{id}" name="urls_#{id}" type="text" placeholder="參考網址" )
+          label( for="url-#{id}" ) 參考網址
+          .row
+            .col-md-12
+              input.form-control( id="url-#{id}" name="urls_#{id}" type="text" placeholder="參考網址" )
         .form-group
-          label.col-md-2.control-label( for="images-#{id}" ) 參考圖片
-          .col-md-10
-            input.form-control( id="images-#{id}", name="images_#{id}" type="text" placeholder="參考圖片" )
+          label( for="images-#{id}" ) 參考圖片
+          .row
+            .col-md-12
+              input.form-control( id="images-#{id}", name="images_#{id}" type="text" placeholder="參考圖片" )
         .form-group
-          label.col-md-2.control-label( for="color-size-#{id}" ) 顏色/尺寸
-          .col-md-10
-            input.form-control( id="color-size-#{id}", name="color_size_#{id}" type="text" placeholder="顏色/尺寸" )
+          label( for="color-size-#{id}" ) 顏色/尺寸
+          .row
+            .col-md-12
+              input.form-control( id="color-size-#{id}", name="color_size_#{id}" type="text" placeholder="顏色/尺寸" )
         .form-group
-          label.col-md-2.control-label( for="quantity-#{id}" ) 數量*
-          .col-md-10
-            input.form-control( id="quantity-#{id}", name="quantity_#{id}" type="number" value="1" placeholder="數量" requred="required" )
+          label( for="quantity-#{id}" ) 數量*
+          .row
+            .col-md-12
+              input.form-control( id="quantity-#{id}", name="quantity_#{id}" type="text" value="1" placeholder="數量" requred="required" )
         .form-group
-          label.col-md-2.control-label( for="currency-source-#{id}" ) 金額幣別*
-          .col-md-10
-            label.radio-inline
-              input.currency-source-field( type="radio" name="currency_source_#{id}" id="currency-source-#{id}" value="TWD" checked)
-              | 台幣
-            label.radio-inline
-              input.currency-source-field( type="radio" name="currency_source_#{id}" id="currency-source-#{id}" value="#{currencySource}" )
-              | #{currencySource}
+          label( for="currency-source-#{id}" ) 金額幣別*
+          .row
+            .col-md-12
+              label.radio-inline
+                input.currency-field.currency-twd-field( type="radio" name="currency_source_#{id}" id="currency-twd-#{id}" value="TWD" checked)
+                | 台幣
+              label.radio-inline
+                input.currency-field.currency-source-field( type="radio" name="currency_source_#{id}" id="currency-source-#{id}" value="#{currencySource}" )
+                span.currency-source-text #{currencySource}
         .form-group
-          label.col-md-2.control-label( for="price-#{id}" ) 商品金額*
-          .col-md-10
-            input.form-control.price-field( id="price-#{id}" name="price_#{id}" type="number" step="any" placeholder="商品金額" requred="required" )
-            p.help-block.price-help
-            input( id="twd-price-#{id}" name="twd_price_#{id}" type="hidden" )
+          label( for="price-#{id}" ) 商品金額*
+          .row
+            .col-md-12
+              input.form-control.price-field( id="price-#{id}" name="price_#{id}" type="text" placeholder="商品金額" requred="required" )
+              p.help-block.price-help
         .form-group
-          label.col-md-2.control-label( for="notes-#{id}" ) 商品說明
-          .col-md-10
-            textarea.form-control( id="notes-#{id}" name="notes_#{id}" type="text" placeholder="商品說明" )
+          label( for="notes-#{id}" ) 商品說明
+          .row
+            .col-md-12
+              textarea.form-control( id="notes-#{id}" name="notes_#{id}" type="text" placeholder="商品說明" )
         .form-group
-          .col-sm-offset-2.col-md-10
-            .checkbox
-              label
-                input( id="add-product-#{id}" name="add_product_#{id}" type="checkbox")
-                | 加入商品清單
-        .form-group
-          .col-md-10.col-md-offset-2
-            button.save-btn.btn.btn-danger( type="button" ) 確定
-      .preview-block( style="display:none;" )
-        a.edit-btn( href="#" ) 編輯
-        .form-group
-          label.col-md-2.control-label 品牌
-          .col-md-10
-            p.form-control-static.preview-brand
-        .form-group
-          label.col-md-2.control-label 商品名稱
-          .col-md-10
-            p.form-control-static.preview-title
-        .form-group
-          label.col-md-2.control-label 參考網址
-          .col-md-10
-            p.form-control-static.preview-url
-        .form-group
-          label.col-md-2.control-label 參考圖片
-          .col-md-10
-            p.form-control-static.preview-image
-        .form-group
-          label.col-md-2.control-label 顏色/尺寸
-          .col-md-10
-            p.form-control-static.preview-color-size
-        .form-group
-          label.col-md-2.control-label 數量
-          .col-md-10
-            p.form-control-static.preview-quantity
-        .form-group
-          label.col-md-2.control-label 商品金額
-          .col-md-10
-            p.form-control-static.preview-price
-        .form-group
-          label.col-md-2.control-label 商品說明
-          .col-md-10
-            p.form-control-static.preview-notes
-
+          .row
+            .col-md-12
+              .checkbox
+                label
+                  input( id="add-product-#{id}" name="add_product_#{id}" type="checkbox")
+                  | 加入商品清單  
+        button.save-btn.btn.btn-secondary.btn-tiny( type="button" ) 確定
+      
+    .order-line-item-preview
+      .row
+        .col-md-5
+        .col-md-8
+          .preview-brand
+          .preview-title
+          .preview-color-size
+          div #12345
+          div 數量：
+            span.preview-quantity
+          div 單價：
+            span.preview-price
+        .col-md-5
+          a.remove-item( href="#") 刪除 
+          | | 
+          a.edit-btn( href="#" ) 編輯
+        .col-md-6.text-right
+          .preview-price
 
 else if type == 'commission'
-  .panel.panel-default
-    .panel-heading.clearfix
-      h3.panel-title.pull-left 手續費 #{id}
-      .pull-right
-        a.remove-item( href="#") 移除
-    .panel-body
-      .form-block
-        input.form-control( id="type-#{id}", name="type#{id}" type="hidden" value="commission")
+  .order-line-item
+    .order-line-item-form
+      .order-line-item-form-header.clearfix
+        h3.pull-left 新增代買費
+        .pull-right
+          a.remove-item( href="#") 移除
+      .order-line-item-form-body
+        input.form-control( id="type-#{id}" name="type#{id}" type="hidden" value="commission")
         .form-group
-          label.col-md-2.control-label( for="currency-source-#{id}" ) 金額幣別*
-          .col-md-10
-            label.radio-inline
-              input.currency-source-field( type="radio" name="currency_source_#{id}" id="currency-source-#{id}" value="TWD" checked)
-              | 台幣
-            label.radio-inline
-              input.currency-source-field( type="radio" name="currency_source_#{id}" id="currency-source-#{id}" value="#{currencySource}" )
-              | #{currencySource}
+          label( for="currency-source-#{id}" ) 金額幣別*
+          .row
+            .col-md-12
+              label.radio-inline
+                input.currency-field.currency-twd-field( type="radio" name="currency_source_#{id}" id="currency-twd-#{id}" value="TWD" checked)
+                | 台幣
+              label.radio-inline
+                input.currency-field.currency-source-field( type="radio" name="currency_source_#{id}" id="currency-source-#{id}" value="#{currencySource}" )
+                span.currency-source-text #{currencySource}
         .form-group
-          label.col-md-2.control-label( for="price-#{id}" ) 金額*
-          .col-md-10
-            input.form-control.price-field( id="price-#{id}", name="price_#{id}" type="number" step="any" placeholder="商品金額" requred="required" )
-            p.help-block.price-help
+          label( for="price-#{id}" ) 金額*
+          .row
+            .col-md-12
+              input.form-control.price-field( id="price-#{id}" name="price_#{id}" type="text" placeholder="金額" requred="required" )
+              p.help-block.price-help
         .form-group
-          label.col-md-2.control-label( for="notes-#{id}" ) 說明
-          .col-md-10
-            textarea.form-control( id="notes-#{id}", name="notes_#{id}" type="text" placeholder="說明" )
-        .form-group
-          .col-md-10.col-md-offset-2
-            button.save-btn.btn.btn-danger( type="button" ) 確定
-      .preview-block( style="display:none;" )
-        a.edit-btn( href="#" ) 編輯
-        .form-group
-          label.col-md-2.control-label 金額
-          .col-md-10
-            p.form-control-static.preview-price
-        .form-group
-          label.col-md-2.control-label 說明
-          .col-md-10
-            p.form-control-static.preview-notes
+          label( for="notes-#{id}" ) 說明
+          .row
+            .col-md-12
+              textarea.form-control( id="notes-#{id}" name="notes_#{id}" type="text" placeholder="說明" )
+        button.save-btn.btn.btn-secondary.btn-tiny( type="button" ) 確定
+      
+    .order-line-item-preview
+      .row
+        .col-md-5
+        .col-md-8
+          | 代買費
+          br
+          .preview-notes
+          div #12345
+        .col-md-5
+          a.remove-item( href="#") 刪除 
+          | | 
+          a.edit-btn( href="#" ) 編輯
+        .col-md-6.text-right
+          .preview-price
 
 else if type == 'shipping'
-  .panel.panel-default
-    .panel-heading.clearfix
-      h3.panel-title.pull-left 運費 #{id}
-      .pull-right
-        a.remove-item( href="#") 移除
-    .panel-body
-      .form-block
-        input.form-control( id="type-#{id}", name="type#{id}" type="hidden" value="commission")
+  .order-line-item
+    .order-line-item-form
+      .order-line-item-form-header.clearfix
+        h3.pull-left 新增運費
+        .pull-right
+          a.remove-item( href="#") 移除
+      .order-line-item-form-body
+        input.form-control( id="type-#{id}" name="type#{id}" type="hidden" value="shipping")
         .form-group
-          label.col-md-2.control-label( for="currency-source-#{id}" ) 金額幣別*
-          .col-md-10
-            label.radio-inline
-              input.currency-source-field( type="radio" name="currency_source_#{id}" id="currency-source-#{id}" value="TWD" checked)
-              | 台幣
-            label.radio-inline
-              input.currency-source-field( type="radio" name="currency_source_#{id}" id="currency-source-#{id}" value="#{currencySource}" )
-              | #{currencySource}
+          label( for="currency-source-#{id}" ) 金額幣別*
+          .row
+            .col-md-12
+              label.radio-inline
+                input.currency-field.currency-twd-field( type="radio" name="currency_source_#{id}" id="currency-twd-#{id}" value="TWD" checked)
+                | 台幣
+              label.radio-inline
+                input.currency-field.currency-source-field( type="radio" name="currency_source_#{id}" id="currency-source-#{id}" value="#{currencySource}" )
+                span.currency-source-text #{currencySource}
         .form-group
-          label.col-md-2.control-label( for="price-#{id}" ) 金額*
-          .col-md-10
-            input.form-control.price-field( id="price-#{id}", name="price_#{id}" type="number" step="any" placeholder="商品金額" requred="required" )
-            p.help-block.price-help
+          label( for="price-#{id}" ) 金額*
+          .row
+            .col-md-12
+              input.form-control.price-field( id="price-#{id}" name="price_#{id}" type="text" placeholder="金額" requred="required" )
+              p.help-block.price-help
         .form-group
-          label.col-md-2.control-label( for="notes-#{id}" ) 說明
-          .col-md-10
-            textarea.form-control( id="notes-#{id}", name="notes_#{id}" type="text" placeholder="說明" )
-        .form-group
-          .col-md-10.col-md-offset-2
-            button.save-btn.btn.btn-danger( type="button" ) 確定
-      .preview-block( style="display:none;" )
-        a.edit-btn( href="#" ) 編輯
-        .form-group
-          label.col-md-2.control-label 金額
-          .col-md-10
-            p.form-control-static.preview-price
-        .form-group
-          label.col-md-2.control-label 說明
-          .col-md-10
-            p.form-control-static.preview-notes
+          label( for="notes-#{id}" ) 說明
+          .row
+            .col-md-12
+              textarea.form-control( id="notes-#{id}" name="notes_#{id}" type="text" placeholder="說明" )
+        button.save-btn.btn.btn-secondary.btn-tiny( type="button" ) 確定
+      
+    .order-line-item-preview
+      .row
+        .col-md-5
+        .col-md-8
+          | 代買費
+          br
+          .preview-notes
+          div #12345
+        .col-md-5
+          a.remove-item( href="#") 刪除 
+          | | 
+          a.edit-btn( href="#" ) 編輯
+        .col-md-6.text-right
+          .preview-price
