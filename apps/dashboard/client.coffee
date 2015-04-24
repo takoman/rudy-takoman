@@ -105,7 +105,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @.listenTo(lineItem, 'itemChanged', @itemsChanged)
     $('#order-line-items').append (lineItem.el)
     @orderLineItems.push(lineItem)
-    @resetWaypoint()    
+    @resetWaypoint()
 
   addCommission: (e) ->
     lineItem = new OrderLineItemView(type: 'commission', id: @orderLineItems.length, currencySource: @currencySource, exchangeRate: @exchangeRate)
