@@ -6,7 +6,8 @@
 
 { API_URL, APP_URL, NODE_ENV, TAKOMAN_ID, TAKOMAN_SECRET, COOKIE_DOMAIN, CDN_URL,
   SESSION_SECRET, SESSION_COOKIE_KEY, SESSION_COOKIE_MAX_AGE, FACEBOOK_ID,
-  FACEBOOK_SECRET, GOOGLE_ANALYTICS_ID, SENTRY_DSN, SENTRY_PUBLIC_DSN } = config = require "../config"
+  FACEBOOK_SECRET, GOOGLE_ANALYTICS_ID, SENTRY_DSN, SENTRY_PUBLIC_DSN,
+  S3_KEY, S3_SECRET, S3_BUCKET, S3_UPLOAD_DIR } = config = require "../config"
 _                     = require 'underscore'
 express               = require 'express'
 Backbone              = require 'backbone'
@@ -30,6 +31,7 @@ sharify.data =
   CSS_EXT: (if "production" is NODE_ENV then ".min.css" else ".css")
   CDN_URL: CDN_URL
   GOOGLE_ANALYTICS_ID: GOOGLE_ANALYTICS_ID
+  S3_BUCKET: S3_BUCKET
   SENTRY_PUBLIC_DSN: SENTRY_PUBLIC_DSN
 
 # CurrentUser must be defined after setting sharify.data
@@ -87,6 +89,14 @@ module.exports = (app) ->
   app.use bucketAssets()
   app.use localsMiddleware
   app.use logger('dev')
+
+  # Configure the S3 upload middleware, and hook up the route
+  s3UploadMiddleware = require("../components/upload/index.coffee")
+    s3Key: S3_KEY
+    s3Secret: S3_SECRET
+    s3Bucket: S3_BUCKET
+    s3UploadDir: S3_UPLOAD_DIR
+  app.get '/s3-signed', s3UploadMiddleware.s3UploadFormData
 
   # Mount apps
   app.use require "../apps/commits"
