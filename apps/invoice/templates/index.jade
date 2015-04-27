@@ -4,7 +4,7 @@ append locals
   - assetPackage = 'invoice'
 
 append head
-  title Takoman Order
+  title Takoman Invoice
 
 block body
   .container
@@ -38,7 +38,7 @@ block body
                 | 另外建立一張訂單。
     .col-sm-18
       .table-responsive
-        table.table.table-dotted.invoice-items-table
+        table.table.table-dotted.invoice-line-items-table
           thead
             tr
               th.image 商品
@@ -48,12 +48,52 @@ block body
               th 小計
           tbody
             each item in invoiceLineItems.models
-              tr( data-invoice-line-item-id=item.get('_id') )
-                td.invoice-line-item-image
-                td.invoice-line-item-details
-                td.invoice-line-item-price
-                  = item.get('price')
-                td.invoice-line-item-quantity
-                  = item.get('quantity')
-                td.invoice-line-item-subtotal
-                  = item.get('price') * item.get('quantity')
+              if item.get('order_line_item').type == 'product'
+                tr( data-invoice-line-item-id=item.get('_id') )
+                  td.invoice-line-item-image
+                  td.invoice-line-item-details
+                  td.invoice-line-item-price
+                    | NT.
+                    = item.get('price')
+                  td.invoice-line-item-quantity
+                    = item.get('quantity')
+                  td.invoice-line-item-subtotal
+                    | NT.
+                    = item.get('price') * item.get('quantity')
+      .row
+        .col-sm-10.col-sm-offset-14
+          .invoice-total-summary
+            - var groups = _.groupBy(invoiceLineItems.models, function(i) { return i.get('order_line_item').type; });
+            .invoice-total-breakdown.invoice-product-subtotal.clearfix
+              .invoice-total-breakdown-label.pull-left 商品總額
+              .invoice-total-breakdown-amount.pull-right
+                - var subtotal = _.reduce(groups.product, function(m, i) {
+                -   return m + i.get('price') * i.get('quantity');
+                - }, 0);
+                | NT.
+                = subtotal
+            .invoice-total-breakdown.invoice-shipping-subtotal.clearfix
+              .invoice-total-breakdown-label.pull-left 運費
+              .invoice-total-breakdown-amount.pull-right
+                - var shipping = 0;
+                | --
+            .invoice-total-breakdown.invoice-commission-subtotal.clearfix
+              .invoice-total-breakdown-label.pull-left 帶買費
+              .invoice-total-breakdown-amount.pull-right
+                - var commission = _.reduce(groups.commission, function(m, i) {
+                -   return m + i.get('price') * i.get('quantity');
+                - }, 0);
+                | NT.
+                = commission
+            .invoice-total-breakdown.invoice-discount-subtotal.clearfix
+              .invoice-total-breakdown-label.pull-left 優惠折扣
+              .invoice-total-breakdown-amount.pull-right
+                - var discount = 0;
+                | --
+            .invoice-total.clearfix
+              .invoice-total-label.pull-left 總計
+              .invoice-total-amount.pull-right
+                | NT.
+                = sd.INVOICE.total
+          .invoice-actions
+            a.btn.btn-primary.btn-full-width 結賬
