@@ -12,15 +12,26 @@ module.exports.InvoiceView = class InvoiceView extends Backbone.View
   renderInvoiceLineItems: ->
     @invoiceLineItems = new InvoiceLineItems(sd.INVOICE_LINE_ITEMS)
     @invoiceLineItems.each (invoiceLineItem) ->
-      new OrderLineItem(id: invoiceLineItem.get('order_line_item')).fetch
-        success: (model, response, options) ->
-          if model.get('type') is 'product'
-            new Product(id: model.get('product')).fetch
-              success: (model, response, options) ->
-                $("tr[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}'] .invoice-line-item-image").html "<img src='#{model.get('images')?[0]?.original}'>"
-                $("tr[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}'] .invoice-line-item-details").text "#{model.get('title')}"
-              error: (model, response, options) -> undefined
-        error: -> undefined
+      oli = invoiceLineItem.get('order_line_item')
+      orderLineItem = new OrderLineItem(id: oli._id)
+      product = new Product(id: oli.product) if oli.product?
+      $.when(
+        orderLineItem.fetch(),
+        product?.fetch()  # When the item is not a product, this will be undefined.
+
+      ).done((resOrderLineItem, resProduct) ->
+        # resOrderLineItem is an array of [data, textStatus, xhr]
+        # resProduct is an array of [data, textStatus, xhr]
+        if product?
+          $("tr[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}'] .invoice-line-item-image").html "<img src='#{product.get('images')?[0]?.original}'>"
+          $("tr[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}'] .invoice-line-item-details").text "#{product.get('title')}"
+
+      ).fail((xhr, textStatus, error) ->
+        # In the multiple-Deferreds case where one of the Deferreds is rejected,
+        # jQuery.when() immediately fires the failCallbacks for its master
+        # Deferred. In this case, we may want to cancel unfinished ajax requests.
+        undefined
+      )
 
 module.exports.init = ->
   new InvoiceView
