@@ -52,6 +52,8 @@ block body
                 tr( data-invoice-line-item-id=item.get('_id') )
                   td.invoice-line-item-image
                   td.invoice-line-item-details
+                    .invoice-line-item-brand
+                    .invoice-line-item-title
                   td.invoice-line-item-price
                     | NT.
                     = item.get('price')

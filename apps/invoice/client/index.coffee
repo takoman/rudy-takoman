@@ -24,7 +24,8 @@ module.exports.InvoiceView = class InvoiceView extends Backbone.View
         # resProduct is an array of [data, textStatus, xhr]
         if product?
           $("[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}'] .invoice-line-item-image").html "<img src='#{product.get('images')?[0]?.original}'>"
-          $("[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}'] .invoice-line-item-details").text "#{product.get('title')}"
+          $("[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}'] .invoice-line-item-brand").text "#{product.get('brand')}"
+          $("[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}'] .invoice-line-item-title").text "#{product.get('title')}"
 
       ).fail((xhr, textStatus, error) ->
         # In the multiple-Deferreds case where one of the Deferreds is rejected,
