@@ -2,14 +2,22 @@
   > thead, > tbody, > tfoot
     > tr
       > th, > td
-        &.image
-          width 180px
+        &.table-cell-image
+          width 150px
+          height 150px
         > img
           width 100%
+      > td
+        &:not(.table-cell-image)
+          padding-top $table-cell-padding * 2
 
 .table-dotted
   > thead, > tbody, > tfoot
     > tr
       > th, > td
-        border-bottom 2px dotted $table-border-color
+        border-bottom 1px dotted $black
         border-top none
+  > thead:first-child
+    > tr:first-child
+      > th
+        border-top 1px solid $black
