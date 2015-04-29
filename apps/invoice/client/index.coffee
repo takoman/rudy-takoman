@@ -3,11 +3,16 @@ sd = require('sharify').data
 InvoiceLineItems = require '../../../collections/invoice_line_items.coffee'
 OrderLineItem = require '../../../models/order_line_item.coffee'
 Product = require '../../../models/product.coffee'
+CheckoutHeaderView = require '../../../components/checkout_header/view.coffee'
 
 module.exports.InvoiceView = class InvoiceView extends Backbone.View
 
   initialize: ->
+    @initializeBanner()
     @renderInvoiceLineItems()
+
+  initializeBanner: ->
+    new CheckoutHeaderView el: @$('.checkout-header')
 
   renderInvoiceLineItems: ->
     @invoiceLineItems = new InvoiceLineItems(sd.INVOICE_LINE_ITEMS)
