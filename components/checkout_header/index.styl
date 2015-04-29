@@ -1,54 +1,49 @@
-#checkout-header
-  height 398px
-  background-color #FD5650
-  transition background-color 1000ms linear
-  .navbar
-    .brand
+@import '../main_layout/stylesheets/variables'
+@import 'nib'
+
+.checkout-header
+  height 400px
+  color $white
+  background-color $red
+  transition background-color .5s ease-in-out
+  position relative
+  .brand
+    width 100%
+    text-align center
+    svg
+      width 80px
+      height 80px
+    @media (min-width $screen-sm-min)
       position absolute
-      width 100%
-      left 0
-      top 19px
-      text-align center
-      margin auto
-      img
-        width 168px
-        height 68px
-    .navbar-text
-      margin-top 24px
-      color #ffffff
-      font-size 12px
-      a
-        color #ffffff
-        margin-left 14px
-        margin-right 14px
-        letter-spacing 0.2em
+  .navbar
+    margin-bottom 80px
+  .navbar-nav
+    margin-right 20px
+    > li
+      &:not(:last-child) > a
+        &:after
+          content '|'
+          margin 0 10px
+      > a
+        color $white
+        line-height $navbar-height
+        padding 0
+        &:hover
+          background-color transparent
+          text-decoration underline
   .checkout-steps
-    margin-top 62px
     .step
       position relative
       text-align center
-      color #ffffff
-      img
-        width 200px
-        max-width 100%
-      .caption-step
-        padding-top 10px
-        letter-spacing 0.2em
-        line-height 20px
-        font-size 9px
-      .caption-desc
-        letter-spacing 0.2em
-        line-height 20px
-      .arrow-block
-        position absolute
-        top 70px
-        right -10px
+    .step-image
+      margin-bottom 20px
+      svg
+        width 50%
+        height 50%
+    .step-arrow
+      position absolute
+      top 25%
+      right - ($grid-gutter-width / 2)
+      svg
         width 20px
-        height 22px
-        text-align center
-        img
-          width 20px
-          height 22px
-  @media (max-width: 991px)
-    .checkout-steps
-      width 100%
+        height 20px

@@ -1,0 +1,36 @@
+.checkout-header
+  .brand
+    include ../main_layout/public/svgs/product.svg
+  .container-fluid
+    nav.navbar
+      ul.nav.navbar-nav.navbar-right
+        li: a( href="#" ) 註冊
+        li: a( href="#" ) 登入
+  .container.checkout-steps
+    .row
+      .col-xs-6.step
+        .step-image
+          include ../main_layout/public/svgs/product.svg
+        .step-number STEP1
+        .step-description 確認報價單
+        .step-arrow
+          include ../main_layout/public/svgs/circle-arrow.svg
+      .col-xs-6.step
+        .step-image
+          include ../main_layout/public/svgs/product.svg
+        .step-number STEP2
+        .step-description 完成付款
+        .step-arrow
+          include ../main_layout/public/svgs/circle-arrow.svg
+      .col-xs-6.step
+        .step-image
+          include ../main_layout/public/svgs/product.svg
+        .step-number STEP3
+        .step-description 賣家送出包裹
+        .step-arrow
+          include ../main_layout/public/svgs/circle-arrow.svg
+      .col-xs-6.step
+        .step-image
+          include ../main_layout/public/svgs/product.svg
+        .step-number STEP4
+        .step-description 收到貨品，評鑑賣家

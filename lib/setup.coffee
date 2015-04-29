@@ -54,8 +54,9 @@ module.exports = (app) ->
     # Compile assets on request in development
     bootstrap = require 'bootstrap-styl'
     stylus = require 'stylus'
+    nib = require 'nib'
     compile = (str, path) ->
-      stylus(str).set('filename', path).use(bootstrap())
+      stylus(str).set('filename', path).use(bootstrap()).use(nib())
     app.use stylus.middleware
       src: path.resolve(__dirname, "../")
       dest: path.resolve(__dirname, "../public")
