@@ -16,6 +16,9 @@
     > tr
       > th, > td
         border-bottom 1px dotted $black
+        // Hack to fix the weird rendering issue of dotted border between table cells.
+        // http://stackoverflow.com/questions/10838223/webkit-renders-last-px-of-border1px-dotted-oddly
+        border-right 1px solid transparent
         border-top none
   > thead:first-child
     > tr:first-child
