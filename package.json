@@ -28,7 +28,7 @@
     "passport": "0.2.0",
     "passport-facebook": "1.0.3",
     "passport-local": "1.0.0",
-    "pm2": "0.9.6",
+    "pm2": "0.12.13",
     "raven": "0.7.1",
     "sharify": "0.1.4",
     "superagent": "0.18.0",
@@ -38,7 +38,7 @@
     "underscore.string": "2.3.3"
   },
   "devDependencies": {
-    "benv": "1.0.0",
+    "benv": "^1.1.0",
     "bootstrap-styl": "4.0.3",
     "browserify": "4.1.8",
     "browserify-dev-middleware": "0.0.5",
