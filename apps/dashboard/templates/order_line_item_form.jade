@@ -36,7 +36,8 @@ if type == 'product'
           label( for="quantity-#{id}" ) 數量*
           .row
             .col-md-12
-              input.form-control( id="quantity-#{id}", name="quantity_#{id}" type="text" value="1" placeholder="數量" requred="required" )
+              input.form-control.quantity-field( id="quantity-#{id}", name="quantity_#{id}" type="text" value="1" placeholder="數量" requred="required" )
+              p.help-block.quantity-help
         .form-group
           label( for="currency-source-#{id}" ) 金額幣別*
           .row

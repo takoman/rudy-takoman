@@ -42,9 +42,9 @@ block body
                   textarea.form-control( id="notes", name="notes" type="text" placeholder="訂單附註說明" rows="5")
           .col-md-16
             .panel.panel-default
-              .panel-heading 
+              .panel-heading
                 .panel-title.pull-left STEP 1. 訂單匯率
-                .panel-widget 
+                .panel-widget
                   a#edit-step1( style="display:none;" ) 修改
                 .clearfix
               .panel-body
@@ -89,21 +89,22 @@ block body
                       .col-md-12
                         input#exchange-rate.form-control( name="exchange_rate" type="text" placeholder="填入數字，如：31.33" requred="required")
                         p#currency-msg.help-block( style="display: none;")
-                  
+
                   button#btn-set-exchange-rate.btn.btn-secondary.btn-tiny( type="button" ) 繼續下一步
                 #step1-block-2( style="display:none;" )
 
             #step2-block.panel.panel-gray
-              .panel-heading Step 2. 建立訂單內容
+              .panel-heading
+                .panel-title STEP 2. 建立訂單內容
               #step2-block-content( style="display:none;" )
                 .panel-body
                   #order-line-items(style="margin: 20px 0;")
                   .row
                     .col-md-10.col-md-offset-14
-                      .total-field 
+                      .total-field
                         .total-label 商品總額
                         #total-product.total-value
-                      .total-field 
+                      .total-field
                         .total-label 運費
                         #total-shipping.total-value
                       .total-field
@@ -114,12 +115,11 @@ block body
                         #total-all.total-value
 
                 #add-item-bar-position
-                  #add-item-bar
+                  #add-item-bar( style="display:flex;" )
                     button.btn.btn-primary.btn-tiny( id="btn-add-product" type="button" ) 新增商品
-                    button.btn.btn-primary.btn-tiny( id="btn-select-product" type="button" ) 從商品清單新增商品
+                    button.btn.btn-primary.btn-tiny( id="btn-select-product" type="button" ) 從清單新增商品
                     button.btn.btn-primary.btn-tiny( id="btn-add-shipping" type="button" ) 新增運費
                     button.btn.btn-primary.btn-tiny( id="btn-add-commission" type="button" ) 新增代買費
-            p.btn-toolbar
-              button.btn.btn-small( id="order-cancel" type="button" ) 取消
-              button.btn.btn-small( id="order-submit" type="button" ) 儲存
-              button.btn.btn-small( id="order-preview" type="button" ) 預覽
+            p.btn-toolbar.text-right
+              button.btn.btn-secondary.btn-tiny( id="order-cancel" type="button" ) 取消訂單
+              button.btn.btn-tiny( id="order-submit" type="button" ) 儲存訂單

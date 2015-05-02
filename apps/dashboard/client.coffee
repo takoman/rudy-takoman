@@ -12,12 +12,15 @@ _        = require 'underscore'
 Backbone = require "backbone"
 sd = require("sharify").data
 Order = require "../../models/order.coffee"
+OrderLineItem = require "../../models/order_line_item.coffee"
+CurrentUser = require "../../models/current_user.coffee"
 orderLineItemTemplate = -> require("./templates/order_line_item_form.jade") arguments...
 { API_URL } = require('sharify').data
 
 module.exports.OrderFormView = class OrderFormView extends Backbone.View
 
   initialize: ->
+    @user = CurrentUser.orNull()
     @total = 0
     @totalProduct = 0
     @totalShipping = 0
@@ -47,7 +50,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     'click #order-submit': 'createOrder'
     'click #btn-set-exchange-rate': 'setCurrencyExchangeRate'
     'click #edit-step1': 'editStep1'
-  
+
   editStep1: (e) ->
     $('#currency-msg').hide()
     $('#step1-block-2').slideUp()
@@ -122,19 +125,38 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @resetWaypoint()
 
   createOrder: (e) ->
-    (new Order(
-      currency_source: @currencySource
-      currency_target: 'TWD'
-    )).save({},
-      url: "#{API_URL}/api/v1/orders"
-      success: (model, response, options) ->
-        console.log 'success!'
-        console.log response
-      error: (model, response, options) ->
-        console.log 'error!'
-        console.log model
-        console.log response
-    )
+    customer = new Backbone.Model
+      name: 'Customer Name'
+      email: 'Customer3@email.com'
+      password: 'password'
+    customer.url = -> "#{API_URL}/api/v1/users"
+    customer.save {},
+      success: (model, response, options) =>
+        order = new Order
+          currency_source: @currencySource
+          currency_target: 'TWD'
+          exchange_rate: @exchangeRate
+          merchant: '553bb1a3e1c469034a00b0c0'
+          customer: customer.get('_id')
+        order.save({},
+          url: "#{API_URL}/api/v1/orders"
+          success: (model, response, options) =>
+            _.each @orderLineItems, (item) ->
+              (new OrderLineItem(
+                type: item.type
+                price: item.twdPrice
+                quantity: item.quantity
+                order: order.get('_id')
+              )).save({},
+                url: "#{API_URL}/api/v1/order_line_items"
+                success: (model, response, options) ->
+                  console.log model
+              )
+          error: (model, response, options) ->
+            console.log 'error!'
+            console.log model
+            console.log response
+        )
     false
 
 module.exports.OrderLineItemView = class OrderLineItemView extends Backbone.View
@@ -143,11 +165,13 @@ module.exports.OrderLineItemView = class OrderLineItemView extends Backbone.View
     { @type, @id, @currencySource, @exchangeRate } = options
     @render()
     @currency = 'TWD'
-    @$priceField = @$el.find("input.price-field")
-    @$pricePreviewField = @$el.find(".preview-price")
-    @$pricehelpBlock = @$el.find('.price-help')
+    @$priceField = @$el.find('input.price-field')
+    @$pricePreviewField = @$el.find('.preview-price')
+    @$priceHelpBlock = @$el.find('.price-help')
+    @$quantityField = @$el.find('input.quantity-field')
+    @$quantityHelpBlock = @$el.find('.quantity-help')
     @price = 0
-    price = 0
+    @quantity = 1
     @twdPrice = 0
     @twdPricePreview = 0
     @saved = false
@@ -155,7 +179,6 @@ module.exports.OrderLineItemView = class OrderLineItemView extends Backbone.View
   resetCurrencyExchangeRate: ->
     @$el.find('.currency-source-field').val(@currencySource)
     @$el.find('.currency-source-text').html(@currencySource)
-    @$el.find(".preview-brand").html(@$el.find("input[name=brand_#{@id}]").val())
     if @saved
       @pricePreview()
       @setPrice()
@@ -164,42 +187,63 @@ module.exports.OrderLineItemView = class OrderLineItemView extends Backbone.View
 
   render: ->
     @$el.html orderLineItemTemplate(type: @type, id: @id, currencySource: @currencySource, exchangeRate: @exchangeRate)
-  
+
   pricePreview: ->
     @currency = @$el.find("input[name=currency_source_#{@id}]:checked").val()
+    @quantity = @$quantityField.val()
     price = @$priceField.val()
-    if (price != null) && (price != '')
-      if (isNaN price) or (!price)
-        @$pricehelpBlock.html '<span class="text-danger">請輸入正確金額（純數字，不用加逗號）</span>'
+    if (price != null) && (price != '') && (@quantity != null) && (@quantity != '')
+      if (isNaN @quantity)
+        @$quantityHelpBlock.html '<span class="text-danger">請輸入正確數量（純數字，不用加逗號）</span>'
+      else if (isNaN price) or (!price)
+        @$priceHelpBlock.html '<span class="text-danger">請輸入正確金額（純數字，不用加逗號）</span>'
       else
         if @currency == 'TWD'
-          @twdPricePreview = price
-          @$pricehelpBlock.html "顯示金額為： TWD #{@twdPricePreview}"
+          @twdPricePreview = price * @quantity
+          if @quantity == 1
+            @$priceHelpBlock.html "顯示金額為：NT. #{@twdPricePreview}"
+          else
+            @$priceHelpBlock.html "顯示金額為：#{price} * #{@quantity} = NT. #{@twdPricePreview}"
         else
-          @twdPricePreview = Math.round(parseFloat(price) * parseFloat(@exchangeRate))
-          @$pricehelpBlock.html "顯示金額為： #{price} (#{@currency}) * #{@exchangeRate} = #{@twdPricePreview} (TWD)"
+          @twdPricePreview = Math.round(parseFloat(price) * parseFloat(@exchangeRate)) * @quantity
+          if @quantity == 1
+            @$priceHelpBlock.html "顯示金額為： #{price} (#{@currency}) * #{@exchangeRate} = NT. #{@twdPricePreview}"
+          else
+            @$priceHelpBlock.html "顯示金額為： #{price} (#{@currency}) * #{@exchangeRate} *#{@quantity}= NT. #{@twdPricePreview}"
     else
-      @$pricehelpBlock.html ''
+      @$priceHelpBlock.html ''
 
   setPrice: ->
     @currency = @$el.find("input[name=currency_source_#{@id}]:checked").val()
     price = @$priceField.val()
-    if (price != null) && (price != '')
-      if (isNaN price) or (!price)
+    if (@type == 'commission' || @type == 'shipping')
+      @quantity = 1
+    else
+      @quantity = @$quantityField.val()
+    if (@quantity == null) or (@quantity == '') or (isNaN @quantity) or (!@quantity)
+      @$quantityField.focus()
+      false
+    else
+      if (price == null) or (price == '') or (isNaN price) or (!price)
+        @$priceField.focus()
         false
       else
-        @price = price
         if @currency == 'TWD'
-          @twdPricePreview = price
-          @$pricehelpBlock.html "顯示金額為： TWD #{@twdPricePreview}"
+          @twdPrice = @twdPricePreview = price * @quantity
+          @price = price
+          if @quantity == 1
+            @$priceHelpBlock.html "顯示金額為：NT. #{@twdPricePreview}"
+          else
+            @$priceHelpBlock.html "顯示金額為：#{price} * #{@quantity} = NT. #{@twdPricePreview}"
         else
-          @twdPricePreview = Math.round(parseFloat(@price) * parseFloat(@exchangeRate))
-          @$pricehelpBlock.html "顯示金額為： #{@price} (#{@currency}) * #{@exchangeRate} = #{@twdPricePreview} (TWD)"
-        @twdPrice = @twdPricePreview
-        @$pricePreviewField.html "NT. #{@twdPrice} (TWD)"
+          @twdPrice = @twdPricePreview = Math.round(parseFloat(price) * parseFloat(@exchangeRate)) * @quantity
+          @price = Math.round(parseFloat(price) * parseFloat(@exchangeRate))
+          if @quantity == 1
+            @$priceHelpBlock.html "顯示金額為： #{price} (#{@currency}) * #{@exchangeRate} = NT. #{@twdPricePreview}"
+          else
+            @$priceHelpBlock.html "顯示金額為： #{price} (#{@currency}) * #{@exchangeRate} *#{@quantity}= NT. #{@twdPricePreview}"
+        @$pricePreviewField.html "NT. #{@twdPricePreview} (TWD)"
         true
-    else
-      false
 
   editItem: ->
     @$el.find(".order-line-item-form").show()
@@ -220,12 +264,10 @@ module.exports.OrderLineItemView = class OrderLineItemView extends Backbone.View
         #@$el.find(".preview-notes").html(@$el.find("textarea[name=notes_#{@id}]").val())
       if (@type == 'commission' || @type == 'shipping')
         @$el.find(".preview-notes").html(@$el.find("textarea[name=notes_#{@id}]").val())
-
       @$el.find(".order-line-item-preview").show()
       @$el.find(".order-line-item-form").hide()
       @.trigger('itemChanged')
-    else
-      @$priceField.focus()
+      console.log(@)
 
   removeItem: ->
     @price = 0
@@ -236,6 +278,7 @@ module.exports.OrderLineItemView = class OrderLineItemView extends Backbone.View
 
   events:
     'click .remove-item': 'removeItem'
+    'change .quantity-field': 'pricePreview'
     'change .currency-field': 'pricePreview'
     'keyup input.price-field': 'pricePreview'
     'click .save-btn': 'saveItem'
