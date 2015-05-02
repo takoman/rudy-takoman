@@ -44,6 +44,7 @@
     "browserify-dev-middleware": "0.0.5",
     "bucket-assets": "0.2.5",
     "caching-coffeeify": "0.3.0",
+    "cheerio": "^0.19.0",
     "coffeelint": "1.5.6",
     "html5": "0.4.1",
     "jadeify": "2.3.0",

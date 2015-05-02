@@ -11,96 +11,101 @@ block body
   .checkout-steps-banner
     include ../../../components/checkout_header/template
   .container
-    .col-sm-6
-      .panel.invoice-summary-panel
-        .merchant-summary
-          .merchant-logo
-            img
-          .merchant-source-countries 美國
-          .merchant-name 美國好物代購
-          .merchant-actions
-            a.btn.btn-tiny.btn-secondary 聯絡賣家
-        .invoice-summary
-          .invoice-summary-item
-            .invoice-summary-item-label 訂單編號
-            .invoice-summary-item-content
-              .invoice-summary-item-value
-                = invoice.get('invoice_no')
-          .invoice-summary-item
-            .invoice-summary-item-label 訂單保留期限
-            .invoice-summary-item-content
-              .invoice-summary-item-value
-                - var due = moment(invoice.get('due_at'));
-                | #{due.year()} 年 #{due.month() + 1} 月 #{due.date()} 日
-          .invoice-summary-item
-            .invoice-summary-item-label 附註
-            .invoice-summary-item-content
-              p
-                | 特價貨品的折扣有期限，
-                | 請於指定日期內結賬匯款。
-                | 若超過繳費期限，請通知您的賣家，
-                | 另外建立一張訂單。
-    .col-sm-18
-      .table-responsive
-        table.table.table-dotted.invoice-line-items-table
-          thead
-            tr
-              th 商品
-              th
-              th 單價
-              th 數量
-              th 小計
-          tbody
-            each item in invoiceLineItems.models
-              if item.get('order_line_item').type == 'product'
-                tr( data-invoice-line-item-id=item.get('_id') )
-                  td.table-cell-image.invoice-line-item-image
-                  td.invoice-line-item-details
-                    .invoice-line-item-brand
-                    .invoice-line-item-title
-                  td.invoice-line-item-price
+    - var due = moment(invoice.get('due_at'));
+    if invoice.get('status') != 'unpaid'
+      .notice 這份訂單已經失效。如果您有任何問題，請與 <a href="mailto:it@takoman.co">it@takoman.co</a> 聯絡。
+    else if moment() > due.endOf('day')
+      .notice 這份訂單已經超過繳費期限。如果您來不及繳費，請與您的賣家聯絡，重新建立一份訂單。
+    else
+      .col-sm-6
+        .panel.invoice-summary-panel
+          .merchant-summary
+            .merchant-logo
+              img
+            .merchant-source-countries 美國
+            .merchant-name 美國好物代購
+            .merchant-actions
+              a.btn.btn-tiny.btn-secondary 聯絡賣家
+          .invoice-summary
+            .invoice-summary-item
+              .invoice-summary-item-label 訂單編號
+              .invoice-summary-item-content
+                .invoice-summary-item-value
+                  = invoice.get('invoice_no')
+            .invoice-summary-item.invoice-due-at
+              .invoice-summary-item-label 訂單保留期限
+              .invoice-summary-item-content
+                .invoice-summary-item-value
+                  | #{due.year()} 年 #{due.month() + 1} 月 #{due.date()} 日
+            .invoice-summary-item
+              .invoice-summary-item-label 附註
+              .invoice-summary-item-content
+                p
+                  | 特價貨品的折扣有期限，
+                  | 請於指定日期內結賬匯款。
+                  | 若超過繳費期限，請通知您的賣家，
+                  | 另外建立一張訂單。
+      .col-sm-18
+        .table-responsive
+          table.table.table-dotted.invoice-line-items-table
+            thead
+              tr
+                th 商品
+                th
+                th 單價
+                th 數量
+                th 小計
+            tbody
+              each item in invoiceLineItems.models
+                if item.get('order_line_item').type == 'product'
+                  tr( data-invoice-line-item-id=item.get('_id') )
+                    td.table-cell-image.invoice-line-item-image
+                    td.invoice-line-item-details
+                      .invoice-line-item-brand
+                      .invoice-line-item-title
+                    td.invoice-line-item-price
+                      | NT.
+                      = item.get('price')
+                    td.invoice-line-item-quantity
+                      = item.get('quantity')
+                    td.invoice-line-item-subtotal
+                      | NT.
+                      = item.get('price') * item.get('quantity')
+        .row
+          .col-sm-10.col-sm-offset-14
+            .invoice-total-summary
+              .invoice-total-breakdown
+                - var groups = _.groupBy(invoiceLineItems.models, function(i) { return i.get('order_line_item').type; });
+                .invoice-total-breakdown-item.invoice-product-subtotal.clearfix
+                  .invoice-total-breakdown-label.pull-left 商品總額
+                  .invoice-total-breakdown-amount.pull-right
+                    - var subtotal = _.reduce(groups.product, function(m, i) {
+                    -   return m + i.get('price') * i.get('quantity');
+                    - }, 0);
                     | NT.
-                    = item.get('price')
-                  td.invoice-line-item-quantity
-                    = item.get('quantity')
-                  td.invoice-line-item-subtotal
+                    = subtotal
+                .invoice-total-breakdown-item.invoice-shipping-subtotal.clearfix
+                  .invoice-total-breakdown-label.pull-left 運費
+                  .invoice-total-breakdown-amount.pull-right
+                    - var shipping = 0;
+                    | --
+                .invoice-total-breakdown-item.invoice-commission-subtotal.clearfix
+                  .invoice-total-breakdown-label.pull-left 帶買費
+                  .invoice-total-breakdown-amount.pull-right
+                    - var commission = _.reduce(groups.commission, function(m, i) {
+                    -   return m + i.get('price') * i.get('quantity');
+                    - }, 0);
                     | NT.
-                    = item.get('price') * item.get('quantity')
-      .row
-        .col-sm-10.col-sm-offset-14
-          .invoice-total-summary
-            .invoice-total-breakdown
-              - var groups = _.groupBy(invoiceLineItems.models, function(i) { return i.get('order_line_item').type; });
-              .invoice-total-breakdown-item.invoice-product-subtotal.clearfix
-                .invoice-total-breakdown-label.pull-left 商品總額
-                .invoice-total-breakdown-amount.pull-right
-                  - var subtotal = _.reduce(groups.product, function(m, i) {
-                  -   return m + i.get('price') * i.get('quantity');
-                  - }, 0);
+                    = commission
+                .invoice-total-breakdown-item.invoice-discount-subtotal.clearfix
+                  .invoice-total-breakdown-label.pull-left 優惠折扣
+                  .invoice-total-breakdown-amount.pull-right
+                    - var discount = 0;
+                    | --
+              .invoice-total.clearfix
+                .invoice-total-label.pull-left 總計
+                .invoice-total-amount.pull-right
                   | NT.
-                  = subtotal
-              .invoice-total-breakdown-item.invoice-shipping-subtotal.clearfix
-                .invoice-total-breakdown-label.pull-left 運費
-                .invoice-total-breakdown-amount.pull-right
-                  - var shipping = 0;
-                  | --
-              .invoice-total-breakdown-item.invoice-commission-subtotal.clearfix
-                .invoice-total-breakdown-label.pull-left 帶買費
-                .invoice-total-breakdown-amount.pull-right
-                  - var commission = _.reduce(groups.commission, function(m, i) {
-                  -   return m + i.get('price') * i.get('quantity');
-                  - }, 0);
-                  | NT.
-                  = commission
-              .invoice-total-breakdown-item.invoice-discount-subtotal.clearfix
-                .invoice-total-breakdown-label.pull-left 優惠折扣
-                .invoice-total-breakdown-amount.pull-right
-                  - var discount = 0;
-                  | --
-            .invoice-total.clearfix
-              .invoice-total-label.pull-left 總計
-              .invoice-total-amount.pull-right
-                | NT.
-                = sd.INVOICE.total
-          .invoice-actions
-            a.btn.btn-primary.btn-full-width 結賬
+                  = sd.INVOICE.total
+            .invoice-actions
+              a.btn.btn-primary.btn-full-width 結賬
