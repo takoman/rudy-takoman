@@ -1,0 +1,8 @@
+h2#colors 顏色 Colors
+.row
+  for hex, name in colors
+    .col-md-6
+      .color-sample
+        .color-swatch( style="background-color: #{hex};" )
+        div: code.color-name $#{name}
+        div: code.color-hex #{hex}

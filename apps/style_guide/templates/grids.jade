@@ -1,0 +1,34 @@
+h2#grids 網格 Grids
+|.col-md-*
+.row
+  for i in _.range(0, 24)
+    .col-md-1 1
+.row
+  .col-md-16 16
+  .col-md-8 8
+.row
+  .col-md-8 8
+  .col-md-8 8
+  .col-md-8 8
+.row
+  .col-md-12 12
+  .col-md-12 12
+h3 Mobile, tablet, desktop
+.row
+  .col-xs-24.col-sm-12.col-md-16 .col-xs-24.col-sm-12.col-md-16
+  .col-xs-12.col-md-8 .col-xs-12.col-md-8
+h3 Offsetting columns
+.row
+  .col-md-8 .col-md-8
+  .col-md-8.col-md-offset-8 .col-md-8.col-md-offset-8
+.row
+  .col-md-6.col-md-offset-6 .col-md-6.col-md-offset-6
+  .col-md-6.col-md-offset-6 .col-md-6.col-md-offset-6
+.row
+  .col-md-12.col-md-offset-6 .col-md-12.col-md-offset-6
+h3 Nesting columns
+.row
+  .col-sm-18 Level 1: .col-sm-18
+    .row
+      .col-xs-16.col-sm-12 Level 2: .col-xs-16.col-sm-12
+      .col-xs-8.col-sm-12 Level 2: .col-xs-8.col.sm-12
