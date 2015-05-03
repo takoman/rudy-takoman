@@ -11,7 +11,7 @@ describe 'CheckoutHeaderView', ->
       benv.expose
         $: benv.require 'jquery'
       Backbone.$ = $
-      benv.render resolve(__dirname, '../mixin.jade'), {}, =>
+      benv.render resolve(__dirname, '../template.jade'), {}, =>
         $.fn.waypoint = (@waypoint = sinon.stub())
         $.fn.css = (@css = sinon.stub())
         @view = new CheckoutHeaderView el: $('#checkout-header')
@@ -21,7 +21,7 @@ describe 'CheckoutHeaderView', ->
     benv.teardown()
 
   describe '#initialize', ->
-    it 'Shoud set up waypoint with correct callback', ->
+    it 'should set up waypoint with correct callback', ->
       @waypoint.calledOnce.should.be.ok
       callback = @waypoint.args[0][0]
       # args[0][0] means when the first time @waypoint got called, what the first argument is.
@@ -35,8 +35,10 @@ describe 'CheckoutHeaderView', ->
       callback('up')
       @css.calledTwice.should.be.ok
       _.last(@css.args)[0].should.eql 'background-color'
-      _.last(@css.args)[1].should.eql '#FD5650'
+      _.last(@css.args)[1].should.eql '#fd5650'
 
-    it 'Should set up waypoint with correct offset', ->
+    it 'should set up waypoint with correct offset', ->
       @waypoint.calledOnce.should.be.ok
-      @waypoint.args[0][1].should.eql { offset: -250 }
+      offset = @waypoint.args[0][1].offset
+      thisInWaypoint = { element: { clientHeight: 1000 } }
+      offset.call(thisInWaypoint).should.eql -500

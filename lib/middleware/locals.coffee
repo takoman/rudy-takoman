@@ -2,8 +2,9 @@
 # Inject common project-wide [view locals](http://expressjs.com/api.html#app.locals).
 #
 
-_     = require 'underscore'
-uuid  = require 'node-uuid'
+_       = require 'underscore'
+uuid    = require 'node-uuid'
+moment  = require 'moment'
 { parse, format } = require 'url'
 
 _.mixin require 'underscore.string'
@@ -12,6 +13,7 @@ module.exports = (req, res, next) ->
 
   # Attach libraries to locals
   res.locals._ = _
+  res.locals.moment = moment
 
   # Pass the user agent into locals for data-useragent device detection
   res.locals.userAgent = req.get('user-agent')

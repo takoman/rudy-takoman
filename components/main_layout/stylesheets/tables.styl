@@ -1,0 +1,26 @@
+.table
+  > thead, > tbody, > tfoot
+    > tr
+      > th, > td
+        &.table-cell-image
+          width 150px
+          height 150px
+        > img
+          width 100%
+      > td
+        &:not(.table-cell-image)
+          padding-top $table-cell-padding * 2
+
+.table-dotted
+  > thead, > tbody, > tfoot
+    > tr
+      > th, > td
+        border-bottom 1px dotted $black
+        // Hack to fix the weird rendering issue of dotted border between table cells.
+        // http://stackoverflow.com/questions/10838223/webkit-renders-last-px-of-border1px-dotted-oddly
+        border-right 1px solid transparent
+        border-top none
+  > thead:first-child
+    > tr:first-child
+      > th
+        border-top 1px solid $black

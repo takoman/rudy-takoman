@@ -54,8 +54,9 @@ module.exports = (app) ->
     # Compile assets on request in development
     bootstrap = require 'bootstrap-styl'
     stylus = require 'stylus'
+    nib = require 'nib'
     compile = (str, path) ->
-      stylus(str).set('filename', path).use(bootstrap())
+      stylus(str).set('filename', path).use(bootstrap()).use(nib())
     app.use stylus.middleware
       src: path.resolve(__dirname, "../")
       dest: path.resolve(__dirname, "../public")
@@ -104,6 +105,7 @@ module.exports = (app) ->
   app.use require "../apps/merchant-onboard"
   app.use require "../apps/profile"
   app.use require "../apps/order"
+  app.use require "../apps/invoice"
   app.use require "../apps/dashboard"
   app.use require "../apps/style_guide"
 

@@ -9,5 +9,5 @@ module.exports.OrderView = class OrderView extends Backbone.View
       el: @$('#checkout-header')
 
 module.exports.init = ->
-  new CheckoutHeaderView
-    el: $('#checkout-header')
+  new OrderView
+    el: $('body')
