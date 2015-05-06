@@ -5,10 +5,12 @@ OrderLineItem = require '../../../models/order_line_item.coffee'
 Product = require '../../../models/product.coffee'
 CheckoutHeaderView = require '../../../components/checkout_header/view.coffee'
 InvoiceConfirmationView = require './confirmation.coffee'
+InvoiceShippingView = require './shipping.coffee'
 
 module.exports = class InvoiceRouter extends Backbone.Router
   routes:
-    'invoices/:id': 'invoiceConfirmation'
+    'invoices/:id': 'confirmation'
+    'invoices/:id/shipping': 'shipping'
 
   initialize: (invoice, invoiceLineItems) ->
     @invoice = invoice
@@ -18,8 +20,14 @@ module.exports = class InvoiceRouter extends Backbone.Router
   initializeBanner: ->
     new CheckoutHeaderView el: $('.checkout-header')
 
-  invoiceConfirmation: ->
+  confirmation: ->
     new InvoiceConfirmationView
-      el: $('.invoice-confirmation')
+      el: $('.invoice-content')
+      invoice: @invoice
+      invoiceLineItems: @invoiceLineItems
+
+  shipping: ->
+    new InvoiceShippingView
+      el: $('.invoice-content')
       invoice: @invoice
       invoiceLineItems: @invoiceLineItems

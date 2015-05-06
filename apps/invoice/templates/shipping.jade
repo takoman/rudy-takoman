@@ -1,0 +1,19 @@
+.invoice-shipping
+  .container
+    .col-sm-16
+      .invoice-shipping-info
+        form
+          .form-group
+            label( for='full-name' ) 姓名
+            input#full-name.form-control( type='text', placeholder='您的姓名' )
+          .form-group
+            label( for='phone-number' ) 電話
+            input#phone-number.form-control( type='text', placeholder='您的聯絡電話' )
+          .form-group
+            label( for='email' ) 電子信箱
+            input#email.form-control( type='email', placeholder='您的 email' )
+          .from-group
+            label( for='notes' ) 備註
+            textarea#notes.form-control( rows='3' )
+          button.btn.btn-primary( type='submit' ) 繼續下一步
+    .col-sm-8
