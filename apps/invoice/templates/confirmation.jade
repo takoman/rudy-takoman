@@ -62,39 +62,7 @@
                       = item.get('price') * item.get('quantity')
         .row
           .col-sm-10.col-sm-offset-14
-            .invoice-total-summary
-              .invoice-total-breakdown
-                - var groups = _.groupBy(invoiceLineItems.models, function(i) { return i.get('order_line_item').type; });
-                .invoice-total-breakdown-item.invoice-product-subtotal.clearfix
-                  .invoice-total-breakdown-label.pull-left 商品總額
-                  .invoice-total-breakdown-amount.pull-right
-                    - var subtotal = _.reduce(groups.product, function(m, i) {
-                    -   return m + i.get('price') * i.get('quantity');
-                    - }, 0);
-                    | NT.
-                    = subtotal
-                .invoice-total-breakdown-item.invoice-shipping-subtotal.clearfix
-                  .invoice-total-breakdown-label.pull-left 運費
-                  .invoice-total-breakdown-amount.pull-right
-                    - var shipping = 0;
-                    | --
-                .invoice-total-breakdown-item.invoice-commission-subtotal.clearfix
-                  .invoice-total-breakdown-label.pull-left 帶買費
-                  .invoice-total-breakdown-amount.pull-right
-                    - var commission = _.reduce(groups.commission, function(m, i) {
-                    -   return m + i.get('price') * i.get('quantity');
-                    - }, 0);
-                    | NT.
-                    = commission
-                .invoice-total-breakdown-item.invoice-discount-subtotal.clearfix
-                  .invoice-total-breakdown-label.pull-left 優惠折扣
-                  .invoice-total-breakdown-amount.pull-right
-                    - var discount = 0;
-                    | --
-              .invoice-total.clearfix
-                .invoice-total-label.pull-left 總計
-                .invoice-total-amount.pull-right
-                  | NT.
-                  = invoice.get('total')
+            include ./invoice_total_summary_mixin
+            +invoice-total-summary(invoice, invoiceLineItems)
             .invoice-actions
               a.confirm-invoice.btn.btn-primary.btn-full-width 結賬
