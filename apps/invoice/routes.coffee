@@ -15,6 +15,10 @@ InvoiceLineItems = require '../../collections/invoice_line_items.coffee'
         success: (collection, response, options) ->
           res.locals.sd.INVOICE = invoice.toJSON()
           res.locals.sd.INVOICE_LINE_ITEMS = invoiceLineItems.toJSON()
-          res.render 'index', invoice: invoice, invoiceLineItems: invoiceLineItems
+          res.render 'index', step: req.params.step, invoice: invoice, invoiceLineItems: invoiceLineItems
         error: -> next()
     error: -> next()
+
+@shipping = (req, res, next) =>
+  req.params.step = 'shipping'
+  @index req, res, next
