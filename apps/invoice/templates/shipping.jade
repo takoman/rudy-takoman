@@ -1,7 +1,7 @@
 .invoice-shipping
   .container
     .col-sm-16
-      .panel.panel-secondary.invoice-shipping-info
+      .panel.panel-secondary.panel-bordered.invoice-shipping-info
         .panel-header 1. 訂購資料
         .panel-content
           form
@@ -35,15 +35,15 @@
               label( for="notes" ) 備註
               textarea#notes.form-control( name="notes", rows="3" )
             button.btn.btn-primary( type="submit" ) 繼續下一步
-      .panel.panel-disabled.invoice-payment
+      .panel.panel-disabled.panel-bordered.invoice-payment
         .panel-header 2. 歐付寶付款
     .col-sm-8
-      .panel.panel-secondary.invoice-total-summary
+      .panel.panel-secondary.panel-bordered.invoice-total-summary
         .panel-header 購物總額
         .panel-content
           include ./invoice_total_summary_mixin
           +invoice-total-summary(invoice, invoiceLineItems)
-      .panel.panel-secondary.invoice-product-items
+      .panel.panel-secondary.panel-bordered.invoice-product-items
         .panel-header
           | 購物車 ( #{invoiceLineItems.numberOfProducts()} 項商品)
         .panel-content

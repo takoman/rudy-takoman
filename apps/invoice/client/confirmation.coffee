@@ -31,26 +31,14 @@ module.exports = class ConfirmationView extends Backbone.View
   renderInvoiceLineItems: ->
     @invoiceLineItems.each (invoiceLineItem) ->
       oli = invoiceLineItem.get('order_line_item')
-      orderLineItem = new OrderLineItem(id: oli._id)
       product = new Product(id: oli.product) if oli.product?
-      $.when(
-        orderLineItem.fetch(),
-        product?.fetch()  # When the item is not a product, this will be undefined.
-
-      ).done((resOrderLineItem, resProduct) ->
-        # resOrderLineItem is an array of [data, textStatus, xhr]
-        # resProduct is an array of [data, textStatus, xhr]
-        if product?
-          $("[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}'] .invoice-line-item-image").html "<img src='#{product.get('images')?[0]?.original}'>"
-          $("[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}'] .invoice-line-item-brand").text "#{product.get('brand')}"
-          $("[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}'] .invoice-line-item-title").text "#{product.get('title')}"
-
-      ).fail((xhr, textStatus, error) ->
-        # In the multiple-Deferreds case where one of the Deferreds is rejected,
-        # jQuery.when() immediately fires the failCallbacks for its master
-        # Deferred. In this case, we may want to cancel unfinished ajax requests.
-        undefined
-      )
+      product?.fetch()  # When the item is not a product, this will be undefined.
+        .done((data, textStatus, xhr) ->
+          $ili = $("[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}']")
+          $ili.find('.invoice-line-item-image').html "<img src='#{product.get('images')?[0]?.original}'>"
+          $ili.find('.invoice-line-item-brand').text "#{product.get('brand')}"
+          $ili.find('.invoice-line-item-title').text "#{product.get('title')}"
+        ).fail((xhr, textStatus, error) -> undefined)
 
   goToShipping: ->
     Backbone.history.navigate "#{@invoice.href()}/shipping", trigger: true

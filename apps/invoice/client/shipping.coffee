@@ -32,9 +32,7 @@ module.exports = class ShippingView extends Backbone.View
           $ili.find('.invoice-line-item-image').html "<img src='#{product.get('images')?[0]?.original}'>"
           $ili.find('.invoice-line-item-brand').text "#{product.get('brand')}"
           $ili.find('.invoice-line-item-title').text "#{product.get('title')}"
-        ).fail((xhr, textStatus, error) ->
-          undefined
-        )
+        ).fail((xhr, textStatus, error) -> undefined)
 
   initializeAddressWidget: ->
     @$('form').twzipcode()
