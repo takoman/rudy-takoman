@@ -7,9 +7,9 @@
           height 150px
         > img
           width 100%
-      > td
-        &:not(.table-cell-image)
-          padding-top $table-cell-padding * 2
+  // Bottom align for column headings
+  > thead > tr > th
+    border-bottom-width 1px
 
 .table-dotted
   > thead, > tbody, > tfoot
@@ -24,3 +24,23 @@
     > tr:first-child
       > th
         border-top 1px solid $black
+
+// Zebra-striping
+//
+// Default zebra-stripe styles (alternating gray and transparent backgrounds)
+
+.table-striped
+  > thead > tr
+  > tbody > tr:nth-of-type(even)
+    background-color $table-bg-accent
+  > tbody > tr:nth-of-type(odd)
+    background-color transparent
+  // Remove border
+
+.table-no-row-border
+  > thead, > tbody, > tfoot
+    > tr
+      > th, > td
+        border-top none
+  > thead > tr > th
+    border-bottom none
