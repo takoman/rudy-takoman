@@ -28,9 +28,9 @@ block body
       .row
         .form
           .col-md-6.col-md-offset-1
-            .panel.panel-red
-              .panel-heading 訂單資訊
-              .panel-body
+            .panel.panel-primary
+              .panel-header 訂單資訊
+              .panel-content
                 .form-group
                   label 訂單編號
                   p.form-control-staticemail 12345678
@@ -41,13 +41,13 @@ block body
                   label.control-label( for="notes" ) 附註
                   textarea.form-control( id="notes", name="notes" type="text" placeholder="訂單附註說明" rows="5")
           .col-md-16
-            .panel.panel-default
-              .panel-heading
+            .panel.panel-secondary
+              .panel-header
                 .panel-title.pull-left STEP 1. 訂單匯率
                 .panel-widget
                   a#edit-step1( style="display:none;" ) 修改
                 .clearfix
-              .panel-body
+              .panel-content
                 #step1-block-1
                   .form-group
                     label( for="currency_source" ) 選擇貨幣 *
@@ -93,11 +93,11 @@ block body
                   button#btn-set-exchange-rate.btn.btn-secondary.btn-tiny( type="button" ) 繼續下一步
                 #step1-block-2( style="display:none;" )
 
-            #step2-block.panel.panel-gray
-              .panel-heading
+            #step2-block.panel.panel-disabled
+              .panel-header
                 .panel-title STEP 2. 建立訂單內容
               #step2-block-content( style="display:none;" )
-                .panel-body
+                .panel-content
                   #order-line-items(style="margin: 20px 0;")
                   .row
                     .col-md-10.col-md-offset-14
