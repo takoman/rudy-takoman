@@ -1,0 +1,54 @@
+.panel.panel-secondary.panel-exchange-rate-settings
+  .panel-header.clearfix
+    .panel-title.pull-left STEP 1. 訂單匯率
+    a#edit-exchange-rate.pull-right 修改
+  .panel-content
+    .exchange-rate-settings( data-state="#{order.isNew() ? 'editing' : ''}" )
+      .exchange-rate-editing
+        form#form-set-exchange-rate
+          .form-group
+            label( for="currency-source" ) 選擇貨幣 *
+            select.form-control( id="currency-source" name="currency-source")
+              option( value="TWD" ) TWD
+              option( value="AED" ) AED
+              option( value="ARS" ) ARS
+              option( value="AUD" ) AUD
+              option( value="BRL" ) BRL
+              option( value="CAD" ) CAD
+              option( value="CHF" ) CHF
+              option( value="CNY" ) CNY
+              option( value="COP" ) COP
+              option( value="EUR" ) EUR
+              option( value="GBP" ) GBP
+              option( value="HKD" ) HKD
+              option( value="IDR" ) IDR
+              option( value="ILS" ) ILS
+              option( value="INR" ) INR
+              option( value="ISK" ) ISK
+              option( value="JPY" ) JPY
+              option( value="KRW" ) KRW
+              option( value="MXN" ) MXN
+              option( value="NZD" ) NZD
+              option( value="PHP" ) PHP
+              option( value="RUB" ) RUB
+              option( value="SGD" ) SGD
+              option( value="SZL" ) SZL
+              option( value="TRY" ) TRY
+              option( value="USD" ) USD
+              option( value="VND" ) VND
+              option( value="ZAR" ) ZAR
+
+          .form-group
+            label( for="exchange-rate" ) 對台幣匯率 *
+            input.form-control( id="exchange-rate" name="exchange-rate" type="text" placeholder="填入數字，如：31.33" required )
+            p#exchange-rate-settings-message.help-block
+
+          button#set-exchange-rate.btn.btn-secondary.btn-tiny( type="submit" ) 繼續下一步
+
+      .exchange-rate-results
+        .exchange-rate-results-item
+          | 貨幣：
+          span.currency-source
+        .exchange-rate-results-item
+          | 對台幣匯率：
+          span.exchange-rate
