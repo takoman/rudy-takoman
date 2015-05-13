@@ -2,65 +2,64 @@
   .order-line-item-form
     .order-line-item-form-header.clearfix
       h3.pull-left 新增商品
-      .pull-right
-        a.remove-item( href="#") 移除
-    .order-line-item-form-body
+      .pull-right: a.remove-item( href="#") 移除
+    form.form-order-line-item
       .form-group
         label( for="title" ) 商品名稱*
-        input.form-control( id="title" name="title" type="text" placeholder="商品名稱" required )
+        input#title.form-control( name="title" value="" type="text" placeholder="商品名稱" required autofocus )
       .form-group
         label( for="brand" ) 品牌
-        input.form-control( id="brand" name="brand" type="text" placeholder="商品品牌" autofacus )
+        input#brand.form-control( name="brand" value="" type="text" placeholder="商品品牌" )
       .form-group
         label( for="url" ) 參考網址
-        input.form-control( id="url" name="url" type="text" placeholder="參考網址" )
+        input#url.form-control( name="url" value="" type="text" placeholder="參考網址" )
       .form-group
         label( for="images" ) 參考圖片網址
-        input.form-control( id="images", name="images" type="text" placeholder="參考圖片" )
+        input#images.form-control( name="images" value="" type="text" placeholder="參考圖片" )
       .form-group
         label( for="color-size" ) 顏色/尺寸
-        input.form-control( id="color-size", name="color-size" type="text" placeholder="顏色/尺寸" )
+        input#color-size.form-control( name="color-size" value="" type="text" placeholder="顏色/尺寸" )
       .form-group
         label( for="quantity" ) 數量*
-        input.form-control.quantity-field( id="quantity", name="quantity" type="text" value="1" placeholder="數量" required )
+        input#quantity.form-control.quantity-field( name="quantity" value="#{item.get('quantity') || 1}" type="text" placeholder="數量" required )
         p.help-block.quantity-help
       .form-group
+        // NOTE we have to somehow persist the selected input currency,
+        // so we can edit with the same currency later.
         label( for="currency-source" ) 金額幣別*
         label.radio-inline
-          input.currency-field.currency-twd-field( type="radio" name="currency_source" id="currency-twd" value="TWD" checked )
+          input( type="radio" name="currency-source" value="TWD" checked="#{currencySource == 'TWD'}" )
           | 台幣
-        label.radio-inline
-          input.currency-field.currency-source-field( type="radio" name="currency_source" id="currency-source" value="#{currencySource}" )
-          | #{currencySource}
+        if currencySource != 'TWD'
+          label.radio-inline
+            input( type="radio" name="currency-source" value="#{currencySource}" checked )
+            | #{currencySource}
       .form-group
-        label( for="price" ) 商品金額*
-        input.form-control.price-field( id="price" name="price" type="text" placeholder="商品金額" required )
-        p.help-block.price-help
+        label( for="price" ) 商品單價*
+        input#price.form-control( name="price" value="#{item.get('price') / exchangeRate}" type="text" placeholder="商品金額" required )
+        p.help-block.subtotal-message
       .form-group
         label( for="notes" ) 商品說明
-        textarea.form-control( id="notes" name="notes" row="3" placeholder="商品說明" )
+        textarea#notes.form-control( name="notes" value="#{item.get('notes')}" row="3" placeholder="商品說明" )
       .form-group
         .checkbox
           label
-            input( id="add-product" name="add_product" type="checkbox")
+            input#add-to-product-list( name="add-to-proudct-list" type="checkbox")
             | 加入商品清單
-      button.btn.btn-secondary.btn-tiny.save-btn( type="button" ) 確定
+      button.save-item.btn.btn-secondary.btn-tiny( type="submit" ) 確定
 
   .order-line-item-preview
     .row
       .col-md-5
       .col-md-8
-        .preview-brand
-        .preview-title
-        .preview-color-size
-        div #12345
-        div 數量：
-          span.preview-quantity
-        div 單價：
-          span.preview-price
+        .brand
+        .title
+        .color-size
+        .price= item.get('price')
+        .quantity= item.get('quantity')
       .col-md-5
-        a.remove-item( href="#") 刪除
+        a.remove-item 刪除
         | |
-        a.edit-btn( href="#" ) 編輯
+        a.edit-item 編輯
       .col-md-6.text-right
-        .preview-price
+        .subtotal

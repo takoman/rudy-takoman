@@ -42,33 +42,34 @@ block body
         .col-md-16
           include ./exchange_rate_settings
 
-          #step2-block.panel.panel-disabled
+          .panel.panel-order-line-items( class="#{order.isNew() ? 'panel-disabled' : 'panel-secondary'}" )
             .panel-header
               .panel-title STEP 2. 建立訂單內容
-            #step2-block-content( style="display:none;" )
-              .panel-content
-                #order-line-items(style="margin: 20px 0;")
+            .panel-content
+              .order-line-items
+              .order-total-summary
                 .row
                   .col-md-10.col-md-offset-14
-                    .total-field
-                      .total-label 商品總額
-                      #total-product.total-value
-                    .total-field
-                      .total-label 運費
-                      #total-shipping.total-value
-                    .total-field
-                      .total-label 代買費
-                      #total-commission.total-value
-                    .total-field.total-all
-                      .total-label 總計
-                      #total-all.total-value
+                    .order-total-breakdown.clearfix
+                      .order-total-breakdown-label.pull-left 商品總額
+                      #order-product-total.order-total-breakdown-amount.pull-right
+                    .order-total-breakdown.clearfix
+                      .order-total-breakdown-label.pull-left 運費
+                      #order-shipping-total.order-total-breakdown-amount.pull-right
+                    .order-total-breakdown.clearfix
+                      .order-total-breakdown-label.pull-left 代買費
+                      #order-commission-total.order-total-breakdown-amount.pull-right
+                    .order-total-breakdown.clearfix
+                      .order-total-breakdown-label.pull-left 總計
+                      #order-total.order-total-breakdown-amount.pull-right
 
-              #add-item-bar-position
-                #add-item-bar( style="display:flex;" )
-                  button.btn.btn-primary.btn-tiny( id="btn-add-product" type="button" ) 新增商品
-                  button.btn.btn-primary.btn-tiny( id="btn-select-product" type="button" ) 從清單新增商品
-                  button.btn.btn-primary.btn-tiny( id="btn-add-shipping" type="button" ) 新增運費
-                  button.btn.btn-primary.btn-tiny( id="btn-add-commission" type="button" ) 新增代買費
+            .panel-footer
+              .order-line-items-actions
+                button#add-product.btn.btn-primary.btn-tiny( type="button" ) 新增商品
+                button#select-product.btn.btn-primary.btn-tiny( type="button" ) 從清單新增商品
+                button#add-shipping.btn.btn-primary.btn-tiny( type="button" ) 新增運費
+                button#add-commission.btn.btn-primary.btn-tiny( type="button" ) 新增代買費
+
           p.btn-toolbar.text-right
             button.btn.btn-secondary.btn-tiny( id="order-cancel" type="button" ) 取消訂單
             button.btn.btn-tiny( id="order-submit" type="button" ) 儲存訂單

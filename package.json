@@ -34,7 +34,7 @@
     "superagent": "0.18.0",
     "typeahead.js": "git://github.com/twitter/typeahead.js.git",
     "waypoints": "git://github.com/imakewebthings/waypoints.git",
-    "underscore": "1.6.0",
+    "underscore": "1.8.3",
     "underscore.string": "2.3.3"
   },
   "devDependencies": {

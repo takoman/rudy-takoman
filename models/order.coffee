@@ -13,5 +13,8 @@ Backbone = require 'backbone'
 { API_URL } = require('sharify').data
 
 module.exports = class Order extends Backbone.Model
-  urlRoot = ->
+  defaults: ->
+    currency_target: 'TWD'
+
+  urlRoot: ->
     "#{API_URL}/api/v1/orders"
