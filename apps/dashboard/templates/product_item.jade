@@ -2,7 +2,7 @@
   .order-line-item-form
     .order-line-item-form-header.clearfix
       h3.pull-left 新增商品
-      .pull-right: a.remove-item( href="#") 移除
+      .pull-right: a.remove-item 移除
     form.form-order-line-item
       .form-group
         label( for="title" ) 商品名稱*
@@ -51,15 +51,16 @@
   .order-line-item-preview
     .row
       .col-md-5
-      .col-md-8
-        .brand
-        .title
-        .color-size
-        .price= item.get('price')
-        .quantity= item.get('quantity')
-      .col-md-5
-        a.remove-item 刪除
-        | |
-        a.edit-item 編輯
-      .col-md-6.text-right
-        .subtotal
+        .item-image
+      .col-md-7
+        .item-brand
+        .item-title
+        .item-color-size
+        .item-price= item.get('price')
+        .item-quantity= item.get('quantity')
+      .col-md-7
+        .item-actions
+          a.item-action.edit-item 編輯
+          a.item-action.remove-item 刪除
+      .col-md-5.text-right
+        .item-subtotal= item.get('price') * item.get('quantity')

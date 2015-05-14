@@ -65,10 +65,10 @@ block body
 
             .panel-footer
               .order-line-items-actions
-                button#add-product.btn.btn-primary.btn-tiny( type="button" ) 新增商品
-                button#select-product.btn.btn-primary.btn-tiny( type="button" ) 從清單新增商品
-                button#add-shipping.btn.btn-primary.btn-tiny( type="button" ) 新增運費
-                button#add-commission.btn.btn-primary.btn-tiny( type="button" ) 新增代買費
+                button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="product" ) 新增商品
+                button.select-product.btn.btn-primary.btn-tiny( type="button" ) 從清單新增商品
+                button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="shipping" ) 新增運費
+                button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="commission" ) 新增代買費
 
           p.btn-toolbar.text-right
             button.btn.btn-secondary.btn-tiny( id="order-cancel" type="button" ) 取消訂單

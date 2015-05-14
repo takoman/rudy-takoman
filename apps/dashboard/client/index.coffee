@@ -1,4 +1,4 @@
-_        = require 'underscore'
+_ = require 'underscore'
 Backbone = require "backbone"
 sd = require("sharify").data
 Order = require "../../../models/order.coffee"
@@ -21,7 +21,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
   events:
     'submit #form-set-exchange-rate': 'setOrderExchangeRate'
     'click #edit-exchange-rate': 'startEditingOrderExchangeRate'
-    'click #add-product': 'addProduct'
+    'click .add-item': 'addItem'
 
   startEditingOrderExchangeRate: ->
     @$('.exchange-rate-settings').attr 'data-state', 'editing'
@@ -44,14 +44,14 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     subtotalByType = _.mapObject itemsByType, (items, type) ->
       _.reduce items, ((m, i) -> m + i.get('quantity') * i.get('price')), 0
 
-    _.each subtotalByType, (subtotal, type) => @$("#order-#{type}-total").text subtotal
+    _.each types, (t) => @$("#order-#{t}-total").text(subtotalByType[t] or 0)
     @$('#order-total').text _.reduce subtotalByType, ((m, t) -> m + t), 0
 
   orderChanged: -> undefined
 
-  addProduct: ->
+  addItem: (e) ->
     itemView = new OrderLineItemView
-      type: 'product'
+      type: $(e.currentTarget).data 'item-type'
       order: @order
       model: @orderLineItems.add new OrderLineItem()
 

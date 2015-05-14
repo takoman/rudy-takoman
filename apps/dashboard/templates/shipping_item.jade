@@ -1,45 +1,39 @@
-.order-line-item
+.order-line-item.shipping-item
   .order-line-item-form
     .order-line-item-form-header.clearfix
       h3.pull-left 新增運費
-      .pull-right
-        a.remove-item( href="#") 移除
-    .order-line-item-form-body
-      input.form-control( id="type-#{id}" name="type#{id}" type="hidden" value="shipping")
+      .pull-right: a.remove-item 移除
+    form.form-order-line-item
       .form-group
-        label( for="currency-source-#{id}" ) 金額幣別*
-        .row
-          .col-md-12
-            label.radio-inline
-              input.currency-field.currency-twd-field( type="radio" name="currency_source_#{id}" id="currency-twd-#{id}" value="TWD" checked)
-              | 台幣
-            label.radio-inline
-              input.currency-field.currency-source-field( type="radio" name="currency_source_#{id}" id="currency-source-#{id}" value="#{currencySource}" )
-              span.currency-source-text #{currencySource}
+        label( for="currency-source" ) 金額幣別*
+        label.radio-inline
+          input( type="radio" name="currency-source" value="TWD" checked="#{currencySource == 'TWD'}" )
+          | 台幣
+        if currencySource != 'TWD'
+          label.radio-inline
+            input( type="radio" name="currency-source" value="#{currencySource}" checked )
+            | #{currencySource}
       .form-group
-        label( for="price-#{id}" ) 金額*
-        .row
-          .col-md-12
-            input.form-control.price-field( id="price-#{id}" name="price_#{id}" type="text" placeholder="金額" requred="required" )
-            p.help-block.price-help
+        label( for="price" ) 金額*
+        input#price.form-control( name="price" value="#{item.get('price') / exchangeRate}" type="text" placeholder="商品金額" required )
+        input#quantity.form-control.quantity-field( name="quantity" value="1" type="hidden" placeholder="數量" required )
+        p.help-block.subtotal-message
       .form-group
-        label( for="notes-#{id}" ) 說明
-        .row
-          .col-md-12
-            textarea.form-control( id="notes-#{id}" name="notes_#{id}" type="text" placeholder="說明" )
-      button.save-btn.btn.btn-secondary.btn-tiny( type="button" ) 確定
+        label( for="notes" ) 說明
+        textarea#notes.form-control( name="notes" type="text" placeholder="說明" )
+      button.save-item.btn.btn-secondary.btn-tiny( type="submit" ) 確定
 
   .order-line-item-preview
     .row
       .col-md-5
-      .col-md-8
-        | 代買費
-        br
-        .preview-notes
-        div #12345
-      .col-md-5
-        a.remove-item( href="#") 刪除
-        | |
-        a.edit-btn( href="#" ) 編輯
-      .col-md-6.text-right
-        .preview-price
+        .item-image
+          include ../../../components/main_layout/public/svgs/product.svg
+      .col-md-7
+        .item-title 運費
+        .item-price= item.get('price')
+      .col-md-7
+        .item-actions
+          a.item-action.edit-item 編輯
+          a.item-action.remove-item 刪除
+      .col-md-5.text-right
+        .item-subtotal= item.get('price') * item.get('quantity')
