@@ -65,6 +65,12 @@ module.exports = class OrderLineItemView extends Backbone.View
 
   save: (e) ->
     e.preventDefault()
+
+    if @type is 'product'
+      @model.related().product.set
+        title: @$('input[name="title"]').val()
+        brand: @$('input[name="brand"]').val()
+
     twdPrice = @$priceField.val()
     twdPrice = twdPrice * @order.get('exchange_rate') unless @currencySource() is 'TWD'
     # http://stackoverflow.com/questions/6535948/nested-models-in-backbone-js-how-to-approach
@@ -73,9 +79,6 @@ module.exports = class OrderLineItemView extends Backbone.View
       price: twdPrice
       quantity: @$('.form-order-line-item [name="quantity"]').val()
       notes: @$('.form-order-line-item [name="notes"]').val()
-
-    # if type == 'product'
-    #   create a product and set it to the product attribte of the order line item.
 
     @$('.order-line-item').removeAttr 'data-state'
 

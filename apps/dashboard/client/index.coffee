@@ -22,6 +22,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     'submit #form-set-exchange-rate': 'setOrderExchangeRate'
     'click #edit-exchange-rate': 'startEditingOrderExchangeRate'
     'click .add-item': 'addItem'
+    'click .save-order': 'saveOrderAndRelated'
 
   startEditingOrderExchangeRate: ->
     @$('.exchange-rate-settings').attr 'data-state', 'editing'
@@ -57,6 +58,46 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
 
     itemView.edit()
     @$('.panel-order-line-items .order-line-items').append itemView.el
+
+  #
+  # Create/Save the order and order line items and products if the item
+  # is product type.
+  #
+  saveOrderAndRelated: ->
+    @order.save()
+      .done (data, textStatus, xhr) =>
+        extraItemData = { order: @order.get('_id') }
+        items = @orderLineItems.groupBy (i) -> if i.get('type') is 'product' then 'p' else 'np'
+
+        # For all non-product items, just save them.
+        $.when.apply($, _.map items.np, (i) -> i.save(extraItemData))
+          .done -> console.log 'All non-product items have been saved'
+          .fail -> console.log 'Some errors occured when saving non-product items'
+
+        # For each of the product items, save the product first and save the
+        # item with the product ID.
+        # TODO: We can do smarter here. If the item isn't new (it has the
+        # product ID already) and the product ID isn't changed, we could the
+        # item and the product in parallel. But, anyway...
+        saveProductItem = (item) ->
+          item.related().product.save().then ->
+            item.save _.extend({}, extraItemData, product: item.related().product.get('_id'))
+
+        $.when.apply($, _.map items.p, (i) -> saveProductItem(i))
+          .done -> console.log 'All product items saved'
+          .fail -> console.log 'Some errors ocured when saving product items'
+
+        # The loop approach would look like this...
+        # @orderLineItems.each (item) =>
+        #   itemData = { order: @order.get('_id') }
+        #   if item.get('type') is 'product'
+        #     item.related().product.save()
+        #       .done (data, textStatus, xhr) ->
+        #         item.save _.extend itemData, product: item.related().product.get('_id')
+        #   else
+        #     item.save(itemData)
+      .fail (xhr, textStatus, errorThrown) ->
+        console.log 'Some error occured when saving the order'
 
 module.exports.init = ->
   new OrderFormView
