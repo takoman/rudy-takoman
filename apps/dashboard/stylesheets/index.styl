@@ -72,16 +72,18 @@ body
     font-size 18px
     font-weight bold
 
-.exchange-rate-settings
+.panel-exchange-rate-settings
   .exchange-rate-editing
     display none
   .exchange-rate-results
     display block
 
-.exchange-rate-settings[data-state="editing"]
+.panel-exchange-rate-settings[data-state="editing"]
   .exchange-rate-editing
     display block
   .exchange-rate-results
+    display none
+  #edit-exchange-rate
     display none
 
 .panel-order-line-items.panel-disabled

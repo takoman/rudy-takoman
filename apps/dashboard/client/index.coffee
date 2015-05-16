@@ -23,18 +23,29 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     'click #edit-exchange-rate': 'startEditingOrderExchangeRate'
     'click .add-item': 'addItem'
     'click .save-order': 'saveOrderAndRelated'
+    'change select#currency-source': 'toggleExchangeRateInput'
 
   startEditingOrderExchangeRate: ->
-    @$('.exchange-rate-settings').attr 'data-state', 'editing'
+    @$('.panel-exchange-rate-settings').attr 'data-state', 'editing'
+
+  toggleExchangeRateInput: ->
+    $fxrate = @$('.form-group-exchange-rate')
+    currencySource = @$('#form-set-exchange-rate [name="currency-source"]').val()
+    if currencySource is 'TWD'
+      $fxrate.hide()
+      $fxrate.find('[name="exchange-rate"]').val '1'
+    else
+      $fxrate.fadeIn().removeClass 'hidden'
+      $fxrate.find('[name="exchange-rate"]').val ''
 
   setOrderExchangeRate: (e) ->
     e.preventDefault()
     @order.set
       currency_source: @$('select#currency-source').val()
       exchange_rate: @$('input#exchange-rate').val()
-    @$('.exchange-rate-results .currency-source').text @order.get 'currency_source'
+    @$('.exchange-rate-results .currency-source').text @$('select#currency-source option:selected').text()
     @$('.exchange-rate-results .exchange-rate').text @order.get 'exchange_rate'
-    @$('.exchange-rate-settings').removeAttr 'data-state'
+    @$('.panel-exchange-rate-settings').removeAttr 'data-state'
     @$('.panel-order-line-items').removeClass('panel-disabled').addClass 'panel-secondary'
 
   updateTotal: ->
