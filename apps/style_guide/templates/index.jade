@@ -1,4 +1,5 @@
 extends ../../../components/main_layout/templates/index
+include ../../../components/buttons/index
 
 append locals
   - assetPackage = 'style_guide'
@@ -33,7 +34,7 @@ block body
         |.col-md-*
         .row
           for i in _.range(0, 24)
-            .col-md-1 1  
+            .col-md-1 1
         .row
           .col-md-16 16
           .col-md-8 8
@@ -71,7 +72,7 @@ block body
             h4 Default Size
             .row
               .col-md-8
-                a.btn 我要購買
+                +button("a", "我要購買")(class="btn", data-icon="button-arrow")
               .col-md-16
                 pre: code a.btn 我要購買
           .button-sample

@@ -1,0 +1,8 @@
+mixin button(tag, label)
+  #{tag}&attributes(attributes)= label
+    //- Jade doesn't support dynamic include, so we have to if/else here. :(
+    if attributes['data-icon'] == 'button-arrow'
+      include ../main_layout/public/svgs/button-arrow.svg
+    else if attributes['data-icon'] == 'button-arrow'
+      include ../main_layout/public/svgs/button-arrow.svg
+    else

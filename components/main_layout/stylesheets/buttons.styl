@@ -43,6 +43,9 @@ input[type="submit"].btn:visited,
     border-color $red
     color $white
     text-decoration none
+    > svg
+      path, rect
+        fill $white
   &[data-state='loading'],
   &.is-loading
     background-color $red
@@ -52,6 +55,18 @@ input[type="submit"].btn:visited,
       content ''
       display block
       spinner(25px, 6px, $white)
+  &[data-icon][data-icon-align='left']
+    > svg
+      float left
+      margin-right 5px
+  > svg
+    display inline-block
+    vertical-align middle
+    height 22px
+    width 22px
+    path, rect
+      fill $black
+      transition fill 0.15s ease-in-out
 
 .btn:first-child
   *margin-left 0
