@@ -11,6 +11,8 @@ module.exports = class OrderLineItemView extends Backbone.View
   defaults: ->
     quantity: 1
     price: 0
+    isCreated: false  # True if the item has been created in the order creation UI,
+                      # no matter if the item has been saved to the server or not.
 
   initialize: (options) ->
     { @type, @order, @quantity, @price } = _.defaults options, @defaults
@@ -27,7 +29,7 @@ module.exports = class OrderLineItemView extends Backbone.View
     'click .remove-item': 'destroy'
     'submit .form-order-line-item': 'save'
     'click .edit-item': 'edit'
-    'click .cancel': 'cancel'
+    'click .cancel-saving-item': 'cancel'
     'change .form-order-line-item [name="currency-source"]': 'updateSubtotalMessage'
     'keyup .form-order-line-item [name="price"]': 'updateSubtotalMessage'  # TODO: throttle this
 
@@ -70,6 +72,10 @@ module.exports = class OrderLineItemView extends Backbone.View
       @model.related().product.set
         title: @$('input[name="title"]').val()
         brand: @$('input[name="brand"]').val()
+        urls: [@$('input[name="url"]').val()]
+        color: @$('input[name="color"]').val()
+        size: @$('input[name="size"]').val()
+        description: @$('textarea[name="description"]').val()
 
     twdPrice = @$priceField.val()
     twdPrice = twdPrice * @order.get('exchange_rate') unless @currencySource() is 'TWD'
@@ -80,6 +86,8 @@ module.exports = class OrderLineItemView extends Backbone.View
       quantity: @$('.form-order-line-item [name="quantity"]').val()
       notes: @$('.form-order-line-item [name="notes"]').val()
 
+    @isCreated = true
+
     @$('.order-line-item').removeAttr 'data-state'
 
   destroy: ->
@@ -88,4 +96,9 @@ module.exports = class OrderLineItemView extends Backbone.View
 
   edit: -> @$('.order-line-item').attr 'data-state', 'editing'
 
-  cancel: -> @$('.order-line-item').removeAttr 'data-state'
+  cancel: ->
+    if @isCreated
+      @$('.order-line-item').removeAttr 'data-state'
+      @render()
+    else
+      @model.destroy()

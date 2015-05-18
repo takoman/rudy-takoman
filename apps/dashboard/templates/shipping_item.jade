@@ -21,6 +21,8 @@
       .form-group
         label( for="notes" ) 說明
         textarea#notes.form-control( name="notes" type="text" placeholder="說明" )
+          = item.get('notes')
+      button.cancel-saving-item.btn.btn-secondary.btn-tiny( type="button" ) 取消
       button.save-item.btn.btn-secondary.btn-tiny( type="submit" ) 確定
 
   .order-line-item-preview
