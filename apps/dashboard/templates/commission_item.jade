@@ -7,11 +7,11 @@
       .form-group
         label( for="currency-source" ) 金額幣別*
         label.radio-inline
-          input( type="radio" name="currency-source" value="TWD" checked="#{currencySource == 'TWD'}" )
+          input( type="radio" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
           | 台幣
         if currencySource != 'TWD'
           label.radio-inline
-            input( type="radio" name="currency-source" value="#{currencySource}" checked )
+            input( type="radio" name="currency-source" value=currencySource checked )
             | #{currencySource}
       .form-group
         label( for="price" ) 金額*

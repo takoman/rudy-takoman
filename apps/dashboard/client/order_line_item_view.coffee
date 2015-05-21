@@ -2,20 +2,22 @@ _        = require 'underscore'
 Backbone = require "backbone"
 sd = require("sharify").data
 OrderLineItem = require "../../../models/order_line_item.coffee"
+Order = require "../../../models/order.coffee"
 CurrentUser = require "../../../models/current_user.coffee"
 orderLineItemTemplate = -> require("../templates/order_line_item_form.jade") arguments...
 { API_URL } = require('sharify').data
 
 module.exports = class OrderLineItemView extends Backbone.View
 
+  isCreated: false  # True if the item has been created in the order creation UI,
+                    # no matter if the item has been saved to the server or not.
+
   defaults: ->
-    quantity: 1
-    price: 0
-    isCreated: false  # True if the item has been created in the order creation UI,
-                      # no matter if the item has been saved to the server or not.
+    type: 'product'
+    order: new Order()
 
   initialize: (options) ->
-    { @type, @order, @quantity, @price } = _.defaults options, @defaults
+    { @type, @order } = _.defaults options, @defaults()
 
     @oldFXRate = @order.get 'exchange_rate'
 
@@ -64,6 +66,7 @@ module.exports = class OrderLineItemView extends Backbone.View
 
     # last step, cache the existing exchange rate
     @oldFXRate = @order.get 'exchange_rate'
+    @render()
 
   save: (e) ->
     e.preventDefault()
@@ -83,7 +86,7 @@ module.exports = class OrderLineItemView extends Backbone.View
     @model.set
       type: @type
       price: twdPrice
-      quantity: @$('.form-order-line-item [name="quantity"]').val()
+      quantity: parseInt @$('.form-order-line-item [name="quantity"]').val()
       notes: @$('.form-order-line-item [name="notes"]').val()
 
     @isCreated = true

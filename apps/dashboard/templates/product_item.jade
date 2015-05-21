@@ -36,7 +36,7 @@
           | 台幣
         if currencySource != 'TWD'
           label.radio-inline
-            input( type="radio" name="currency-source" value="#{currencySource}" checked )
+            input( type="radio" name="currency-source" value=currencySource checked )
             | #{currencySource}
       .form-group
         label( for="price" ) 商品單價*
