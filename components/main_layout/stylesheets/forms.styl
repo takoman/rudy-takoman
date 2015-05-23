@@ -1,7 +1,8 @@
 //
 // Forms
 // --------------------------------------------------
-
+.form-control
+  border 2px solid $input-border
 //custom radio style
 input[type=radio]
   display none
@@ -40,18 +41,10 @@ input[type=radio] + label:after
   border-radius 5px
   cursor pointer
   opacity 0
-  -ms-filter "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"
-  filter unquote('alpha(opacity=0)')
-  -webkit-transition opacity 0.25s
-  -moz-transition opacity 0.25s
-  -o-transition opacity 0.25s
-  -ms-transition opacity 0.25s
   transition opacity 0.25s
 
 input[type=radio]:checked + label:after
-  opacity 1!important
-  ms-filter none!important
-  filter none!important
+  opacity 1
 
 //custom checkbox
 input[type=checkbox]
@@ -89,23 +82,11 @@ input[type=checkbox] + label:after
   border-top none
   border-right none
   opacity 0
-  -ms-filter "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"
-  filter unquote('alpha(opacity=0)')
-  -webkit-transform rotate(-45deg) translateZ(0)
-  -moz-transform rotate(-45deg) translateZ(0)
-  -o-transform rotate(-45deg) translateZ(0)
-  -ms-transform rotate(-45deg) translateZ(0)
   transform rotate(-45deg) translateZ(0)
-  -webkit-transition opacity 0.25s
-  -moz-transition opacity 0.25s
-  -o-transition opacity 0.25s
-  -ms-transition opacity 0.25s
   transition opacity 0.25s
 
 input[type=checkbox]:checked + label:after
-  opacity 1!important
-  ms-filter none!important
-  filter none!important
+  opacity 1
 
 //custom select
 .select-control
