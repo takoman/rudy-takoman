@@ -1,0 +1,48 @@
+h2#forms 表單 Forms
+section.component-subsection
+  h3 Basic Form Example
+  form
+    .form-group
+      label Email address
+      input.form-control( type="email", placeholder="Enter email" )
+    .form-group
+      label Password
+      input.form-control( type="password", placeholder="Password" )
+    .form-group
+      label File Upload
+      .file-upload-control
+        label.form-control.file-upload-label( for="file-upload" )
+        input#file-upload( type="file" )
+    .form-group
+      label File Upload 2
+      input.form-control( type="file" )
+    .form-group
+      label File Upload 3
+      input( type="file" )
+    .form-group
+      label Radio Buttons
+      div
+        .radio-inline
+          input#radio1( type="radio" name="radio-inputs" checked)
+          label( for="radio1" ) 1
+        .radio-inline
+          input#radio2( type="radio" name="radio-inputs")
+          label( for="radio2" ) 2
+        .radio-inline
+          input#radio3( type="radio" name="radio-inputs")
+          label( for="radio3" ) 3
+    .form-group
+      label Checkbox
+      .checkbox
+        input#checkbox1( type="checkbox" checked)
+        label( for="checkbox1" ) Check me
+    .form-group
+      label Select
+      .select-control
+        select.form-control
+          option 1
+          option 2
+          option 3
+    .form-group
+      label Textarea
+      textarea.form-control( rows="3" )
