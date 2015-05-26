@@ -7,14 +7,18 @@ Order = require '../../models/order.coffee'
 OrderLineItems = require '../../collections/order_line_items.coffee'
 
 @orderCreation = (req, res, next) ->
-  # TODO In addition, we have to check if the user is a merchant.
-  # If he/she is a regular user, 404.
+  # Redirect to /login if the user is not logged in
   return res.redirect '/login' unless req.user
 
+  # Require the logged in user to be a merchant
   merchants = new Merchants()
+
   merchants.fetch data: user_id: req.user.get('_id')
-    .done ->
-      return next("The logged in user is not a merchant") if merchants.length is 0
+    # NOTE: Server-side Backbone.sync uses backbone-super-sync, which returns
+    # a Q promise that has slightly different interfaces than a jQuery one.
+    # https://github.com/artsy/backbone-super-sync/blob/2e7eacbecf26982b9f57c94d8c7f79ac3dff8801/index.js#L89
+    .then ->
+      return next('The logged in user is not a merchant') if merchants.length is 0
 
       # When editing, the order and orderLineItems objects should be fetched
       # from the server before rendering.
@@ -23,3 +27,5 @@ OrderLineItems = require '../../collections/order_line_items.coffee'
       res.locals.sd.ORDER = order.toJSON()
       res.locals.sd.ORDER_LINE_ITEMS = orderLineItems.toJSON()
       res.render 'order_creation', order: order, orderLineItems: orderLineItems
+    #.fail ->
+    #  return next('Failed to fetch the merchant')

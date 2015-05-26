@@ -6,7 +6,6 @@ OrderLineItem = require "../../../models/order_line_item.coffee"
 OrderLineItems = require "../../../collections/order_line_items.coffee"
 CurrentUser = require "../../../models/current_user.coffee"
 OrderLineItemView = require './order_line_item_view.coffee'
-orderLineItemTemplate = -> require("../templates/order_line_item_form.jade") arguments...
 { API_URL, ORDER, ORDER_LINE_ITEMS } = require('sharify').data
 
 module.exports.OrderFormView = class OrderFormView extends Backbone.View
@@ -76,7 +75,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
   #
   saveOrderAndRelated: ->
     @order.save()
-      .done (data, textStatus, xhr) =>
+      .then (data, textStatus, xhr) =>
         extraItemData = { order: @order.get('_id') }
         items = @orderLineItems.groupBy (i) -> if i.get('type') is 'product' then 'p' else 'np'
 

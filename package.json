@@ -52,6 +52,7 @@
     "jquery.transition": "git://github.com/dzucconi/jquery.transition.git",
     "mocha": "2.2.1",
     "nib": "1.0.2",
+    "q": "^1.4.1",
     "rewire": "2.3.1",
     "should": "4.0.1",
     "sinon": "1.10.2",
