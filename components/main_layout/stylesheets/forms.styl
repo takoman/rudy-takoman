@@ -1,0 +1,146 @@
+//
+// Forms
+// --------------------------------------------------
+.form-control
+  border 2px solid $input-border
+//custom radio style
+input[type=radio]
+  display none
+.radio-inline + .radio-inline
+  margin-left 14px
+
+.radio-inline label,
+.radio label
+  padding-left 6px
+  margin-bottom 4px
+  cursor pointer
+
+.radio-inline label:before,
+.radio label:before
+  content ''
+  display inline-block
+  width 20px
+  height 20px
+  position absolute
+  top 0
+  left 0
+  background-color $white
+  border 2px solid $black
+  border-radius 10px
+  cursor pointer
+
+input[type=radio] + label:after
+  content ''
+  display inline-block
+  width 10px
+  height 10px
+  position absolute
+  top 5px
+  left 5px
+  background-color $black
+  border-radius 5px
+  cursor pointer
+  opacity 0
+  transition opacity 0.25s
+
+input[type=radio]:checked + label:after
+  opacity 1
+
+//custom checkbox
+input[type=checkbox]
+  display none
+.checkbox-inline + .checkbox-inline
+  margin-left 14px
+
+.checkbox-inline label,
+.checkbox label
+  padding-left 26px
+  margin-bottom 4px
+
+.checkbox-inline label:before,
+.checkbox label:before
+  content ''
+  display inline-block
+  width 20px
+  height 20px
+  position absolute
+  top 0
+  left 0
+  background-color $white
+  border 2px solid $black
+  cursor pointer
+
+input[type=checkbox] + label:after
+  content ''
+  position absolute
+  top 6px
+  left 4px
+  width 12px
+  height 6px
+  cursor pointer
+  border 2px solid $black
+  border-top none
+  border-right none
+  opacity 0
+  transform rotate(-45deg) translateZ(0)
+  transition opacity 0.25s
+
+input[type=checkbox]:checked + label:after
+  opacity 1
+
+//custom select
+.select-control
+  position relative
+.select-control select
+  -webkit-appearance none
+  -moz-appearance none
+  appearance none
+  outline none
+  -webkit-border-radius 0
+  border-radius 0
+.select-control:before
+  display block
+  position absolute
+  content ''
+  top 8px
+  right 2px
+  bottom 8px
+  width 40px
+  background-color $white
+  border-left 1px solid $black
+  pointer-events none
+.select-control:after
+  display inline-block
+  content ''
+  width 0
+  height 0
+  border-top 8px solid $black
+  border-right 8px solid transparent
+  border-left 8px solid transparent
+  position absolute
+  top 50%
+  right 13px
+  margin-top -4px
+  pointer-events none
+
+//custom file input
+input[type="file"]
+  padding 0
+  -webkit-padding-before 12px
+.file-upload-control input[type="file"]
+  display none
+.file-upload-control
+  position relative
+.file-upload-control:after
+  display inline-block
+  content ''
+  background-image url(http://cdn.flaticon.com/png/256/70440.png)
+  background-size 20px 20px
+  background-repeat no-repeat
+  width 20px
+  height 20px
+  position absolute
+  top 50%
+  right 10px
+  margin-top -8px
+  pointer-events none
