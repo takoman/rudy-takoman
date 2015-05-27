@@ -1,8 +1,10 @@
+@import "../../../components/main_layout/stylesheets"
+
 body
-  background #eaeaea
+  background-color $gray-lighter
 
 .breadcrumb
-  padding 0 15px
+  padding 20px 0 0 0
   margin 0
   list-style none
   li
@@ -11,3 +13,92 @@ body
   padding 0 5px
   color #333333
   content "/\00a0"
+
+#add-item-bar-position
+  height 70px
+
+#add-item-bar
+  background-color $gray-lightest
+  padding-top 20px
+  padding-bottom 20px
+  display flex
+  flex-flow row wrap
+  button
+    display flex
+    margin auto
+
+.add-item-bar-fixed
+  position fixed
+  width inherit
+  bottom 0
+  padding 0px
+  margin 0
+
+.order-line-item
+  border-bottom-style dotted
+  border-bottom-color $gray-dark
+  border-width 2px
+  padding-top 20px
+  padding-bottom 30px
+  .order-line-item-form-header
+    h3
+      margin-top 0
+      font-size 20px
+      color $red
+
+  .order-line-item-preview
+    display none
+
+.total-field
+  height 40px
+  line-height 40px
+  .total-label
+    float left
+    height 40px
+    line-height 40px
+  .total-value
+    text-align right
+    font-size 18px
+.total-all
+  margin-top 20px
+  padding-top 20px
+  border-top-style dotted
+  border-top-color $gray-dark
+  border-width 2px
+  .total-label
+    font-size 20px
+  .total-value
+    text-align right
+    font-size 18px
+    font-weight bold
+
+.panel-exchange-rate-settings
+  .exchange-rate-editing
+    display none
+  .exchange-rate-results
+    display block
+
+.panel-exchange-rate-settings[data-state="editing"]
+  .exchange-rate-editing
+    display block
+  .exchange-rate-results
+    display none
+  #edit-exchange-rate
+    display none
+
+.panel-order-line-items.panel-disabled
+  .panel-content
+  .panel-footer
+    display none
+
+.order-line-item
+  .order-line-item-form
+    display none
+  .order-line-item-preview
+    display block
+
+.order-line-item[data-state="editing"]
+  .order-line-item-form
+    display block
+  .order-line-item-preview
+    display none

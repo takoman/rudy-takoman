@@ -8,106 +8,68 @@ block head
 
 block body
   #left-bar( style="position:fixed; width: 264px; height: 1200px; background:#333333;" )
-  div( style="padding-left:264px;")
-    #top-bar( style="position: relative; height:50px; background: #f4f4f4;" )
-    div( style="margin: 20px 35px;" )
-      ol.breadcrumb
-        li
-          a( href="#") 訂單清單
-        li
-          a( href="#") 新增訂單
-      .col-md-12
+  #right-content( style="padding-left:264px;")
+    #top-bar( style="padding-left:264px; position: relative; height:50px; background: #f4f4f4;" )
+    .row
+      .col-md-22.col-md-offset-1
+        ol.breadcrumb
+          li
+            a( href="#") 訂單清單
+          li
+          | 新增訂單
+    .row
+      .col-md-22.col-md-offset-1
         h1.pull-left( style="font-size: 24px; font-weight: bold;" ) 新增訂單
-        .pull-right
+        .pull-right( style="margin-top: 20px;")
           a.btn.btn-secondary.btn-tiny 取消訂單
           a.btn.btn-disabled.btn-tiny 儲存訂單
         .clearfix
-        .row
-          .form-horizontal
-            .col-md-2
-              div( style="background:#ffffff;" )
-                h3 訂單資訊
-                |訂單編號
-                |12345678
-                |訂單保留期限
-                |2015/04/15
-                .form-group
-                    label.col-md-2.control-label( for="notes" ) 附註
-                    .col-md-10
-                      textarea.form-control( id="notes", name="notes" type="text" placeholder="訂單附註說明" )
-            .col-md-9.col-md-offset-1
-              div( style="background:#ffffff;" )
-                h3 Step 1. 訂單匯率
-                #step1-block-1
-                  .form-group
-                    label.col-md-2.control-label( for="expiring_date" ) 保留期限
-                    .col-sm-6
-                      input.form-control( type="text" id="expiring_date" placeholder="YYYY/MM/DD")
-                  .form-group
-                    label.col-md-2.control-label( for="currency_source" ) 選擇貨幣 *
-                    .col-md-6
-                      select.form-control( id="currency-source" name="currency_source")
-                        option( value="TWD" id="currency-TWD" ) TWD
-                        option( value="AED" id="currency-AED" ) AED
-                        option( value="ARS" id="currency-ARS" ) ARS
-                        option( value="AUD" id="currency-AUD" ) AUD
-                        option( value="BRL" id="currency-BRL" ) BRL
-                        option( value="CAD" id="currency-CAD" ) CAD
-                        option( value="CHF" id="currency-CHF" ) CHF
-                        option( value="CNY" id="currency-CNY" ) CNY
-                        option( value="COP" id="currency-COP" ) COP
-                        option( value="EUR" id="currency-EUR" ) EUR
-                        option( value="GBP" id="currency-GBP" ) GBP
-                        option( value="HKD" id="currency-HKD" ) HKD
-                        option( value="IDR" id="currency-IDR" ) IDR
-                        option( value="ILS" id="currency-ILS" ) ILS
-                        option( value="INR" id="currency-INR" ) INR
-                        option( value="ISK" id="currency-ISK" ) ISK
-                        option( value="JPY" id="currency-JPY" ) JPY
-                        option( value="KRW" id="currency-KRW" ) KRW
-                        option( value="MXN" id="currency-MXN" ) MXN
-                        option( value="NZD" id="currency-NZD" ) NZD
-                        option( value="PHP" id="currency-PHP" ) PHP
-                        option( value="RUB" id="currency-RUB" ) RUB
-                        option( value="SGD" id="currency-SGD" ) SGD
-                        option( value="SZL" id="currency-SZL" ) SZL
-                        option( value="TRY" id="currency-TRY" ) TRY
-                        option( value="USD" id="currency-USD" ) USD
-                        option( value="VND" id="currency-VND" ) VND
-                        option( value="ZAR" id="currency-ZAR" ) ZAR
+    .row
+      .form
+        .col-md-6.col-md-offset-1
+          .panel.panel-primary
+            .panel-header 訂單資訊
+            .panel-content
+              .form-group
+                label 訂單編號
+                p.form-control-staticemail 12345678
+              .form-group
+                label 訂單保留期限
+                p.form-control-staticemail 2015/04/15
+              .form-group
+                label.control-label( for="notes" ) 附註
+                textarea.form-control( id="notes", name="notes" type="text" placeholder="訂單附註說明" rows="5")
+        .col-md-16
+          include ./exchange_rate_settings
 
-                  .form-group
-                    label.col-md-2.control-label( for="exchange_rate" ) 對台幣匯率 *
-                    .col-md-6
-                      input.form-control( id="exchange-rate" name="exchange_rate" type="number" step="any" placeholder="填入數字，如：31.33" requred="required")
-                      p.help-block#currency-msg( style="display: none;")
-                  .form-group
-                    .col-md-6.col-md-offset-2
-                      button.btn.btn-small( id="btn-set-exchange-rate" type="button" ) 繼續下一步
-                #step1-block-2( style="display:none;" )
+          .panel.panel-order-line-items( class="#{order.isNew() ? 'panel-disabled' : 'panel-secondary'}" )
+            .panel-header
+              .panel-title STEP 2. 建立訂單內容
+            .panel-content
+              .order-line-items
+              .order-total-summary
+                .row
+                  .col-md-10.col-md-offset-14
+                    .order-total-breakdown.clearfix
+                      .order-total-breakdown-label.pull-left 商品總額
+                      #order-product-total.order-total-breakdown-amount.pull-right
+                    .order-total-breakdown.clearfix
+                      .order-total-breakdown-label.pull-left 運費
+                      #order-shipping-total.order-total-breakdown-amount.pull-right
+                    .order-total-breakdown.clearfix
+                      .order-total-breakdown-label.pull-left 代買費
+                      #order-commission-total.order-total-breakdown-amount.pull-right
+                    .order-total-breakdown.clearfix
+                      .order-total-breakdown-label.pull-left 總計
+                      #order-total.order-total-breakdown-amount.pull-right
 
-              div( style="background:#ffffff;" )
-                h3 Step 2. 建立訂單內容
-                #step2-block( style="display:none;" )
-                  #order-data(style="margin: 20px 0;")
-                  .btn-group(style="margin: 20px 0; margin-right: 20px;")
-                    button.btn.btn-small( id="btn-add-product" type="button" ) 新增商品
-                    button.btn.btn-small( id="btn-select-product" type="button" ) 從商品清單新增商品
-                  .btn-group(style="margin: 20px 0;")
-                    button.btn.btn-small( id="btn-add-commission" type="button" ) 新增手續費
-                    button.btn.btn-small( id="btn-add-shipping" type="button" ) 新增運費
-                  hr
-                  .row
-                    .col-md-6.col-md-offset-6
-                      p 商品總額
-                        span#product-total
-                      p 運費
-                        span#shipping-total
-                      p 代買費
-                        span#commission-total
-                  hr
-                  
-                  p.btn-toolbar
-                    button.btn.btn-small( id="order-cancel" type="button" ) 取消
-                    button.btn.btn-small( id="order-submit" type="button" ) 儲存
-                    button.btn.btn-small( id="order-preview" type="button" ) 預覽
+            .panel-footer
+              .order-line-items-actions
+                button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="product" ) 新增商品
+                button.select-product.btn.btn-primary.btn-tiny( type="button" ) 從清單新增商品
+                button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="shipping" ) 新增運費
+                button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="commission" ) 新增代買費
+
+          p.btn-toolbar.text-right
+            button.cancel-order-update.btn.btn-secondary.btn-tiny( type="button" ) 取消訂單
+            button.save-order.btn.btn-tiny( type="button" ) 儲存訂單
