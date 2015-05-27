@@ -4,70 +4,85 @@ section.component-subsection
   .button-sample
     h4 Default Size
     .row
-      .col-md-8
-        a.btn 我要購買
-      .col-md-16
-        pre: code a.btn 我要購買
+      .col-md-24
+        +button("a", "新增商品")(class="btn")
+        |&#32;
+        +button("a", "新增商品")(class="btn", data-icon="product", data-icon-align="left")
+        |&#32;
+        +button("a", "新增商品")(class="btn", data-icon="product", data-icon-align="right")
   .button-sample
     h4 Small Size
     .row
-      .col-md-8
-        a.btn.btn-small 我要購買
-      .col-md-16
-        pre: code a.btn.btn-small 我要購買
+      .col-md-24
+        a.btn.btn-sm
+          span.text 繼續閱讀
+        |&#32;
+        a.btn.btn-sm( data-icon="button-arrow", data-icon-align="right" )
+          |繼續閱讀
+          include ../../../components/main_layout/public/svgs/button-arrow.svg
+        |&#32;
+        a.btn.btn-sm( data-icon="button-arrow", data-icon-align="left" )
+          include ../../../components/main_layout/public/svgs/button-arrow.svg
+          |繼續閱讀
   .button-sample
-    h4 Tiny Size
+    h4 Large Size
     .row
-      .col-md-8
-        a.btn.btn-tiny 我要購買
-      .col-md-16
-        pre: code a.btn.btn-tiny 我要購買
+      .col-md-24
+        a.btn.btn-lg 前往賣家網站
+        |&#32;
+        a.btn.btn-lg( data-icon="button-arrow", data-icon-align="left" )
+          include ../../../components/main_layout/public/svgs/button-arrow.svg
+          |前往賣家網站
+        |&#32;
+        a.btn.btn-lg( data-icon="button-arrow", data-icon-align="right" )
+          |前往賣家網站
+          include ../../../components/main_layout/public/svgs/button-arrow.svg
+section.component-subsection
+  h3 Call To Action Buttons
+  .button-sample
+    .row
+      .col-md-12.text-center.button-color-bg
+        +button("a", "前往賣家網站")(class="btn btn-cta btn-lg", data-icon="button-arrow", data-icon-align="right" )
+      .col-md-12.text-center.button-color-bg.red-bg
+        +button("a", "前往賣家網站")(class="btn btn-cta btn-lg", data-icon="button-arrow", data-icon-align="right", data-bg-color="red")
+
 section.component-subsection
   h3 Primary Buttons
   .button-sample
-    h4 Default Size
     .row
-      .col-md-8
-        a.btn.btn-primary 我要購買
-      .col-md-16
-        pre: code a.btn.btn-primary 我要購買
-  .button-sample
-    h4 Small Size
-    .row
-      .col-md-8
-        a.btn.btn-primary.btn-small 我要購買
-      .col-md-16
-        pre: code a.btn.btn-primary.btn-small 我要購買
-  .button-sample
-    h4 Tiny Size
-    .row
-      .col-md-8
-        a.btn.btn-primary.btn-tiny 我要購買
-      .col-md-16
-        pre: code a.btn.btn-primary.btn-tiny 我要購買
+      .col-md-12.text-center.button-color-bg
+        a.btn.btn-red.btn-primary( data-icon="button-arrow", data-icon-align="left" )
+          include ../../../components/main_layout/public/svgs/product.svg
+          |新增商品
+        br
+        a.btn.btn-sm.btn-navy.btn-primary( data-icon="button-arrow", data-icon-align="right" )
+          |繼續閱讀
+          include ../../../components/main_layout/public/svgs/button-arrow.svg
+      .col-md-12.text-center.button-color-bg.red-bg
+        a.btn.btn-primary( data-icon="button-arrow", data-icon-align="left", data-bg-color="red" )
+          include ../../../components/main_layout/public/svgs/product.svg
+          |新增商品
+        br
+        a.btn.btn-sm.btn-primary( data-icon="button-arrow", data-icon-align="right", data-bg-color="red" )
+          |繼續閱讀
+          include ../../../components/main_layout/public/svgs/button-arrow.svg
 section.component-subsection
   h3 Secondary Buttons
   .button-sample
-    h4 Default Size
     .row
-      .col-md-8
-        a.btn.btn-secondary 我要購買
-      .col-md-16
-        pre: code a.btn.btn-secondary 我要購買
-  .button-sample
-    h4 Small Size
-    .row
-      .col-md-8
-        a.btn.btn-secondary.btn-small 我要購買
-      .col-md-16
-        pre: code a.btn.btn-secondary.btn-small 我要購買
-  .button-sample
-    h4 Tiny Size
-    .row
-      .col-md-8
-        a.btn.btn-secondary.btn-tiny 我要購買
-      .col-md-16
-        pre: code a.btn.btn-secondary.btn-tiny 我要購買
+      .col-md-12.text-center.button-color-bg
+        a.btn.btn-sm.btn-navy.btn-secondary( data-icon="button-arrow", data-icon-align="right" )
+          |繼續閱讀
+          include ../../../components/main_layout/public/svgs/button-arrow.svg
+        br
+        a.btn.btn-sm.btn-red.btn-secondary( data-icon="button-arrow", data-icon-align="right" )
+          |繼續閱讀
+          include ../../../components/main_layout/public/svgs/button-arrow.svg
+      .col-md-12.text-center.button-color-bg.red-bg
+        a.btn.btn-sm.btn-secondary( data-icon="button-arrow", data-icon-align="right", data-bg-color="red" )
+          |繼續閱讀
+          include ../../../components/main_layout/public/svgs/button-arrow.svg
+
 section.component-subsection
   h3 Disabled Buttons
   .button-sample

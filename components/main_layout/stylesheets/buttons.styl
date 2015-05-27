@@ -25,24 +25,33 @@ input[type="submit"].btn:visited,
   *display inline
   /* IE7 inline-block hack */
   *zoom 1
-  padding 17px 70px 18px
+  padding 3px 20px
   margin-bottom 0
-  border 4px solid $gray-lightest
-  font normal 22px/1 sans-serif
+  border 3px solid
+  line-height 28px
+  //font normal 22px/1 sans-serif
+  font-size 14px
   font-smoothing antialiased
-  color $black
-  background-color $gray-lightest
+  font-weight bold
+  letter-spacing 1.5px
   cursor pointer
   vertical-align middle
   text-align center
   text-decoration none
   text-transform uppercase
   transition all 0.15s ease-in-out
+  background-color $gray-lightest
+  border-color $gray-lightest
+  color $black
   &:hover
     background-color $red
     border-color $red
     color $white
     text-decoration none
+    > svg
+      transform translate(3px, 0)
+      .fillable
+        fill $white
   &[data-state='loading'],
   &.is-loading
     background-color $red
@@ -52,6 +61,22 @@ input[type="submit"].btn:visited,
       content ''
       display block
       spinner(25px, 6px, $white)
+  &[data-icon][data-icon-align='left']
+    > svg
+      margin-left -5px
+  &[data-icon][data-icon-align='right']
+    > svg
+      margin-right -5px
+  > svg
+    display inline-block
+    position relative
+    vertical-align top
+    height 28px
+    width 28px
+    margin 0 5px
+    transition transform 0.15s ease-in-out
+    path, rect
+      transition fill 0.15s ease-in-out
 
 .btn:first-child
   *margin-left 0
@@ -74,89 +99,174 @@ a.btn.btn-disabled
     &:after
       display none
 
-// primary
-input[type="submit"].btn.btn-primary,
-button.btn.btn-primary,
-a.btn.btn-primary,
-.btn-primary:visited
-  background-color $white
-  border-color $brand-primary
-  color $brand-primary
-  box-shadow 4px 4px 0 0 $brand-primary
-  &:hover
-    background-color $brand-primary
-    border-color $brand-primary
-    color $white
-    transform translate(4px, 4px)
-    box-shadow 0 0 0 0 $brand-primary
-  &[data-state='loading'],
-  &.is-loading
-    background-color $brand-primary
-    color transparent
-    transform translate(4px, 4px)
-    box-shadow none
-    &:after
-      content ''
-      display block
-      spinner(25px, 6px, white)
+//btn-primary
+.btn-primary
+  color $white
+  > svg
+    .fillable
+      fill $white
+  &[data-bg-color='red']
+    background-color $white
+    border-color $white
+    color $red
+    > svg
+      .fillable
+        fill $red
+    &:hover
+      background-color $gray-lightest
+      border-color $gray-lightest
+  &.btn-red
+    background-color $red
+    border-color $red
+    &:hover
+      background-color $red-darker
+      border-color $red-darker
+  &.btn-navy
+    background-color $navy-dark
+    border-color $navy-dark
+    &:hover
+      background-color $navy-darker
+      border-color $navy-darker
 
-// secondary
-input[type="submit"].btn.btn-secondary,
-button.btn.btn-secondary,
-a.btn.btn-secondary,
-.btn-secondary:visited
-  background-color $white
-  border-color $brand-secondary
-  color $brand-secondary
-  box-shadow 4px 4px 0 0 $brand-secondary
-  &:hover
-    background-color $brand-secondary
+//secondary-primary
+.btn-secondary
+  background-color transparent
+  color $black
+  border-color $black
+  > svg
+    .fillable
+      fill $black
+  &[data-bg-color='red']
+    border-color $white
     color $white
-    transform translate(4px, 4px)
-    box-shadow 0 0 0 0 $brand-secondary
-  &[data-state='loading'],
-  &.is-loading
-    background-color $brand-secondary
-    color transparent
-    transform translate(4px, 4px)
-    box-shadow none
-    &:after
-      content ''
-      display block
-      spinner(25px, 6px, $purple)
+    > svg
+      .fillable
+        fill $white
+    &:hover
+      color $gray-lightest
+      border-color $gray-lightest
+      background-color transparent
+      > svg
+        .fillable
+          fill $gray-lightest
+  &:hover
+    color $black
+    border-color $black
+    background-color transparent
+    > svg
+      .fillable
+        fill $black
+  &.btn-red
+    background-color transparent
+    border-color $red
+    color $red
+    > svg
+      .fillable
+        fill $red
+    &:hover
+      border-color $red-darker
+      color $red-darker
+      > svg
+        .fillable
+          fill $red-darker
+  &.btn-navy
+    background-color transparent
+    border-color $navy-dark
+    color $navy-dark
+    > svg
+      .fillable
+        fill $navy-dark
+    &:hover
+      border-color $navy-darker
+      color $navy-darker
+      > svg
+        .fillable
+          fill $navy-darker
+
+// btn-cta
+.btn-cta
+  background-color $white
+  border-color $red
+  color $red
+  box-shadow 4px 4px 0 0 $red
+  > svg
+    .fillable
+      fill $red
+  &:hover
+    border-color $red-darker
+    color $red-darker
+    transform translate(0, 4px)
+    box-shadow 0 0 0 0 $brand-primary
+    > svg
+      .fillable
+        fill $red-darker
+  &[data-bg-color='red']
+    background-color $red
+    border-color $white
+    color $white
+    box-shadow 4px 4px 0 0 $white
+    > svg
+      .fillable
+        fill $white
+    &:hover
+      border-color $gray-lightest
+      color $gray-lightest
+      box-shadow 0 0 0 0 $gray-lightest
+      > svg
+        .fillable
+          fill $gray-lightest
 
 // sizes
-input[type="submit"].btn.btn-small,
-input[type="submit"].btn.btn-small:visited,
-button.btn.btn-small, button.btn.btn-small:visited,
-a.btn.btn-small, a.btn.btn-small:visited
-  padding 12px 30px 12px
-  font-size 15px
-  border-width 3px
-  box-shadow none
-  &:hover
-    transform none
+input[type="submit"].btn.btn-lg,
+input[type="submit"].btn.btn-lg:visited,
+button.btn.btn-lg, button.btn.btn-lg:visited,
+a.btn.btn-lg, a.btn.btn-lg:visited
+  padding 14px 30px
+  line-height 28px
+  font-size 20px
+  letter-spacing 2px
+  border-width 4px
   &[data-state='loading'],
   &.is-loading
     transform none
     &:after
       spinner(16px, 4px)
+  &[data-icon][data-icon-align='left']
+    > svg
+      margin-right 8px
+  &[data-icon][data-icon-align='right']
+    > svg
+      margin-left 8px
+  > svg
+    height 28px
+    width 28px
+    margin 0
 
-input[type="submit"].btn.btn-tiny,
-input[type="submit"].btn.btn-tiny:visited,
-button.btn.btn-tiny, button.btn.btn-tiny:visited,
-a.btn.btn-tiny, a.btn.btn-tiny:visited
-  padding 8px 20px 8px
+input[type="submit"].btn.btn-sm,
+input[type="submit"].btn.btn-sm:visited,
+button.btn.btn-sm, button.btn.btn-sm:visited,
+a.btn.btn-sm, a.btn.btn-sm:visited
+  padding 6px 20px
+  line-height 14px
   font-size 12px
   border-width 2px
-  box-shadow none
-  &:hover
-    transform none
   &[data-state='loading'],
   &.is-loading
     transform none
     &:after
-      spinner(10px, 3px)
+      spinner(16px, 4px)
+  &[data-icon][data-icon-align='left']
+    > svg
+      margin-right 5px
+      margin-left -5px
+  &[data-icon][data-icon-align='right']
+    > svg
+      margin-right -5px
+      margin-left 5px
+  > svg
+    height 14px
+    width 14px
+    margin 0
 
 // full width
 input[type="submit"].btn.btn-full-width,
