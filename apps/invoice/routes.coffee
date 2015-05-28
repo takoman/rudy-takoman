@@ -2,8 +2,11 @@
 # Routes file that exports route handlers for ease of testing.
 #
 
+_ = require 'underscore'
 Invoice = require '../../models/invoice.coffee'
 InvoiceLineItems = require '../../collections/invoice_line_items.coffee'
+AllPay = require 'allpay'
+{ ALLPAY_PLATFORM_ID, ALLPAY_AIO_HASH_KEY, ALLPAY_AIO_HASH_IV } = require '../../config'
 
 @index = (req, res, next) ->
   invoice = new Invoice id: req.params.id
@@ -22,3 +25,20 @@ InvoiceLineItems = require '../../collections/invoice_line_items.coffee'
 @shipping = (req, res, next) =>
   req.params.step = 'shipping'
   @index req, res, next
+
+@payment = (req, res, next) =>
+  req.params.step = 'payment'
+  @index req, res, next
+
+@allpayPaymentFormHtml = (req, res, next) ->
+  allpay = new AllPay
+    merchantId: ALLPAY_PLATFORM_ID
+    hashKey: ALLPAY_AIO_HASH_KEY
+    hashIV: ALLPAY_AIO_HASH_IV
+
+  data = req.query
+  html = allpay.createFormHtml _.extend data,
+    CheckMacValue: allpay.genCheckMacValue(data)
+    PlatformID: ALLPAY_PLATFORM_ID
+
+  res.send html

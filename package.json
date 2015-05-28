@@ -10,6 +10,7 @@
     "test": "make test"
   },
   "dependencies": {
+    "allpay": "git://github.com/starsirius/allpay.git",
     "backbone": "1.1.2",
     "backbone-super-sync": "0.0.22",
     "blueimp-file-upload": "9.9.3",
@@ -33,9 +34,9 @@
     "sharify": "0.1.4",
     "superagent": "0.18.0",
     "typeahead.js": "git://github.com/twitter/typeahead.js.git",
-    "waypoints": "git://github.com/imakewebthings/waypoints.git",
     "underscore": "1.8.3",
-    "underscore.string": "2.3.3"
+    "underscore.string": "2.3.3",
+    "waypoints": "git://github.com/imakewebthings/waypoints.git"
   },
   "devDependencies": {
     "benv": "^1.1.0",

@@ -1,0 +1,43 @@
+iframe( name="allpay-window" width="1000px" height="800px" )
+
+.invoice-shipping
+  .container
+    .col-sm-16
+      .panel.panel-secondary.panel-bordered.invoice-shipping-info
+        .panel-header 1. 訂購資料
+        .panel-content
+          lala
+      .panel.panel-disabled.panel-bordered.invoice-payment
+        .panel-header 2. 歐付寶付款
+        .panel-content
+          button.btn.btn-primary.pay-invoice( type="button" ) 付款
+          .payment-form-placeholder
+    .col-sm-8
+      .panel.panel-secondary.panel-bordered.invoice-total-summary
+        .panel-header 購物總額
+        .panel-content
+          include ./invoice_total_summary_mixin
+          +invoice-total-summary(invoice, invoiceLineItems)
+      .panel.panel-secondary.panel-bordered.invoice-product-items
+        .panel-header
+          | 購物車 ( #{invoiceLineItems.numberOfProducts()} 項商品)
+        .panel-content
+          .table-responsive
+            table.table.table-dotted.invoice-line-items-table
+              tbody
+                each item in invoiceLineItems.models
+                  if item.get('order_line_item').type == 'product'
+                    tr( data-invoice-line-item-id=item.get('_id') )
+                      td.table-cell-image.invoice-line-item-image
+                      td.invoice-line-item-details
+                        .invoice-line-item-brand
+                        .invoice-line-item-title
+                        .invoice-line-item-quantity
+                          | 數量：
+                          = item.get('quantity')
+                        .invoice-line-item-price
+                          | 單價：NT.
+                          = item.get('price')
+                        .invoice-line-item-subtotal
+                          | 小計：NT.
+                          = item.get('price') * item.get('quantity')

@@ -9,6 +9,9 @@ module.exports =
   API_URL                 : 'http://localhost:5000'
   APP_NAME                : 'Rudy'
   APP_URL                 : 'http://localhost:4000'
+  ALLPAY_PLATFORM_ID      : 'replace-me'
+  ALLPAY_AIO_HASH_KEY     : 'replace-me'
+  ALLPAY_AIO_HASH_IV      : 'replace-me'
   CDN_URL                 : 'replace-me'
   COOKIE_DOMAIN           : null
   FACEBOOK_ID             : 'replace-me'
