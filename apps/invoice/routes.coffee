@@ -37,8 +37,7 @@ AllPay = require 'allpay'
     hashIV: ALLPAY_AIO_HASH_IV
 
   data = req.query
-  html = allpay.createFormHtml _.extend data,
-    CheckMacValue: allpay.genCheckMacValue(data)
-    PlatformID: ALLPAY_PLATFORM_ID
+  data = _.extend data, PlatformID: ALLPAY_PLATFORM_ID
+  html = allpay.createFormHtml _.extend data, CheckMacValue: allpay.genCheckMacValue(data)
 
   res.send html
