@@ -3,6 +3,8 @@ Backbone = require 'backbone'
 InvoiceLineItems = require '../../../collections/invoice_line_items.coffee'
 OrderLineItem = require '../../../models/order_line_item.coffee'
 Product = require '../../../models/product.coffee'
+AllPayModalView = require '../../../components/allpay_modal/view.coffee'
+moment = require 'moment'
 template = -> require('../templates/payment.jade') arguments...
 
 module.exports = class ShippingView extends Backbone.View
@@ -10,10 +12,10 @@ module.exports = class ShippingView extends Backbone.View
     'click .pay-invoice': 'payViaAllPay'
 
   payViaAllPay: ->
-    $placeholder = @$ '.payment-form-placeholder'
     data =
       MerchantID: '1057673'
-      MerchantTradeNo: '1234567890'
+      # TODO: how to encode/decode unique ID < 20 chars with BSON ID?
+      MerchantTradeNo: "#{+moment()}"
       MerchantTradeDate: '2014/11/10 10:44:29'
       PaymentType: 'aio'
       TotalAmount: '3999'
@@ -22,15 +24,7 @@ module.exports = class ShippingView extends Backbone.View
       ReturnURL: 'http://takoman.co'
       ChoosePayment: 'ALL'
 
-    $.ajax
-      url: '/allpay-payment-form-html'
-      type: 'GET'
-      data: data
-      success: (html) ->
-        $placeholder
-          .html(html)
-          .find('form').attr('target', 'allpay-window')
-          .submit()
+    new AllPayModalView(el: $('<div></div>').appendTo('body'), data: data).startPayment()
 
   initialize: ({ el, invoice, invoiceLineItems }) ->
     @invoice = invoice
