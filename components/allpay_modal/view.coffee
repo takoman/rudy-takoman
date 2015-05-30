@@ -12,7 +12,7 @@ module.exports = class AllPayModal extends Backbone.View
   initialize: (options) ->
     { @data } = options
     @model = new Backbone.Model()
-    @model.url = '/allpay-payment-form-html'
+    @model.url = '/allpay/payment-form-html'
 
     @listenTo @model, 'sync', @postToIframe
     @listenTo @model, 'error', @showErrors
@@ -28,7 +28,7 @@ module.exports = class AllPayModal extends Backbone.View
     # it will always trigger the error event.
     # http://stackoverflow.com/questions/29292113/backbone-save-respond-with-success
     # http://api.jquery.com/jquery.ajax/
-    @model.fetch data: @data, dataType: "html"
+    @model.save @data, { dataType: "html" }
 
   postToIframe: (model, res, options) ->
     $('body').addClass 'no-scroll'
