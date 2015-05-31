@@ -1,10 +1,12 @@
 _ = require 'underscore'
 Backbone = require 'backbone'
+moment = require 'moment'
+FlakeId = require 'flake-idgen'
+intformat = require 'biguint-format'
 InvoiceLineItems = require '../../../collections/invoice_line_items.coffee'
 OrderLineItem = require '../../../models/order_line_item.coffee'
 Product = require '../../../models/product.coffee'
 AllPayModalView = require '../../../components/allpay_modal/view.coffee'
-moment = require 'moment'
 template = -> require('../templates/payment.jade') arguments...
 
 module.exports = class ShippingView extends Backbone.View
@@ -14,14 +16,14 @@ module.exports = class ShippingView extends Backbone.View
   payViaAllPay: ->
     data =
       invoiceId: @invoice.get('_id')
-      MerchantID: '2000132'
-      # TODO: how to encode/decode unique ID < 20 chars with BSON ID?
-      MerchantTradeNo: "#{+moment()}"
-      MerchantTradeDate: '2014/11/10 10:44:29'
+      MerchantID: '2000132' # TODO: use the actual merchant ID
+      MerchantTradeNo: intformat((new FlakeId().next()), 'hex')
+      MerchantTradeDate: moment.utc().format('YYYY/MM/DD HH:mm:ss')
       PaymentType: 'aio'
-      TotalAmount: '3999'
-      TradeDesc: '美國感恩節瘋狂購物'
-      ItemName: '電視 x 20'
+      # Maybe we should move the total calculation to the server side?
+      TotalAmount: @invoiceLineItems.total()
+      TradeDesc: '賣家名字的訂單' # TODO: figure out a descriptive name
+      ItemName: @invoiceLineItems.allpayItemName()
       ChoosePayment: 'ALL'
 
     new AllPayModalView(el: $('<div></div>').appendTo('body'), data: data).startPayment()
