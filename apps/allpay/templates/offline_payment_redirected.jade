@@ -1,0 +1,4 @@
+script.
+  redirect = "/invoices/#{invoiceId}/payment-confirmation"
+  // Break out of iframe
+  this.top.location !== this.location && (this.top.location = redirect);
