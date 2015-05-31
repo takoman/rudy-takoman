@@ -10,7 +10,7 @@ InvoicePaymentView = require './payment.coffee'
 
 module.exports = class InvoiceRouter extends Backbone.Router
   routes:
-    'invoices/:id': 'confirmation'
+    'invoices/:id': 'invoiceConfirmation'
     'invoices/:id/shipping': 'shipping'
     'invoices/:id/payment': 'payment'
 
@@ -22,7 +22,7 @@ module.exports = class InvoiceRouter extends Backbone.Router
   initializeBanner: ->
     new CheckoutHeaderView el: $('.checkout-header')
 
-  confirmation: ->
+  invoiceConfirmation: ->
     new InvoiceConfirmationView
       el: $('.invoice-content')
       invoice: @invoice

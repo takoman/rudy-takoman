@@ -13,6 +13,7 @@ module.exports = class ShippingView extends Backbone.View
 
   payViaAllPay: ->
     data =
+      invoiceId: @invoice.get('_id')
       MerchantID: '2000132'
       # TODO: how to encode/decode unique ID < 20 chars with BSON ID?
       MerchantTradeNo: "#{+moment()}"
@@ -21,7 +22,6 @@ module.exports = class ShippingView extends Backbone.View
       TotalAmount: '3999'
       TradeDesc: '美國感恩節瘋狂購物'
       ItemName: '電視 x 20'
-      ReturnURL: 'http://takoman.co'
       ChoosePayment: 'ALL'
 
     new AllPayModalView(el: $('<div></div>').appendTo('body'), data: data).startPayment()
