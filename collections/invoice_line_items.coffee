@@ -2,11 +2,12 @@ _ = require 'underscore'
 _s = require 'underscore.string'
 Backbone = require 'backbone'
 InvoiceLineItem = require '../models/invoice_line_item.coffee'
+OrderLineItemTypes = require '../models/mixins/order_line_item_types.coffee'
 { API_URL } = require('sharify').data
 
 module.exports = class InvoiceLineItems extends Backbone.Collection
 
-  TYPES: ['product', 'shipping', 'commission']
+  _.extend @prototype, OrderLineItemTypes
 
   model: InvoiceLineItem
 
@@ -20,11 +21,10 @@ module.exports = class InvoiceLineItems extends Backbone.Collection
   # Calculate the total of recognized item type
   total: ->
     @reduce (m, i) =>
-      if _.contains @TYPES, i.get('order_line_item')?.type
-        m + i.get('quantity') * i.get('price')
-      else
-        0
-    , 0.00
+      isValidType = _.contains @orderLineItemTypes, i.get('order_line_item')?.type
+      return m + i.get('quantity') * i.get('price') if isValidType
+      m
+    , 0
 
   allpayItemName: ->
     itemNames = _.compact(@map (i) ->
