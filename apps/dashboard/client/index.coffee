@@ -56,7 +56,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
       _.reduce items, ((m, i) -> m + i.get('quantity') * i.get('price')), 0
 
     _.each types, (t) => @$("#order-#{t}-total").text(subtotalByType[t] or 0)
-    @$('#order-total').text _.reduce subtotalByType, ((m, t) -> m + t), 0
+    @$('#order-total').text @orderLineItems.total()
 
   orderChanged: -> undefined
 

@@ -22,3 +22,7 @@ InvoiceLineItems = require '../../collections/invoice_line_items.coffee'
 @shipping = (req, res, next) =>
   req.params.step = 'shipping'
   @index req, res, next
+
+@payment = (req, res, next) =>
+  req.params.step = 'payment'
+  @index req, res, next
