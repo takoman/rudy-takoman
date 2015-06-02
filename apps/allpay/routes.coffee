@@ -2,19 +2,20 @@ _ = require 'underscore'
 _s = require 'underscore.string'
 AllPay = require 'allpay'
 InvoicePayment = require '../../models/invoice_payment.coffee'
-{ APP_URL, ALLPAY_PLATFORM_ID, ALLPAY_AIO_HASH_KEY, ALLPAY_AIO_HASH_IV } = require '../../config'
+{ APP_URL, ALLPAY_PLATFORM_ID, ALLPAY_AIO_HASH_KEY, ALLPAY_AIO_HASH_IV,
+  ALLPAY_AIO_CHECKOUT_URL, ALLPAY_AIO_ORDER_QUERY_URL } = require '../../config'
 
 allpay = new AllPay
   merchantId: ALLPAY_PLATFORM_ID
   hashKey: ALLPAY_AIO_HASH_KEY
   hashIV: ALLPAY_AIO_HASH_IV
+  aioCheckoutUrl: ALLPAY_AIO_CHECKOUT_URL
+  aioOrderQueryUrl: ALLPAY_AIO_ORDER_QUERY_URL
 
 @paymentFormHtml = (req, res, next) ->
-
   data = req.body
   invoiceId = data.invoiceId
-  delete data.invoiceId
-  data = _.extend data,
+  data = _.extend {}, _.omit(data, 'invoiceId'),
     # General settings
     PlatformID: ALLPAY_PLATFORM_ID
     IgnorePayment: 'Alipay#Tenpay#TopUpUsed'
