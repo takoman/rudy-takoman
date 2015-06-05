@@ -6,13 +6,13 @@
     form.form-order-line-item
       .form-group
         label( for="currency-source" ) 金額幣別*
-        label.radio-inline
-          input( type="radio" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
-          | 台幣
+        .radio-inline
+          input( type="radio" id="shipping-currency-twd" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
+          label( for="shipping-currency-twd" ) 台幣
         if currencySource != 'TWD'
-          label.radio-inline
-            input( type="radio" name="currency-source" value=currencySource checked )
-            | #{currencySource}
+          .radio-inline
+            input( type="radio" id="shipping-currency-foreign" name="currency-source" value=currencySource checked )
+            label( for="shipping-currency-foreign" ) #{currencySource}
       .form-group
         label( for="price" ) 金額*
         input#price.form-control( name="price" value="#{item.get('price') / exchangeRate}" type="text" placeholder="商品金額" required )

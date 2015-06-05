@@ -31,13 +31,13 @@
         // NOTE we have to somehow persist the selected input currency,
         // so we can edit with the same currency later.
         label( for="currency-source" ) 金額幣別*
-        label.radio-inline
-          input( type="radio" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
-          | 台幣
+        .radio-inline
+          input( type="radio" id="currency-twd" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
+          label( for="currency-twd" ) 台幣
         if currencySource != 'TWD'
-          label.radio-inline
-            input( type="radio" name="currency-source" value=currencySource checked )
-            | #{currencySource}
+          .radio-inline
+            input( type="radio" id="currency-foreign" name="currency-source" value=currencySource checked )
+            label( for="currency-foreign" ) #{currencySource}
       .form-group
         label( for="price" ) 商品單價*
         input#price.form-control( name="price" value="#{item.get('price') / exchangeRate}" type="text" placeholder="商品金額" required )
@@ -48,9 +48,8 @@
           = item.related().product.get('description')
       .form-group
         .checkbox
-          label
-            input#add-to-product-list( name="add-to-proudct-list" type="checkbox")
-            | 加入商品清單
+          input#add-to-product-list( name="add-to-proudct-list" type="checkbox")
+          label( for="add-to-product-list" ) 加入商品清單
       button.cancel-saving-item.btn.btn-secondary.btn-tiny( type="button" ) 取消
       button.save-item.btn.btn-secondary.btn-tiny( type="submit" ) 確定
 
