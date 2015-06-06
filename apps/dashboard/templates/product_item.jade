@@ -3,55 +3,60 @@
     .order-line-item-form-header.clearfix
       h3.pull-left 新增商品
       .pull-right: a.remove-item 移除
-    form.form-order-line-item
-      .form-group
-        label( for="title" ) 商品名稱*
-        input#title.form-control( name="title" value=item.related().product.get('title') type="text" placeholder="商品名稱" required autofocus )
-      .form-group
-        label( for="brand" ) 品牌
-        input#brand.form-control( name="brand" value=item.related().product.get('brand') type="text" placeholder="商品品牌" )
-      .form-group
-        label( for="url" ) 參考網址
-        - var urls = item.related().product.get('urls') || []
-        input#url.form-control( name="url" value=urls[0] type="url" placeholder="參考網址" )
-      .form-group
-        label( for="images" ) 參考圖片網址
-        input#images.form-control( name="images" value="" type="text" placeholder="參考圖片" )
-      .form-group
-        label( for="color" ) 顏色
-        input#color.form-control( name="color" value=item.related().product.get('color') type="text" placeholder="顏色" )
-      .form-group
-        label( for="size" ) 尺寸
-        input#size.form-control( name="size" value=item.related().product.get('size') type="text" placeholder="尺寸" )
-      .form-group
-        label( for="quantity" ) 數量*
-        input#quantity.form-control.quantity-field( name="quantity" value="#{item.get('quantity') || 1}" type="text" placeholder="數量" required )
-        p.help-block.quantity-help
-      .form-group
-        // NOTE we have to somehow persist the selected input currency,
-        // so we can edit with the same currency later.
-        label( for="currency-source" ) 金額幣別*
-        .radio-inline
-          input( type="radio" id="currency-twd" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
-          label( for="currency-twd" ) 台幣
-        if currencySource != 'TWD'
-          .radio-inline
-            input( type="radio" id="currency-foreign" name="currency-source" value=currencySource checked )
-            label( for="currency-foreign" ) #{currencySource}
-      .form-group
-        label( for="price" ) 商品單價*
-        input#price.form-control( name="price" value="#{item.get('price') / exchangeRate}" type="text" placeholder="商品金額" required )
-        p.help-block.subtotal-message
-      .form-group
-        label( for="description" ) 商品說明
-        textarea#description.form-control( name="description" row="3" placeholder="商品說明" )
-          = item.related().product.get('description')
-      .form-group
-        .checkbox
-          input#add-to-product-list( name="add-to-proudct-list" type="checkbox")
-          label( for="add-to-product-list" ) 加入商品清單
-      button.cancel-saving-item.btn.btn-secondary.btn-tiny( type="button" ) 取消
-      button.save-item.btn.btn-secondary.btn-tiny( type="submit" ) 確定
+    #form-image-upload.hidden( data-file-input-id="image-upload-#{uid}" )
+    .row
+      .col-md-12
+        form.form-order-line-item
+          .form-group
+            label( for="title" ) 商品名稱*
+            input#title.form-control( name="title" value=item.related().product.get('title') type="text" placeholder="商品名稱" required autofocus )
+          .form-group
+            label( for="brand" ) 品牌
+            input#brand.form-control( name="brand" value=item.related().product.get('brand') type="text" placeholder="商品品牌" )
+          .form-group
+            label( for="url" ) 參考網址
+            - var urls = item.related().product.get('urls') || []
+            input#url.form-control( name="url" value=urls[0] type="url" placeholder="參考網址" )
+          .form-group
+            label 上傳圖片
+            .file-upload-control
+              label.form-control.file-upload-label( for="image-upload-#{uid}" )
+            .image-upload-preview
+          .form-group
+            label( for="color" ) 顏色
+            input#color.form-control( name="color" value=item.related().product.get('color') type="text" placeholder="顏色" )
+          .form-group
+            label( for="size" ) 尺寸
+            input#size.form-control( name="size" value=item.related().product.get('size') type="text" placeholder="尺寸" )
+          .form-group
+            label( for="quantity" ) 數量*
+            input#quantity.form-control.quantity-field( name="quantity" value="#{item.get('quantity') || 1}" type="text" placeholder="數量" required )
+            p.help-block.quantity-help
+          .form-group
+            // NOTE we have to somehow persist the selected input currency,
+            // so we can edit with the same currency later.
+            label( for="currency-source" ) 金額幣別*
+            .radio-inline
+              input( type="radio" id="currency-twd" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
+              label( for="currency-twd" ) 台幣
+            if currencySource != 'TWD'
+              .radio-inline
+                input( type="radio" id="currency-foreign" name="currency-source" value=currencySource checked )
+                label( for="currency-foreign" ) #{currencySource}
+          .form-group
+            label( for="price" ) 商品單價*
+            input#price.form-control( name="price" value="#{item.get('price') / exchangeRate}" type="text" placeholder="商品金額" required )
+            p.help-block.subtotal-message
+          .form-group
+            label( for="description" ) 商品說明
+            textarea#description.form-control( name="description" row="3" placeholder="商品說明" )
+              = item.related().product.get('description')
+          .form-group
+            .checkbox
+              input#add-to-product-list( name="add-to-proudct-list" type="checkbox")
+              label( for="add-to-product-list" ) 加入商品清單
+          button.cancel-saving-item.btn.btn-secondary.btn-tiny( type="button" ) 取消
+          button.save-item.btn.btn-secondary.btn-tiny( type="submit" ) 確定
 
   .order-line-item-preview
     .row
