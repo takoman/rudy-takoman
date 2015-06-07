@@ -1,11 +1,7 @@
-#
-# The express app for the "order" app.
-#
-
 express = require "express"
 routes = require "./routes"
 
 app = module.exports = express()
 app.set "views", __dirname + "/templates"
 app.set "view engine", "jade"
-app.get "/order", routes.index
+app.get "/orders/create", routes.orderCreation

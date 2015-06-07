@@ -1,10 +1,4 @@
-#
-# The javscript asset package for the "order" app.
-#
-# It's a good pattern to organize your asset packages by a package per app.
-# This generally means these javascript asset files are going to be quite
-# small, often just a line of initialize code like this.
-#
-
 require('backbone').$ = $
-$ require("../apps/order/client.coffee").init
+require '../lib/vendor/jquery.ui.widget.js'
+require '../lib/vendor/jquery.fileupload.js'
+$ require("../apps/order/client/index.coffee").init

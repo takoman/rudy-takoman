@@ -5,7 +5,7 @@ Backbone    = require 'backbone'
 routes      = require '../routes'
 CurrentUser = require '../../../models/current_user.coffee'
 
-describe 'Dashboard routes', ->
+describe 'Order routes', ->
   beforeEach ->
     @res = { render: sinon.stub(), redirect: sinon.stub(), locals: { sd: {} } }
 
