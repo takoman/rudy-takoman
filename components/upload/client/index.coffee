@@ -1,19 +1,17 @@
+#
+# This assumes jquery.ui.widget.js and jquery.fileupload.js are
+# already loaded in the global space.
+#
+
 _ = require 'underscore'
-# We "require" the blueimp-file-upload module, which uses the "required"
-# jQuery module, instead of the global jQuery.
-# https://github.com/blueimp/jQuery-File-Upload/blob/6c352d87b9e59af254884ed6bc61475779ec4e5e/js/jquery.fileupload.js#L26
-# So we require jQuery first and make Backbone use that one.
-$ = require 'jquery'
 Backbone = require 'backbone'
-Backbone.$ = $
-require 'blueimp-file-upload'
 template = -> require('../templates/form.jade') arguments...
 { S3_BUCKET } = require('sharify').data
 
 module.exports = class UploadForm extends Backbone.View
 
   initialize: (options) ->
-    @$el.html template()
+    @$el.html template fileInputId: @$el.data('file-input-id')
     $form = @$('form.s3-upload-form')
     $form.fileupload
       url: "https://#{S3_BUCKET}.s3.amazonaws.com"
