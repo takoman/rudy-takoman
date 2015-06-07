@@ -105,28 +105,28 @@ a.btn.btn-disabled
   > svg
     .fillable
       fill $white
-  &[data-bg-color='red']
+  &.btn-red
+    background-color $red
+    border-color $red
+  &.btn-red:hover
+    background-color $red-darker
+    border-color $red-darker
+  &.btn-red.btn-colored-bg
     background-color $white
     border-color $white
     color $red
     > svg
       .fillable
-        fill $red
-    &:hover
-      background-color $gray-lightest
-      border-color $gray-lightest
-  &.btn-red
-    background-color $red
-    border-color $red
-    &:hover
-      background-color $red-darker
-      border-color $red-darker
+         fill $red
+  &.btn-red.btn-colored-bg:hover
+    background-color $gray-lightest
+    border-color $gray-lightest
   &.btn-navy
     background-color $navy-dark
     border-color $navy-dark
-    &:hover
-      background-color $navy-darker
-      border-color $navy-darker
+  &.btn-navy:hover
+    background-color $navy-darker
+    border-color $navy-darker
 
 //secondary-primary
 .btn-secondary
@@ -136,19 +136,6 @@ a.btn.btn-disabled
   > svg
     .fillable
       fill $black
-  &[data-bg-color='red']
-    border-color $white
-    color $white
-    > svg
-      .fillable
-        fill $white
-    &:hover
-      color $gray-lightest
-      border-color $gray-lightest
-      background-color transparent
-      > svg
-        .fillable
-          fill $gray-lightest
   &:hover
     color $black
     border-color $black
@@ -163,12 +150,12 @@ a.btn.btn-disabled
     > svg
       .fillable
         fill $red
-    &:hover
-      border-color $red-darker
-      color $red-darker
-      > svg
-        .fillable
-          fill $red-darker
+  &.btn-red:hover
+    border-color $red-darker
+    color $red-darker
+    > svg
+      .fillable
+        fill $red-darker
   &.btn-navy
     background-color transparent
     border-color $navy-dark
@@ -176,13 +163,25 @@ a.btn.btn-disabled
     > svg
       .fillable
         fill $navy-dark
-    &:hover
-      border-color $navy-darker
-      color $navy-darker
-      > svg
-        .fillable
-          fill $navy-darker
-
+  &.btn-navy:hover
+    border-color $navy-darker
+    color $navy-darker
+    > svg
+      .fillable
+        fill $navy-darker
+  &.btn-colored-bg
+    border-color $white
+    color $white
+    > svg
+      .fillable
+        fill $white
+  &.btn-colored-bg:hover
+    color $gray-lightest
+    border-color $gray-lightest
+    background-color transparent
+    > svg
+      .fillable
+        fill $gray-lightest
 // btn-cta
 .btn-cta
   background-color $white
@@ -201,7 +200,7 @@ a.btn.btn-disabled
     > svg
       .fillable
         fill $red-darker
-  &[data-bg-color='red']
+  &.btn-colored-bg
     background-color $red
     border-color $white
     color $white
@@ -209,14 +208,40 @@ a.btn.btn-disabled
     > svg
       .fillable
         fill $white
-    &:hover
-      border-color $gray-lightest
-      color $gray-lightest
-      box-shadow 0 0 0 0 $gray-lightest
-      > svg
-        .fillable
-          fill $gray-lightest
+  &.btn-colored-bg:hover
+    border-color $gray-lightest
+    color $gray-lightest
+    box-shadow 0 0 0 0 $gray-lightest
+    > svg
+      .fillable
+        fill $gray-lightest
 
+// btn-tgl
+.btn-tgl
+  height 32px
+  width 50px
+  &:after
+    content ''
+    position absolute
+    top 4px
+    left 16px
+    width 12px
+    height 12px
+    cursor pointer
+    border 2px solid $white
+    border-top none
+    border-right none
+    transform rotate(-45deg) translateZ(0)
+    transition all 0.15s ease-in-out
+  &:hover:after
+    top 6px
+  &.btn-colored-bg
+    background-color $white
+    border-color $white
+  &.btn-colored-bg:after
+    border 2px solid $navy-dark
+    border-top none
+    border-right none
 // sizes
 input[type="submit"].btn.btn-lg,
 input[type="submit"].btn.btn-lg:visited,

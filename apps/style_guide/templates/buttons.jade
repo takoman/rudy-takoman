@@ -1,7 +1,17 @@
+include ../../../components/buttons/index
 h2#buttons 按鈕 Buttons
 section.component-subsection
-  h3 Default Buttons
   .button-sample
+    h3 Default Buttons
+    h4 Small Size
+    .row
+      .col-md-24
+        +button("a", "繼續閱讀")(class="btn btn-sm")
+        |&#32;
+        +button("a", "繼續閱讀")(class="btn btn-sm", data-icon="button-arrow", data-icon-align="right")
+        |&#32;
+        +button("a", "繼續閱讀")(class="btn btn-sm", data-icon="button-arrow", data-icon-align="left")
+        pre: code +button("a", "繼續閱讀")(class="btn btn-sm", data-icon="button-arrow", data-icon-align="right")
     h4 Default Size
     .row
       .col-md-24
@@ -10,78 +20,99 @@ section.component-subsection
         +button("a", "新增商品")(class="btn", data-icon="product", data-icon-align="left")
         |&#32;
         +button("a", "新增商品")(class="btn", data-icon="product", data-icon-align="right")
-  .button-sample
-    h4 Small Size
-    .row
-      .col-md-24
-        a.btn.btn-sm
-          span.text 繼續閱讀
-        |&#32;
-        a.btn.btn-sm( data-icon="button-arrow", data-icon-align="right" )
-          |繼續閱讀
-          include ../../../components/main_layout/public/svgs/button-arrow.svg
-        |&#32;
-        a.btn.btn-sm( data-icon="button-arrow", data-icon-align="left" )
-          include ../../../components/main_layout/public/svgs/button-arrow.svg
-          |繼續閱讀
-  .button-sample
+        pre: code +button("a", "新增商品")(class="btn", data-icon="product", data-icon-align="left")
     h4 Large Size
     .row
       .col-md-24
-        a.btn.btn-lg 前往賣家網站
+        +button("a", "前往賣家網站")(class="btn btn-lg")
         |&#32;
-        a.btn.btn-lg( data-icon="button-arrow", data-icon-align="left" )
-          include ../../../components/main_layout/public/svgs/button-arrow.svg
-          |前往賣家網站
+        +button("a", "前往賣家網站")(class="btn btn-lg", data-icon="button-arrow", data-icon-align="left")
         |&#32;
-        a.btn.btn-lg( data-icon="button-arrow", data-icon-align="right" )
-          |前往賣家網站
-          include ../../../components/main_layout/public/svgs/button-arrow.svg
+        +button("a", "前往賣家網站")(class="btn btn-lg", data-icon="button-arrow", data-icon-align="right")
+        pre: code +button("a", "前往賣家網站")(class="btn btn-lg", data-icon="button-arrow", data-icon-align="left")
 section.component-subsection
   h3 Call To Action Buttons
   .button-sample
     .row
-      .col-md-12.text-center.button-color-bg
-        +button("a", "前往賣家網站")(class="btn btn-cta btn-lg", data-icon="button-arrow", data-icon-align="right" )
-      .col-md-12.text-center.button-color-bg.red-bg
-        +button("a", "前往賣家網站")(class="btn btn-cta btn-lg", data-icon="button-arrow", data-icon-align="right", data-bg-color="red")
-
+      .col-md-24.text-center
+        +button("a", "前往賣家網站")(class="btn btn-lg btn-cta", data-icon="button-arrow", data-icon-align="right")
+        pre: code +button("a", "前往賣家網站")(class="btn btn-lg btn-cta", data-icon="button-arrow", data-icon-align="right")
 section.component-subsection
   h3 Primary Buttons
   .button-sample
     .row
-      .col-md-12.text-center.button-color-bg
-        a.btn.btn-red.btn-primary( data-icon="button-arrow", data-icon-align="left" )
-          include ../../../components/main_layout/public/svgs/product.svg
-          |新增商品
-        br
-        a.btn.btn-sm.btn-navy.btn-primary( data-icon="button-arrow", data-icon-align="right" )
-          |繼續閱讀
-          include ../../../components/main_layout/public/svgs/button-arrow.svg
-      .col-md-12.text-center.button-color-bg.red-bg
-        a.btn.btn-primary( data-icon="button-arrow", data-icon-align="left", data-bg-color="red" )
-          include ../../../components/main_layout/public/svgs/product.svg
-          |新增商品
-        br
-        a.btn.btn-sm.btn-primary( data-icon="button-arrow", data-icon-align="right", data-bg-color="red" )
-          |繼續閱讀
-          include ../../../components/main_layout/public/svgs/button-arrow.svg
+      .col-md-12.text-center
+        +button("a", "新增商品")(class="btn btn-primary btn-red", data-icon="product", data-icon-align="left")
+      .col-md-12.text-center
+        +button("a", "新增商品")(class="btn btn-sm btn-primary btn-navy", data-icon="button-arrow", data-icon-align="right")
+    pre
+      code
+        |+button("a", "新增商品")(class="btn btn-primary btn-red", data-icon="product", data-icon-align="left")
+        |+button("a", "新增商品")(class="btn btn-sm btn-primary btn-navy", data-icon="button-arrow", data-icon-align="right")
 section.component-subsection
   h3 Secondary Buttons
   .button-sample
     .row
-      .col-md-12.text-center.button-color-bg
-        a.btn.btn-sm.btn-navy.btn-secondary( data-icon="button-arrow", data-icon-align="right" )
-          |繼續閱讀
-          include ../../../components/main_layout/public/svgs/button-arrow.svg
-        br
-        a.btn.btn-sm.btn-red.btn-secondary( data-icon="button-arrow", data-icon-align="right" )
-          |繼續閱讀
-          include ../../../components/main_layout/public/svgs/button-arrow.svg
-      .col-md-12.text-center.button-color-bg.red-bg
-        a.btn.btn-sm.btn-secondary( data-icon="button-arrow", data-icon-align="right", data-bg-color="red" )
-          |繼續閱讀
-          include ../../../components/main_layout/public/svgs/button-arrow.svg
+      .col-md-12.text-center
+        +button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-navy", data-icon="button-arrow", data-icon-align="right")
+      .col-md-12.text-center
+        +button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-red", data-icon="button-arrow", data-icon-align="right")
+    pre
+      code
+        |+button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-navy", data-icon="button-arrow", data-icon-align="right")
+        |+button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-red", data-icon="button-arrow", data-icon-align="right")
+section.component-subsection
+  h3 Other Buttons
+  .button-sample
+    .row
+      .col-md-12.text-center
+        +button("a", "")(class="btn btn-primary btn-navy btn-tgl")
+      .col-md-12.text-center
+        +button("a", "")(class="btn btn-primary btn-red btn-tgl")
+    pre
+      code
+        |+button("a", "")(class="btn btn-primary btn-navy btn-tgl")
+        |+button("a", "")(class="btn btn-primary btn-red btn-tgl")
+
+h3 On Colored Background
+.colored-bg.red-bg
+  section.component-subsection
+    h3 Call To Action Buttons
+    .button-sample
+      .row
+        .col-md-24.text-center
+          +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+          pre: code +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+  section.component-subsection
+    h3 Primary Buttons
+    .button-sample
+      .row
+        .col-md-12.text-center
+          +button("a", "新增商品")(class="btn btn-primary btn-red btn-colored-bg", data-icon="product", data-icon-align="left")
+        .col-md-12.text-center
+          +button("a", "新增商品")(class="btn btn-sm btn-primary btn-navy btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+      pre
+        code
+          |+button("a", "新增商品")(class="btn btn-primary btn-red btn-colored-bg", data-icon="product", data-icon-align="left")
+          |+button("a", "新增商品")(class="btn btn-sm btn-primary btn-navy btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+  section.component-subsection
+    h3 Secondary Buttons
+    .button-sample
+      .row
+        .col-md-24.text-center
+          +button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+      pre
+        code
+          |+button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+  section.component-subsection
+    h3 Other Buttons
+    .button-sample
+      .row
+        .col-md-24.text-center
+          +button("a", "")(class="btn btn-primary btn-red btn-tgl btn-colored-bg")
+      pre
+        code
+          |+button("a", "")(class="btn btn-primary btn-red btn-tgl btn-colored-bg")
 
 section.component-subsection
   h3 Disabled Buttons

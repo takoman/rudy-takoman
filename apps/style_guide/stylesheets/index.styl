@@ -2,6 +2,12 @@
 
 html
 body
+pre
+  font-size 11px
+  text-align left
+  background-color transparent
+  color $navy
+  border 1px solid $navy
 .style-guide-container
 .style-guide-sidebar
   height 100%
@@ -69,14 +75,16 @@ body
 
   .button-sample
     padding 15px 0
-    border-bottom 1px solid $gray-light
     .btn
       margin-bottom 1em
 
-  .button-color-bg
-    padding 40px 0 20px
+  .colored-bg
+    padding 20px
     &.red-bg
       background-color $red
       color $white
       h1, h2, h3, h4
         color $white
+      pre
+        color $white
+        border 1px solid $white
