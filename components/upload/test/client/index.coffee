@@ -10,27 +10,14 @@ describe 'UploadForm', ->
   beforeEach (done) ->
     benv.setup =>
       benv.expose $: benv.require 'jquery'
+      Backbone.$ = $
       sinon.stub Backbone, 'sync'
-
-      # In the UploadForm view, we "require" the blueimp-file-upload module
-      # which uses the "required" jQuery module, instead of the global jQuery.
-      # https://github.com/blueimp/jQuery-File-Upload/blob/6c352d87b9e59af254884ed6bc61475779ec4e5e/js/jquery.fileupload.js#L26
-      #
-      # In order to stub the fileupload plugin attached to the required jQuery,
-      # we can require jQuery first in the test (so later when the view
-      # requires jQuery, it will use the cached one), and stub the plugin
-      # before it actually gets used in the view.
-      #
-      # Note that since we have a global window object now, we can simply
-      # require jQuery here.
-      # https://github.com/jquery/jquery/blob/062b5267d0a3538f1f6dee3df16da536b73061ea/src/intro.js#L38
-      _$ = require('jquery')
       sd.S3_BUCKET = 'my-s3-bucket'
-      UploadForm = benv.requireWithJadeify resolve(
+      @UploadForm = benv.requireWithJadeify resolve(
         __dirname, '../../client/index.coffee'
       ), ['template']
-      @fileupload = sinon.stub _$.fn, 'fileupload'
-      @view = new UploadForm
+      @fileupload = $.fn.fileupload = sinon.stub()
+      @view = new @UploadForm
         el: $('body')
         onSend: (@onSend = sinon.stub())
         onProgress: (@onProgress = sinon.stub())
@@ -40,7 +27,6 @@ describe 'UploadForm', ->
 
   afterEach ->
     Backbone.sync.restore()
-    @fileupload.restore()
     benv.teardown()
 
   describe '#initialize', ->
@@ -51,10 +37,18 @@ describe 'UploadForm', ->
       @fileupload.args[0][0].dataType.should.eql 'xml'
       @fileupload.args[0][0].autoUpload.should.eql true
 
+    describe 'file input id', ->
+      it 'does not assigns the file input id when el does not have the file-input-id data attribute', ->
+        _.isUndefined(@view.$el.find('input[name="file"]').attr('id')).should.be.ok
+
+      it 'assigns the file input id with file-input-id data attribute of the el', ->
+        $('body').attr 'data-file-input-id', 'image-upload'
+        view = new @UploadForm el: $('body')
+        view.$el.find('input[name="file"]').attr('id').should.equal 'image-upload'
+
     describe 'on add', ->
       beforeEach ->
-        _$ = require('jquery')
-        @ajax = sinon.stub _$, 'ajax'
+        @ajax = sinon.stub $, 'ajax'
         e = $.Event 'click'
         data = { files: [{ name: '香奈兒包.jpg' }], submit: -> undefined }
         @fileupload.args[0][0].add(e, data)
