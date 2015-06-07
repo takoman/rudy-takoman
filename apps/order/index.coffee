@@ -1,7 +1,3 @@
-#
-# The express app for the "dashboard" app.
-#
-
 express = require "express"
 routes = require "./routes"
 
