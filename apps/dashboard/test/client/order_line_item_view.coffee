@@ -12,6 +12,7 @@ OrderLineItemView = benv.requireWithJadeify(
   resolve(__dirname, '../../client/order_line_item_view'),
   ['orderLineItemTemplate']
 )
+OrderLineItemView.__set__ 'UploadForm', sinon.stub()
 
 describe 'OrderFormView', ->
   before (done) ->
@@ -70,7 +71,7 @@ describe 'OrderFormView', ->
               @view.$('[name="title"]').length.should.equal 1
               @view.$('[name="brand"]').length.should.equal 1
               @view.$('[name="url"]').length.should.equal 1
-              @view.$('[name="images"]').length.should.equal 1
+              @view.$('[name="image"]').length.should.equal 1
               @view.$('[name="color"]').length.should.equal 1
               @view.$('[name="size"]').length.should.equal 1
           else

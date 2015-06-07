@@ -4,6 +4,7 @@ sd = require("sharify").data
 OrderLineItem = require "../../../models/order_line_item.coffee"
 Order = require "../../../models/order.coffee"
 CurrentUser = require "../../../models/current_user.coffee"
+UploadForm = require "../../../components/upload/client/index.coffee"
 orderLineItemTemplate = -> require("../templates/order_line_item_form.jade") arguments...
 { API_URL } = require('sharify').data
 
@@ -39,6 +40,7 @@ module.exports = class OrderLineItemView extends Backbone.View
     @$el.html orderLineItemTemplate
       item: @model
       type: @type
+      uid: _.uniqueId()
       currencySource: @order.get 'currency_source'
       currencyTarget: @order.get 'currency_target'
       exchangeRate: @order.get 'exchange_rate'
@@ -49,6 +51,20 @@ module.exports = class OrderLineItemView extends Backbone.View
     @$priceField = @$('.form-order-line-item [name="price"]')
 
     @updateSubtotalMessage()
+    @setupFileUpload() if @type is 'product'
+
+  setupFileUpload: ->
+    new UploadForm
+      el: @$('#form-image-upload')
+      onSend: -> console.log 'onSend'
+      onProgress: -> console.log 'onProgress'
+      onFail: -> console.log 'onFail'
+      onDone: (e, data) =>
+        url = $(data.result).find('Location').text()
+        @$('input[name="image"]').val url
+        @$('.image-upload-preview').html(
+          "<img src='#{url}'></img>"
+        ).fadeIn()
 
   currencySource: -> @$currencySourceFields.filter(':checked').val()
 
@@ -75,7 +91,8 @@ module.exports = class OrderLineItemView extends Backbone.View
       @model.related().product.set
         title: @$('input[name="title"]').val()
         brand: @$('input[name="brand"]').val()
-        urls: [@$('input[name="url"]').val()]
+        urls: _.compact [@$('input[name="url"]').val()]
+        images: _.reject [_.pick { original: @$('input[name="image"]').val() }, (v) -> v], (i) -> _.isEmpty(i)
         color: @$('input[name="color"]').val()
         size: @$('input[name="size"]').val()
         description: @$('textarea[name="description"]').val()

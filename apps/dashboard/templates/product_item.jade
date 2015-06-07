@@ -21,7 +21,10 @@
             label 上傳圖片
             .file-upload-control
               label.form-control.file-upload-label( for="image-upload-#{uid}" )
+              input#image( name="image" type="hidden" )
             .image-upload-preview
+              - var images = item.related().product.get('images') || {}
+              img( src=images["original"] )
           .form-group
             label( for="color" ) 顏色
             input#color.form-control( name="color" value=item.related().product.get('color') type="text" placeholder="顏色" )

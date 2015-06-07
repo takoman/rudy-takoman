@@ -1,6 +1,5 @@
 _ = require 'underscore'
 Backbone = require "backbone"
-sd = require("sharify").data
 Order = require "../../../models/order.coffee"
 OrderLineItem = require "../../../models/order_line_item.coffee"
 OrderLineItems = require "../../../collections/order_line_items.coffee"
