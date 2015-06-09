@@ -2,12 +2,6 @@
 
 html
 body
-pre
-  font-size 11px
-  text-align left
-  background-color transparent
-  color $navy
-  border 1px solid $navy
 .style-guide-container
 .style-guide-sidebar
   height 100%
@@ -40,6 +34,10 @@ pre
   display inline-block
   text-align left
   padding 20px
+
+pre
+  font-size 11px
+  text-align left
 
 .style-guide-container
 
@@ -80,11 +78,14 @@ pre
 
   .colored-bg
     padding 20px
-    &.red-bg
-      background-color $red
+    color $white
+    h1, h2, h3, h4
       color $white
-      h1, h2, h3, h4
-        color $white
-      pre
-        color $white
-        border 1px solid $white
+    pre
+      background-color transparent
+      color $white
+      border 1px solid $white
+    &.bg-red
+      background-color $red
+    &.bg-navy
+      background-color $navy-dark

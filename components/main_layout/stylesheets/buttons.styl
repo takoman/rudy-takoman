@@ -127,8 +127,18 @@ a.btn.btn-disabled
   &.btn-navy:hover
     background-color $navy-darker
     border-color $navy-darker
+  &.btn-navy.btn-colored-bg
+    background-color $white
+    border-color $white
+    color $navy-dark
+    > svg
+      .fillable
+         fill $navy-dark
+  &.btn-navy.btn-colored-bg:hover
+    background-color $gray-lightest
+    border-color $gray-lightest
 
-//secondary-primary
+//btn-secondary
 .btn-secondary
   background-color transparent
   color $black
@@ -182,26 +192,14 @@ a.btn.btn-disabled
     > svg
       .fillable
         fill $gray-lightest
+
 // btn-cta
 .btn-cta
   background-color $white
-  border-color $red
-  color $red
-  box-shadow 4px 4px 0 0 $red
-  > svg
-    .fillable
-      fill $red
   &:hover
     background-color $white
-    border-color $red-darker
-    color $red-darker
     transform translate(0, 4px)
-    box-shadow 0 0 0 0 $brand-primary
-    > svg
-      .fillable
-        fill $red-darker
   &.btn-colored-bg
-    background-color $red
     border-color $white
     color $white
     box-shadow 4px 4px 0 0 $white
@@ -209,6 +207,64 @@ a.btn.btn-disabled
       .fillable
         fill $white
   &.btn-colored-bg:hover
+    border-color $gray-lightest
+    color $gray-lightest
+    box-shadow 0 0 0 0 $gray-lightest
+    > svg
+      .fillable
+        fill $gray-lightest
+  &.btn-red
+    border-color $red
+    color $red
+    box-shadow 4px 4px 0 0 $red
+    > svg
+      .fillable
+        fill $red
+  &.btn-red:hover
+    border-color $red-darker
+    color $red-darker
+    box-shadow 0 0 0 0 $red-darker
+    > svg
+      .fillable
+        fill $red-darker
+  &.btn-red.btn-colored-bg
+    background-color $red
+    border-color $white
+    color $white
+    box-shadow 4px 4px 0 0 $white
+    > svg
+      .fillable
+        fill $white
+  &.btn-red.btn-colored-bg:hover
+    border-color $gray-lightest
+    color $gray-lightest
+    box-shadow 0 0 0 0 $gray-lightest
+    > svg
+      .fillable
+        fill $gray-lightest
+  &.btn-navy
+    border-color $navy-dark
+    color $navy-dark
+    box-shadow 4px 4px 0 0 $navy-dark
+    > svg
+      .fillable
+        fill $navy-dark
+  &.btn-navy:hover
+    border-color $navy-darker
+    color $navy-darker
+    box-shadow 0 0 0 0 $navy-darker
+    > svg
+      .fillable
+        fill $navy-darker
+  &.btn-navy.btn-colored-bg
+    background-color $navy-dark
+    border-color $white
+    color $white
+    box-shadow 4px 4px 0 0 $white
+    > svg
+      .fillable
+        fill $white
+  &.btn-navy.btn-colored-bg:hover
     border-color $gray-lightest
     color $gray-lightest
     box-shadow 0 0 0 0 $gray-lightest
@@ -238,7 +294,11 @@ a.btn.btn-disabled
   &.btn-colored-bg
     background-color $white
     border-color $white
-  &.btn-colored-bg:after
+  &.btn-red.btn-colored-bg:after
+    border 2px solid $red
+    border-top none
+    border-right none
+  &.btn-navy.btn-colored-bg:after
     border 2px solid $navy-dark
     border-top none
     border-right none

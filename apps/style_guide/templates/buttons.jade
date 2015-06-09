@@ -34,9 +34,14 @@ section.component-subsection
   h3 Call To Action Buttons
   .button-sample
     .row
-      .col-md-24.text-center
-        +button("a", "前往賣家網站")(class="btn btn-lg btn-cta", data-icon="button-arrow", data-icon-align="right")
-        pre: code +button("a", "前往賣家網站")(class="btn btn-lg btn-cta", data-icon="button-arrow", data-icon-align="right")
+      .col-md-12.text-center
+        +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-red", data-icon="button-arrow", data-icon-align="right")
+      .col-md-12.text-center
+        +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-navy", data-icon="button-arrow", data-icon-align="right")
+    pre
+      code
+        |+button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-red", data-icon="button-arrow", data-icon-align="right")
+        |+button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-navy", data-icon="button-arrow", data-icon-align="right")
 section.component-subsection
   h3 Primary Buttons
   .button-sample
@@ -54,35 +59,35 @@ section.component-subsection
   .button-sample
     .row
       .col-md-12.text-center
-        +button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-navy", data-icon="button-arrow", data-icon-align="right")
-      .col-md-12.text-center
         +button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-red", data-icon="button-arrow", data-icon-align="right")
+      .col-md-12.text-center
+        +button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-navy", data-icon="button-arrow", data-icon-align="right")
     pre
       code
-        |+button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-navy", data-icon="button-arrow", data-icon-align="right")
         |+button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-red", data-icon="button-arrow", data-icon-align="right")
+        |+button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-navy", data-icon="button-arrow", data-icon-align="right")
 section.component-subsection
   h3 Other Buttons
   .button-sample
     .row
       .col-md-12.text-center
-        +button("a", "")(class="btn btn-primary btn-navy btn-tgl")
-      .col-md-12.text-center
         +button("a", "")(class="btn btn-primary btn-red btn-tgl")
+      .col-md-12.text-center
+        +button("a", "")(class="btn btn-primary btn-navy btn-tgl")
     pre
       code
-        |+button("a", "")(class="btn btn-primary btn-navy btn-tgl")
         |+button("a", "")(class="btn btn-primary btn-red btn-tgl")
+        |+button("a", "")(class="btn btn-primary btn-navy btn-tgl")
 
 h3 On Colored Background
-.colored-bg.red-bg
+.colored-bg.bg-red
   section.component-subsection
     h3 Call To Action Buttons
     .button-sample
       .row
         .col-md-24.text-center
-          +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
-          pre: code +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+          +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-red btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+          pre: code +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-red btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
   section.component-subsection
     h3 Primary Buttons
     .button-sample
@@ -108,11 +113,22 @@ h3 On Colored Background
     h3 Other Buttons
     .button-sample
       .row
-        .col-md-24.text-center
-          +button("a", "")(class="btn btn-primary btn-red btn-tgl btn-colored-bg")
+        .col-md-12.text-center
+          +button("a", "")(class="btn btn-primary btn-tgl btn-red btn-colored-bg")
+        .col-md-12.text-center
+          +button("a", "")(class="btn btn-primary btn-tgl btn-navy btn-colored-bg")
       pre
         code
-          |+button("a", "")(class="btn btn-primary btn-red btn-tgl btn-colored-bg")
+          |+button("a", "")(class="btn btn-primary btn-tgl btn-red btn-colored-bg")
+          |+button("a", "")(class="btn btn-primary btn-tgl btn-navy btn-colored-bg")
+.colored-bg.bg-navy
+  section.component-subsection
+    h3 Call To Action Buttons
+    .button-sample
+      .row
+        .col-md-24.text-center
+          +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-navy btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+          pre: code +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-navy btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
 
 section.component-subsection
   h3 Disabled Buttons
