@@ -1,7 +1,8 @@
 //
 // Forms
 // --------------------------------------------------
-
+.form-control
+  border 2px solid $input-border
 //custom radio style
 input[type=radio]
   display none
@@ -12,23 +13,24 @@ input[type=radio]
 .radio label
   padding-left 6px
   margin-bottom 4px
+  cursor pointer
 
 .radio-inline label:before,
 .radio label:before
-  content ""
+  content ''
   display inline-block
   width 20px
   height 20px
   position absolute
   top 0
   left 0
-  background-color #ffffff
+  background-color $white
   border 2px solid $black
   border-radius 10px
   cursor pointer
 
-input[type=radio]:checked + label:after
-  content ""
+input[type=radio] + label:after
+  content ''
   display inline-block
   width 10px
   height 10px
@@ -38,6 +40,11 @@ input[type=radio]:checked + label:after
   background-color $black
   border-radius 5px
   cursor pointer
+  opacity 0
+  transition opacity 0.25s
+
+input[type=radio]:checked + label:after
+  opacity 1
 
 //custom checkbox
 input[type=checkbox]
@@ -52,27 +59,34 @@ input[type=checkbox]
 
 .checkbox-inline label:before,
 .checkbox label:before
-  content ""
+  content ''
   display inline-block
   width 20px
   height 20px
   position absolute
   top 0
   left 0
-  background-color #ffffff
+  background-color $white
   border 2px solid $black
   cursor pointer
 
-input[type=checkbox]:checked + label:after
-  content "\2713"
-  color $black
-  font-size 20px
-  width 10px
-  height 10px
+input[type=checkbox] + label:after
+  content ''
   position absolute
-  top -4px
-  left 3px
+  top 6px
+  left 4px
+  width 12px
+  height 6px
   cursor pointer
+  border 2px solid $black
+  border-top none
+  border-right none
+  opacity 0
+  transform rotate(-45deg) translateZ(0)
+  transition opacity 0.25s
+
+input[type=checkbox]:checked + label:after
+  opacity 1
 
 //custom select
 .select-control

@@ -32,4 +32,4 @@ mixin invoice-total-summary(invoice, invoiceLineItems)
       .invoice-total-label.pull-left 總計
       .invoice-total-amount.pull-right
         | NT.
-        = invoice.get('total')
+        = invoiceLineItems.total()

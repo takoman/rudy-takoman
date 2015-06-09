@@ -11,8 +11,8 @@ section.component-subsection
     .form-group
       label File Upload
       .file-upload-control
-        label.form-control.file-upload-label( for="fileUpload" )
-        input#fileUpload( type="file" )
+        label.form-control.file-upload-label( for="file-upload" )
+        input#file-upload( type="file" )
     .form-group
       label File Upload 2
       input.form-control( type="file" )
@@ -23,13 +23,13 @@ section.component-subsection
       label Radio Buttons
       div
         .radio-inline
-          input#radio1( type="radio" name="radio_inputs" checked)
+          input#radio1( type="radio" name="radio-inputs" checked)
           label( for="radio1" ) 1
         .radio-inline
-          input#radio2( type="radio" name="radio_inputs")
+          input#radio2( type="radio" name="radio-inputs")
           label( for="radio2" ) 2
         .radio-inline
-          input#radio3( type="radio" name="radio_inputs")
+          input#radio3( type="radio" name="radio-inputs")
           label( for="radio3" ) 3
     .form-group
       label Checkbox
@@ -38,12 +38,11 @@ section.component-subsection
         label( for="checkbox1" ) Check me
     .form-group
       label Select
-      div.select-control
+      .select-control
         select.form-control
           option 1
           option 2
           option 3
     .form-group
       label Textarea
-      div.textarea
-        textarea.form-control( rows="3" )
+      textarea.form-control( rows="3" )

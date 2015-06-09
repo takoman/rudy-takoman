@@ -1,0 +1,44 @@
+.panel.panel-secondary.panel-exchange-rate-settings( data-state="#{order.isNew() ? 'editing' : ''}")
+  .panel-header.clearfix
+    .panel-title.pull-left STEP 1. 訂單匯率
+    a#edit-exchange-rate.pull-right 修改
+  .panel-content
+    .exchange-rate-settings
+      .exchange-rate-editing
+        .row
+          .col-md-12
+            form#form-set-exchange-rate
+              .form-group
+                label( for="currency-source" ) 選擇貨幣 *
+                .select-control
+                  select.form-control( id="currency-source" name="currency-source")
+                    option( value="TWD" ) 台幣 (TWD)
+                    option( value="USD" ) 美元 (USD)
+                    option( value="JPY" ) 日本圓 (JPY)
+                    option( value="KRW" ) 韓元 (KRW)
+                    option( value="CNY" ) 人民幣 (CNY)
+                    option( value="EUR" ) 歐元 (EUR)
+                    option( value="GBP" ) 英鎊 (GBP)
+                    option( value="CAD" ) 加拿大元 (CAD)
+                    option( value="ARS" ) 阿根廷披索 (ARS)
+                    option( value="AUD" ) 澳洲元 (AUD)
+                    option( value="CHF" ) 瑞士法郎 (CHF)
+                    option( value="HKD" ) 港幣 (HKD)
+                    option( value="IDR" ) 印尼盾 (IDR)
+                    option( value="INR" ) 印度盧比 (INR)
+                    option( value="SGD" ) 新加坡元 (SGD)
+
+              .form-group.form-group-exchange-rate.hidden
+                label( for="exchange-rate" ) 對台幣匯率 *
+                input.form-control( id="exchange-rate" name="exchange-rate" type="number" min="0.01" step="0.01" value="1" placeholder="填入數字，如：31.33" required )
+                p#exchange-rate-settings-message.help-block
+
+              button#set-exchange-rate.btn.btn-secondary.btn-tiny( type="submit" ) 繼續下一步
+
+      .exchange-rate-results
+        .exchange-rate-results-item
+          | 貨幣：
+          span.currency-source
+        .exchange-rate-results-item
+          | 對台幣匯率：
+          span.exchange-rate

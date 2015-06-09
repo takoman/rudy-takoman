@@ -1,0 +1,43 @@
+.order-line-item.shipping-item
+  .order-line-item-form
+    .order-line-item-form-header.clearfix
+      h3.pull-left 新增運費
+      .pull-right: a.remove-item 移除
+    .row
+      .col-md-12
+        form.form-order-line-item
+          .form-group
+            label( for="currency-source" ) 金額幣別*
+            .radio-inline
+              input( type="radio" id="shipping-currency-twd" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
+              label( for="shipping-currency-twd" ) 台幣
+            if currencySource != 'TWD'
+              .radio-inline
+                input( type="radio" id="shipping-currency-foreign" name="currency-source" value=currencySource checked )
+                label( for="shipping-currency-foreign" ) #{currencySource}
+          .form-group
+            label( for="price" ) 金額*
+            input#price.form-control( name="price" value="#{item.get('price') / exchangeRate}" type="text" placeholder="商品金額" required )
+            input#quantity.form-control.quantity-field( name="quantity" value="1" type="hidden" placeholder="數量" required )
+            p.help-block.subtotal-message
+          .form-group
+            label( for="notes" ) 說明
+            textarea#notes.form-control( name="notes" type="text" placeholder="說明" )
+              = item.get('notes')
+          button.cancel-saving-item.btn.btn-secondary.btn-tiny( type="button" ) 取消
+          button.save-item.btn.btn-secondary.btn-tiny( type="submit" ) 確定
+
+  .order-line-item-preview
+    .row
+      .col-md-5
+        .item-image
+          include ../../../components/main_layout/public/svgs/product.svg
+      .col-md-7
+        .item-title 運費
+        .item-price= item.get('price')
+      .col-md-7
+        .item-actions
+          a.item-action.edit-item 編輯
+          a.item-action.remove-item 刪除
+      .col-md-5.text-right
+        .item-subtotal= item.get('price') * item.get('quantity')
