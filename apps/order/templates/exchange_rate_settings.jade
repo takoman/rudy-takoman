@@ -1,4 +1,4 @@
-.panel.panel-secondary.panel-exchange-rate-settings( data-state="#{order.isNew() ? 'editing' : ''}")
+.panel.panel-secondary.panel-exchange-rate-settings( data-state=(order.isNew() ? 'editing' : '') )
   .panel-header.clearfix
     .panel-title.pull-left STEP 1. 訂單匯率
     a#edit-exchange-rate.pull-right 修改
@@ -30,7 +30,7 @@
 
               .form-group.form-group-exchange-rate.hidden
                 label( for="exchange-rate" ) 對台幣匯率 *
-                input.form-control( id="exchange-rate" name="exchange-rate" type="number" min="0.01" step="0.01" value="1" placeholder="填入數字，如：31.33" required )
+                input.form-control( id="exchange-rate" name="exchange-rate" type="number" min="0.01" step="0.01" value="1" placeholder="填入數字，如：31.50" required )
                 p#exchange-rate-settings-message.help-block
 
               button#set-exchange-rate.btn.btn-secondary.btn-tiny( type="submit" ) 繼續下一步
@@ -38,7 +38,7 @@
       .exchange-rate-results
         .exchange-rate-results-item
           | 貨幣：
-          span.currency-source
+          span.currency-source= order.get('currency_source')
         .exchange-rate-results-item
           | 對台幣匯率：
-          span.exchange-rate
+          span.exchange-rate= order.get('exchange_rate')

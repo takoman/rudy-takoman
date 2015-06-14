@@ -16,6 +16,11 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @listenTo @order, 'change', @orderChanged
     @listenTo @orderLineItems, 'change add remove', @updateTotal
 
+    @$currencySourceInput = @$ '#form-set-exchange-rate [name="currency-source"]'
+    @$exchangeRateInput = @$ '#form-set-exchange-rate [name="exchange-rate"]'
+
+    @initializeItems()
+
   events:
     'submit #form-set-exchange-rate': 'setOrderExchangeRate'
     'click #edit-exchange-rate': 'startEditingOrderExchangeRate'
@@ -23,24 +28,34 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     'click .save-order': 'saveOrderAndRelated'
     'change select#currency-source': 'toggleExchangeRateInput'
 
+  initializeItems: ->
+    @orderLineItems.each (item) =>
+      itemView = new OrderLineItemView
+        type: item.get('type')
+        order: @order
+        model: item
+      @$('.panel-order-line-items .order-line-items').append itemView.el
+
   startEditingOrderExchangeRate: ->
+    @$currencySourceInput.val(@order.get 'currency_source').trigger 'change'
+    @$exchangeRateInput.val @order.get 'exchange_rate'
     @$('.panel-exchange-rate-settings').attr 'data-state', 'editing'
 
   toggleExchangeRateInput: ->
     $fxrate = @$('.form-group-exchange-rate')
-    currencySource = @$('#form-set-exchange-rate [name="currency-source"]').val()
+    currencySource = @$currencySourceInput.val()
     if currencySource is 'TWD'
       $fxrate.hide()
-      $fxrate.find('[name="exchange-rate"]').val '1'
+      @$exchangeRateInput.val '1'
     else
       $fxrate.fadeIn().removeClass 'hidden'
-      $fxrate.find('[name="exchange-rate"]').val ''
+      @$exchangeRateInput.val ''
 
   setOrderExchangeRate: (e) ->
     e.preventDefault()
     @order.set
-      currency_source: @$('select#currency-source').val()
-      exchange_rate: @$('input#exchange-rate').val()
+      currency_source: @$currencySourceInput.val()
+      exchange_rate: parseFloat @$exchangeRateInput.val()
     @$('.exchange-rate-results .currency-source').text @$('select#currency-source option:selected').text()
     @$('.exchange-rate-results .exchange-rate').text @order.get 'exchange_rate'
     @$('.panel-exchange-rate-settings').removeAttr 'data-state'
@@ -96,15 +111,6 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
           .done -> console.log 'All product items saved'
           .fail -> console.log 'Some errors ocured when saving product items'
 
-        # The loop approach would look like this...
-        # @orderLineItems.each (item) =>
-        #   itemData = { order: @order.get('_id') }
-        #   if item.get('type') is 'product'
-        #     item.related().product.save()
-        #       .done (data, textStatus, xhr) ->
-        #         item.save _.extend itemData, product: item.related().product.get('_id')
-        #   else
-        #     item.save(itemData)
       .fail (xhr, textStatus, errorThrown) ->
         console.log 'Some error occured when saving the order'
 

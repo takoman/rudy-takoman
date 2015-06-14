@@ -9,15 +9,14 @@
           .form-group
             label( for="currency-source" ) 金額幣別*
             .radio-inline
-              input( type="radio" id="commission-currency-twd" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
+              input( type="radio" id="commission-currency-twd" name="currency-source" value="TWD" checked )
               label( for="commission-currency-twd" ) 台幣
-            if currencySource != 'TWD'
-              .radio-inline
-                input( type="radio" id="commission-currency-foreign" name="currency-source" value=currencySource checked )
-                label( for="commission-currency-foreign" ) #{currencySource}
+            .radio-inline
+              input( type="radio" id="commission-currency-foreign" name="currency-source" value=currencySource )
+              label( for="commission-currency-foreign" ) #{currencySource}
           .form-group
             label( for="price" ) 金額*
-            input#price.form-control( name="price" value="#{item.get('price') / exchangeRate}" type="text" placeholder="商品金額" required )
+            input#price.form-control( name="price" value=item.get('price') type="text" placeholder="商品金額" required )
             input#quantity.form-control.quantity-field( name="quantity" value="1" type="hidden" placeholder="數量" required )
             p.help-block.subtotal-message
           .form-group

@@ -102,7 +102,7 @@ module.exports = class OrderLineItemView extends Backbone.View
     # http://stackoverflow.com/questions/6535948/nested-models-in-backbone-js-how-to-approach
     @model.set
       type: @type
-      price: twdPrice
+      price: parseFloat twdPrice
       quantity: parseInt @$('.form-order-line-item [name="quantity"]').val()
       notes: @$('.form-order-line-item [name="notes"]').val()
 
@@ -117,8 +117,8 @@ module.exports = class OrderLineItemView extends Backbone.View
   edit: -> @$('.order-line-item').attr 'data-state', 'editing'
 
   cancel: ->
-    if @isCreated
+    if @model.isNew() and not @isCreated
+      @model.destroy()
+    else
       @$('.order-line-item').removeAttr 'data-state'
       @render()
-    else
-      @model.destroy()

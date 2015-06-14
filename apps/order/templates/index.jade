@@ -13,13 +13,12 @@ block body
     .row
       .col-md-22.col-md-offset-1
         ol.breadcrumb
-          li
-            a( href="#") 訂單清單
-          li
-          | 新增訂單
+          li: a( href="#") 訂單清單
+          li= order.isNew() ? '新增訂單' : moment(order.get('created_at')).format('YYYY-MM-DD') + ' 建立的訂單'
     .row
       .col-md-22.col-md-offset-1
-        h1.pull-left( style="font-size: 24px; font-weight: bold;" ) 新增訂單
+        h1.pull-left( style="font-size: 24px; font-weight: bold;" )
+          = order.isNew() ? '新增訂單' : '編輯訂單'
         .pull-right( style="margin-top: 20px;")
           a.btn.btn-secondary.btn-tiny 取消訂單
           a.btn.btn-disabled.btn-tiny 儲存訂單
@@ -32,19 +31,19 @@ block body
             .panel-content
               .form-group
                 label 訂單編號
-                p.form-control-staticemail 12345678
+                p.form-control-staticemail= order.get('id')
               .form-group
                 label 訂單保留期限
-                p.form-control-staticemail 2015/04/15
+                p.form-control-staticemail= order.get('due_at')
               .form-group
-                label.control-label( for="notes" ) 附註
-                textarea.form-control( id="notes", name="notes" type="text" placeholder="訂單附註說明" rows="5")
+                label.control-label( for="order-notes" ) 附註
+                textarea.form-control( id="order-notes", name="notes" type="text" placeholder="訂單附註說明" rows="5")
         .col-md-16
           include ./exchange_rate_settings
 
-          .panel.panel-order-line-items( class="#{order.isNew() ? 'panel-disabled' : 'panel-secondary'}" )
+          .panel.panel-order-line-items( class=(order.isNew() ? 'panel-disabled' : 'panel-secondary') )
             .panel-header
-              .panel-title STEP 2. 建立訂單內容
+              .panel-title STEP 2. 訂單內容
             .panel-content
               .order-line-items
               .order-total-summary
