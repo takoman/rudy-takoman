@@ -1,8 +1,11 @@
 _         = require 'underscore'
 Backbone  = require 'backbone'
 sd        = require('sharify').data
+SantaModel = require './mixins/santa_model.coffee'
 
 module.exports = class CurrentUser extends Backbone.Model
+
+  _.extend @prototype, SantaModel
 
   url: -> "#{sd.API_URL}/api/v1/me"
 

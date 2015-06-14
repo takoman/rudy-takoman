@@ -1,11 +1,13 @@
 _ = require 'underscore'
 Backbone = require 'backbone'
 Relations = require './mixins/relations/order_line_item.coffee'
+SantaModel = require './mixins/santa_model.coffee'
 { API_URL } = require('sharify').data
 
 module.exports = class OrderLineItem extends Backbone.Model
 
   _.extend @prototype, Relations
+  _.extend @prototype, SantaModel
 
   defaults: ->
     price: 0
