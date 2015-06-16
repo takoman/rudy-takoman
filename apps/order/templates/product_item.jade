@@ -1,3 +1,5 @@
+- var images = item.related().product.get('images') || []
+
 .order-line-item.product-item
   .order-line-item-form
     .order-line-item-form-header.clearfix
@@ -23,8 +25,7 @@
               label.form-control.file-upload-label( for="image-upload-#{uid}" )
               input#image( name="image" type="hidden" )
             .image-upload-preview
-              - var images = item.related().product.get('images') || {}
-              img( src=images["original"] )
+              include ./item_images
           .form-group
             label( for="color" ) 顏色
             input#color.form-control( name="color" value=item.related().product.get('color') type="text" placeholder="顏色" )
@@ -65,6 +66,7 @@
     .row
       .col-md-5
         .item-image
+          include ./item_images
       .col-md-7
         .item-brand= item.related().product.get('brand')
         .item-title= item.related().product.get('title')

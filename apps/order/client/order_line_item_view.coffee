@@ -6,6 +6,7 @@ Order = require "../../../models/order.coffee"
 CurrentUser = require "../../../models/current_user.coffee"
 UploadForm = require "../../../components/upload/client/index.coffee"
 orderLineItemTemplate = -> require("../templates/order_line_item_form.jade") arguments...
+imagesTemplate = -> require("../templates/item_images.jade") arguments...
 { API_URL } = require('sharify').data
 
 module.exports = class OrderLineItemView extends Backbone.View
@@ -62,9 +63,7 @@ module.exports = class OrderLineItemView extends Backbone.View
       onDone: (e, data) =>
         url = $(data.result).find('Location').text()
         @$('input[name="image"]').val url
-        @$('.image-upload-preview').html(
-          "<img src='#{url}'></img>"
-        ).fadeIn()
+        @$('.image-upload-preview, .order-line-item-preview .item-image').html imagesTemplate images: [{ original: url }]
 
   currencySource: -> @$currencySourceFields.filter(':checked').val()
 

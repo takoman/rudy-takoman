@@ -11,7 +11,7 @@ Q = require 'q'
   return res.redirect '/login' unless req.user
 
   merchants = new Merchants()
-  order = new Order(id: req.params.id)
+  order = new Order(_id: req.params.id)
   orderLineItems = new OrderLineItems()
   merchants.fetch data: user_id: req.user.get('_id')
     .then ->
