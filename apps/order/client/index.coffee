@@ -22,8 +22,10 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @initializeItems()
 
   events:
-    'submit #form-set-exchange-rate': 'setOrderExchangeRate'
     'click #edit-exchange-rate': 'startEditingOrderExchangeRate'
+    'submit #form-set-exchange-rate': 'setOrderExchangeRate'
+    'click #edit-order-notes': 'startEditingOrderNotes'
+    'submit #form-set-notes': 'setOrderNotes'
     'click .add-item': 'addItem'
     'click .save-order': 'saveOrderAndRelated'
     'change select#currency-source': 'toggleExchangeRateInput'
@@ -60,6 +62,16 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @$('.exchange-rate-results .exchange-rate').text @order.get 'exchange_rate'
     @$('.panel-exchange-rate-settings').removeAttr 'data-state'
     @$('.panel-order-line-items').removeClass('panel-disabled').addClass 'panel-secondary'
+
+  startEditingOrderNotes: ->
+    @$('.order-partial.order-notes').attr 'data-state', 'editing'
+
+  setOrderNotes: (e) ->
+    e.preventDefault()
+    notes = @$('.order-notes [name="notes"]').val()
+    @order.set notes: notes
+    @$('.order-notes .order-notes-preview').text notes
+    @$('.order-notes').removeAttr 'data-state'
 
   updateTotal: ->
     types = ['product', 'shipping', 'commission']
