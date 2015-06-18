@@ -35,6 +35,10 @@ body
   text-align left
   padding 20px
 
+pre
+  font-size 11px
+  text-align left
+
 .style-guide-container
 
   .style-guide-nav
@@ -69,6 +73,19 @@ body
 
   .button-sample
     padding 15px 0
-    border-bottom 1px solid $gray-light
     .btn
       margin-bottom 1em
+
+  .colored-bg
+    padding 20px
+    color $white
+    h1, h2, h3, h4
+      color $white
+    pre
+      background-color transparent
+      color $white
+      border 1px solid $white
+    &.bg-red
+      background-color $red
+    &.bg-navy
+      background-color $navy-dark

@@ -1,73 +1,135 @@
+include ../../../components/buttons/index
 h2#buttons 按鈕 Buttons
 section.component-subsection
-  h3 Default Buttons
   .button-sample
-    h4 Default Size
-    .row
-      .col-md-8
-        a.btn 我要購買
-      .col-md-16
-        pre: code a.btn 我要購買
-  .button-sample
+    h3 Default Buttons
     h4 Small Size
     .row
-      .col-md-8
-        a.btn.btn-small 我要購買
-      .col-md-16
-        pre: code a.btn.btn-small 我要購買
-  .button-sample
-    h4 Tiny Size
+      .col-md-24
+        +button("a", "繼續閱讀")(class="btn btn-sm")
+        |&#32;
+        +button("a", "繼續閱讀")(class="btn btn-sm", data-icon="button-arrow", data-icon-align="right")
+        |&#32;
+        +button("a", "繼續閱讀")(class="btn btn-sm", data-icon="button-arrow", data-icon-align="left")
+        pre: code +button("a", "繼續閱讀")(class="btn btn-sm", data-icon="button-arrow", data-icon-align="right")
+    h4 Default Size
     .row
-      .col-md-8
-        a.btn.btn-tiny 我要購買
-      .col-md-16
-        pre: code a.btn.btn-tiny 我要購買
+      .col-md-24
+        +button("a", "新增商品")(class="btn")
+        |&#32;
+        +button("a", "新增商品")(class="btn", data-icon="product", data-icon-align="left")
+        |&#32;
+        +button("a", "新增商品")(class="btn", data-icon="product", data-icon-align="right")
+        pre: code +button("a", "新增商品")(class="btn", data-icon="product", data-icon-align="left")
+    h4 Large Size
+    .row
+      .col-md-24
+        +button("a", "前往賣家網站")(class="btn btn-lg")
+        |&#32;
+        +button("a", "前往賣家網站")(class="btn btn-lg", data-icon="button-arrow", data-icon-align="left")
+        |&#32;
+        +button("a", "前往賣家網站")(class="btn btn-lg", data-icon="button-arrow", data-icon-align="right")
+        pre: code +button("a", "前往賣家網站")(class="btn btn-lg", data-icon="button-arrow", data-icon-align="left")
+section.component-subsection
+  h3 Call To Action Buttons
+  .button-sample
+    .row
+      .col-md-12.text-center
+        +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-red", data-icon="button-arrow", data-icon-align="right")
+      .col-md-12.text-center
+        +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-navy", data-icon="button-arrow", data-icon-align="right")
+    pre
+      code
+        |+button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-red", data-icon="button-arrow", data-icon-align="right")
+        |+button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-navy", data-icon="button-arrow", data-icon-align="right")
 section.component-subsection
   h3 Primary Buttons
   .button-sample
-    h4 Default Size
     .row
-      .col-md-8
-        a.btn.btn-primary 我要購買
-      .col-md-16
-        pre: code a.btn.btn-primary 我要購買
-  .button-sample
-    h4 Small Size
-    .row
-      .col-md-8
-        a.btn.btn-primary.btn-small 我要購買
-      .col-md-16
-        pre: code a.btn.btn-primary.btn-small 我要購買
-  .button-sample
-    h4 Tiny Size
-    .row
-      .col-md-8
-        a.btn.btn-primary.btn-tiny 我要購買
-      .col-md-16
-        pre: code a.btn.btn-primary.btn-tiny 我要購買
+      .col-md-12.text-center
+        +button("a", "新增商品")(class="btn btn-primary btn-red", data-icon="product", data-icon-align="left")
+      .col-md-12.text-center
+        +button("a", "新增商品")(class="btn btn-sm btn-primary btn-navy", data-icon="button-arrow", data-icon-align="right")
+    pre
+      code
+        |+button("a", "新增商品")(class="btn btn-primary btn-red", data-icon="product", data-icon-align="left")
+        |+button("a", "新增商品")(class="btn btn-sm btn-primary btn-navy", data-icon="button-arrow", data-icon-align="right")
 section.component-subsection
   h3 Secondary Buttons
   .button-sample
-    h4 Default Size
     .row
-      .col-md-8
-        a.btn.btn-secondary 我要購買
-      .col-md-16
-        pre: code a.btn.btn-secondary 我要購買
+      .col-md-12.text-center
+        +button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-red", data-icon="button-arrow", data-icon-align="right")
+      .col-md-12.text-center
+        +button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-navy", data-icon="button-arrow", data-icon-align="right")
+    pre
+      code
+        |+button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-red", data-icon="button-arrow", data-icon-align="right")
+        |+button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-navy", data-icon="button-arrow", data-icon-align="right")
+section.component-subsection
+  h3 Other Buttons
   .button-sample
-    h4 Small Size
     .row
-      .col-md-8
-        a.btn.btn-secondary.btn-small 我要購買
-      .col-md-16
-        pre: code a.btn.btn-secondary.btn-small 我要購買
-  .button-sample
-    h4 Tiny Size
-    .row
-      .col-md-8
-        a.btn.btn-secondary.btn-tiny 我要購買
-      .col-md-16
-        pre: code a.btn.btn-secondary.btn-tiny 我要購買
+      .col-md-12.text-center
+        +button("a", "")(class="btn btn-primary btn-red btn-tgl")
+      .col-md-12.text-center
+        +button("a", "")(class="btn btn-primary btn-navy btn-tgl")
+    pre
+      code
+        |+button("a", "")(class="btn btn-primary btn-red btn-tgl")
+        |+button("a", "")(class="btn btn-primary btn-navy btn-tgl")
+
+h3 On Colored Background
+.colored-bg.bg-red
+  section.component-subsection
+    h3 Call To Action Buttons
+    .button-sample
+      .row
+        .col-md-24.text-center
+          +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-red btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+          pre: code +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-red btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+  section.component-subsection
+    h3 Primary Buttons
+    .button-sample
+      .row
+        .col-md-12.text-center
+          +button("a", "新增商品")(class="btn btn-primary btn-red btn-colored-bg", data-icon="product", data-icon-align="left")
+        .col-md-12.text-center
+          +button("a", "新增商品")(class="btn btn-sm btn-primary btn-navy btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+      pre
+        code
+          |+button("a", "新增商品")(class="btn btn-primary btn-red btn-colored-bg", data-icon="product", data-icon-align="left")
+          |+button("a", "新增商品")(class="btn btn-sm btn-primary btn-navy btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+  section.component-subsection
+    h3 Secondary Buttons
+    .button-sample
+      .row
+        .col-md-24.text-center
+          +button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+      pre
+        code
+          |+button("a", "繼續閱讀")(class="btn btn-sm btn-secondary btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+  section.component-subsection
+    h3 Other Buttons
+    .button-sample
+      .row
+        .col-md-12.text-center
+          +button("a", "")(class="btn btn-primary btn-tgl btn-red btn-colored-bg")
+        .col-md-12.text-center
+          +button("a", "")(class="btn btn-primary btn-tgl btn-navy btn-colored-bg")
+      pre
+        code
+          |+button("a", "")(class="btn btn-primary btn-tgl btn-red btn-colored-bg")
+          |+button("a", "")(class="btn btn-primary btn-tgl btn-navy btn-colored-bg")
+.colored-bg.bg-navy
+  section.component-subsection
+    h3 Call To Action Buttons
+    .button-sample
+      .row
+        .col-md-24.text-center
+          +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-navy btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+          pre: code +button("a", "前往賣家網站")(class="btn btn-lg btn-cta btn-navy btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
+
 section.component-subsection
   h3 Disabled Buttons
   .button-sample

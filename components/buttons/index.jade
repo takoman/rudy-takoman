@@ -1,0 +1,13 @@
+mixin button(tag, label)
+  #{tag}&attributes(attributes)
+    if attributes['data-icon-align'] != 'left'
+      = label
+
+    //- Jade doesn't support dynamic include, so we have to if/else here. :(
+    if attributes['data-icon'] == 'button-arrow'
+      include ../main_layout/public/svgs/circle-arrow.svg
+    else if attributes['data-icon'] == 'product'
+      include ../main_layout/public/svgs/product.svg
+
+    if attributes['data-icon-align'] == 'left'
+      = label

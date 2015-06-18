@@ -12,7 +12,7 @@ input[type=radio]
 .radio-inline label,
 .radio label
   padding-left 6px
-  margin-bottom 4px
+  line-height 20px
   cursor pointer
 
 .radio-inline label:before,
@@ -49,20 +49,22 @@ input[type=radio]:checked + label:after
 //custom checkbox
 input[type=checkbox]
   display none
+
 .checkbox-inline + .checkbox-inline
   margin-left 14px
 
 .checkbox-inline label,
 .checkbox label
-  padding-left 26px
-  margin-bottom 4px
+  min-height 25px
+  line-height 25px
+  padding-left 32px
 
 .checkbox-inline label:before,
 .checkbox label:before
   content ''
   display inline-block
-  width 20px
-  height 20px
+  width 25px
+  height 25px
   position absolute
   top 0
   left 0
@@ -73,12 +75,12 @@ input[type=checkbox]
 input[type=checkbox] + label:after
   content ''
   position absolute
-  top 6px
-  left 4px
-  width 12px
-  height 6px
+  top 7px
+  left 6px
+  width 13px
+  height 8px
   cursor pointer
-  border 2px solid $black
+  border 3px solid $black
   border-top none
   border-right none
   opacity 0
