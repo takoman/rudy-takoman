@@ -33,7 +33,9 @@ block body
               label 訂單編號
               p= order.get('_id')
             .order-partial.order-due-at
-              label 訂單保留期限
+              label
+                | 訂單保留期限
+                a( data-toggle="tooltip" data-placement="right" title="當訂單確認送出後，買家有七天的時間可以付款。若買家在七天內沒有完成付款，此份訂單即失效。請記得善意提醒一下您的買家喔！" ) ?
               .order-partial-form
                 form#form-set-due-at
                   //- TODO: need a partial form to set due date
