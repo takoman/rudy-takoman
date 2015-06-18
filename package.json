@@ -19,6 +19,7 @@
     "coffee-script": "1.9.2",
     "cookie-parser": "1.1.0",
     "cookie-session": "1.0.2",
+    "jquery-datetimepicker": "git://github.com/xdan/datetimepicker.git",
     "express": "4.4.1",
     "flake-idgen": "^1.0.0",
     "forever": "0.14.1",

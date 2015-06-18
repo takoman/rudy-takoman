@@ -14,10 +14,14 @@ sd = require("sharify").data
 
 module.exports.StyleGuideView = class StyleGuideView extends Backbone.View
 
-  initialize: -> undefined
+  initialize: ->
+    @setupDateTimePicker()
 
   events:
     'click .btn': 'buttonLoading'
+
+  setupDateTimePicker: ->
+    @$('#component-datetime-picker').datetimepicker()
 
   buttonLoading: (e) ->
     $btn = $(e.currentTarget)
