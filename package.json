@@ -10,6 +10,7 @@
     "test": "make test"
   },
   "dependencies": {
+    "accounting": "^0.4.1",
     "allpay": "git://github.com/starsirius/allpay.git",
     "backbone": "1.1.2",
     "backbone-super-sync": "0.0.22",
@@ -19,11 +20,11 @@
     "coffee-script": "1.9.2",
     "cookie-parser": "1.1.0",
     "cookie-session": "1.0.2",
-    "jquery-datetimepicker": "git://github.com/xdan/datetimepicker.git",
     "express": "4.4.1",
     "flake-idgen": "^1.0.0",
     "forever": "0.14.1",
     "jade": "1.3.1",
+    "jquery-datetimepicker": "git://github.com/xdan/datetimepicker.git",
     "mime": "1.3.4",
     "moment": "2.6.0",
     "morgan": "1.1.1",

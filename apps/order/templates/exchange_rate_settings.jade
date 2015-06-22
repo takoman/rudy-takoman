@@ -12,21 +12,11 @@
                 label( for="currency-source" ) 選擇貨幣 *
                 .select-control
                   select.form-control( id="currency-source" name="currency-source")
-                    option( value="TWD" ) 台幣 (TWD)
-                    option( value="USD" ) 美元 (USD)
-                    option( value="JPY" ) 日本圓 (JPY)
-                    option( value="KRW" ) 韓元 (KRW)
-                    option( value="CNY" ) 人民幣 (CNY)
-                    option( value="EUR" ) 歐元 (EUR)
-                    option( value="GBP" ) 英鎊 (GBP)
-                    option( value="CAD" ) 加拿大元 (CAD)
-                    option( value="ARS" ) 阿根廷披索 (ARS)
-                    option( value="AUD" ) 澳洲元 (AUD)
-                    option( value="CHF" ) 瑞士法郎 (CHF)
-                    option( value="HKD" ) 港幣 (HKD)
-                    option( value="IDR" ) 印尼盾 (IDR)
-                    option( value="INR" ) 印度盧比 (INR)
-                    option( value="SGD" ) 新加坡元 (SGD)
+                    - var pick = ['TWD', 'USD', 'JPY', 'KRW', 'CNY', 'EUR', 'GBP', 'CAD']
+                    each v, k in _.pick(currencies, pick)
+                      option( value=k ) #{v.cname} (#{k})
+                    each v, k in _.omit(currencies, pick)
+                      option( value=k ) #{v.cname} (#{k})
 
               .form-group.form-group-exchange-rate.hidden
                 label( for="exchange-rate" ) 對台幣匯率 *

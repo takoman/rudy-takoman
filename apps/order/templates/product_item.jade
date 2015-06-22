@@ -43,13 +43,14 @@
             .radio-inline
               input( type="radio" id="currency-twd-#{uid}" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
               label( for="currency-twd-#{uid}" ) 台幣
-            if currencySource != 'TWD'
+            unless currencySource == 'TWD'
               .radio-inline
                 input( type="radio" id="currency-foreign-#{uid}" name="currency-source" value=currencySource checked )
-                label( for="currency-foreign-#{uid}" ) #{currencySource}
+                label( for="currency-foreign-#{uid}" ) #{money.CURRENCIES[currencySource].cname} (#{currencySource})
           .form-group
             label( for="price-#{uid}" ) 商品單價*
-            input.form-control( id="price-#{uid}" name="price" value="#{item.get('price') / exchangeRate}" type="text" placeholder="商品金額" required )
+            input.form-control( id="price-#{uid}" name="price" type="text" placeholder="商品金額" required
+              value=(acct.toFixed(fx(item.get('price')).from(currencyTarget).to(currencySource), 2)) )
             p.help-block.subtotal-message
           .form-group
             label( for="description-#{uid}" ) 商品說明
@@ -72,11 +73,11 @@
         .item-title= item.related().product.get('title')
         .item-color= item.related().product.get('color')
         .item-size= item.related().product.get('size')
-        .item-price= item.get('price')
-        .item-quantity= item.get('quantity')
+        .item-price= acct.formatMoney(item.get('price'))
+        .item-quantity #{item.get('quantity')} 個
       .col-md-7
         .item-actions
           a.item-action.edit-item 編輯
           a.item-action.remove-item 刪除
       .col-md-5.text-right
-        .item-subtotal= item.get('price') * item.get('quantity')
+        .item-subtotal= acct.formatMoney(item.get('price') * item.get('quantity'))

@@ -5,7 +5,14 @@ OrderLineItem = require "../../../models/order_line_item.coffee"
 OrderLineItems = require "../../../collections/order_line_items.coffee"
 CurrentUser = require "../../../models/current_user.coffee"
 OrderLineItemView = require './order_line_item_view.coffee'
+acct = require 'accounting'
 { API_URL, ORDER, ORDER_LINE_ITEMS } = require('sharify').data
+
+acct.settings.currency = _.defaults
+  precision: 0
+  symbol: 'NT'
+  format: '%s %v'
+, acct.settings.currency
 
 module.exports.OrderFormView = class OrderFormView extends Backbone.View
 
@@ -75,14 +82,9 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
 
   updateTotal: ->
     types = ['product', 'shipping', 'commission']
-    itemsByType = _.pick @orderLineItems.groupBy('type'), types
 
-    # We can move the calculation to the OrderLineItems collection model.
-    subtotalByType = _.mapObject itemsByType, (items, type) ->
-      _.reduce items, ((m, i) -> m + i.get('quantity') * i.get('price')), 0
-
-    _.each types, (t) => @$("#order-#{t}-total").text(subtotalByType[t] or 0)
-    @$('#order-total').text @orderLineItems.total()
+    _.each types, (t) => @$("#order-#{t}-total").text acct.formatMoney @orderLineItems.total(t)
+    @$('#order-total').text acct.formatMoney @orderLineItems.total()
 
   orderChanged: -> undefined
 

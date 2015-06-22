@@ -5,6 +5,8 @@ OrderLineItem = require "../../../models/order_line_item.coffee"
 Order = require "../../../models/order.coffee"
 CurrentUser = require "../../../models/current_user.coffee"
 UploadForm = require "../../../components/upload/client/index.coffee"
+money = require '../../../lib/money.js'
+acct = require 'accounting'
 orderLineItemTemplate = -> require("../templates/order_line_item_form.jade") arguments...
 imagesTemplate = -> require("../templates/item_images.jade") arguments...
 { API_URL } = require('sharify').data
@@ -23,6 +25,10 @@ module.exports = class OrderLineItemView extends Backbone.View
 
     @oldFXRate = @order.get 'exchange_rate'
 
+    # Create a fx instance to handle currencies exchange
+    @fx = money.factory()
+    @setupCurrencyExchange()
+
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
     @listenTo @order, 'change', @orderChanged
@@ -39,12 +45,11 @@ module.exports = class OrderLineItemView extends Backbone.View
 
   render: ->
     @$el.html orderLineItemTemplate
+      _: _, fx: @fx, acct: acct, money: money  # pass in some helpers
       item: @model
       type: @type
-      uid: _.uniqueId()
-      currencySource: @order.get 'currency_source'
-      currencyTarget: @order.get 'currency_target'
-      exchangeRate: @order.get 'exchange_rate'
+      currencySource: @cs
+      currencyTarget: @ct
 
     # Since we replace the entire html, we have to cache selectors everytime
     # after rendering.
@@ -53,6 +58,14 @@ module.exports = class OrderLineItemView extends Backbone.View
 
     @updateSubtotalMessage()
     @setupFileUpload() if @type is 'product'
+
+  setupCurrencyExchange: ->
+    # Cache the source and target currencies
+    @ct = @order.get 'currency_target'
+    @cs = @order.get 'currency_source'
+    @fx.rates[@ct] = @order.get 'exchange_rate'
+    @fx.rates[@cs] = 1
+    @fx.base = @cs
 
   setupFileUpload: ->
     new UploadForm
@@ -65,23 +78,30 @@ module.exports = class OrderLineItemView extends Backbone.View
         @$('input[name="image"]').val url
         @$('.image-upload-preview, .order-line-item-preview .item-image').html imagesTemplate images: [{ original: url }]
 
-  currencySource: -> @$currencySourceFields.filter(':checked').val()
+  selectedCurrencySource: -> @$currencySourceFields.filter(':checked').val()
 
   updateSubtotalMessage: ->
-    if @currencySource() is 'TWD'
+    if @selectedCurrencySource() is 'TWD'
       @$('.subtotal-message').empty()
     else if isNaN (price = @$priceField.val())
       @$('.subtotal-message').text "單價必須為數字"
     else
-      @$('.subtotal-message').text "商品單價換算為台幣 #{price * @order.get 'exchange_rate'} 元"
+      @$('.subtotal-message').text "商品單價換算為台幣 #{@formatMoney price, convert: true} 元"
 
   orderChanged: ->
     newFXRate = @order.get 'exchange_rate'
-    @model.set 'price', @model.get('price') * newFXRate / @oldFXRate
+    @model.set 'price', @formatMoney(@model.get('price') * newFXRate / @oldFXRate)
 
     # last step, cache the existing exchange rate
     @oldFXRate = @order.get 'exchange_rate'
+    @setupCurrencyExchange()
     @render()
+
+  formatMoney: (money, { convert, decimalPlace } = {}) ->
+    convert ?= false; decimalPlace ?= 0
+
+    money = @fx(money).from(@cs).to(@ct) if convert
+    parseFloat acct.toFixed money, decimalPlace
 
   save: (e) ->
     e.preventDefault()
@@ -97,7 +117,7 @@ module.exports = class OrderLineItemView extends Backbone.View
         description: @$('textarea[name="description"]').val()
 
     twdPrice = @$priceField.val()
-    twdPrice = twdPrice * @order.get('exchange_rate') unless @currencySource() is 'TWD'
+    twdPrice = @formatMoney(twdPrice, convert: true) unless @selectedCurrencySource() is 'TWD'
     # http://stackoverflow.com/questions/6535948/nested-models-in-backbone-js-how-to-approach
     @model.set
       type: @type

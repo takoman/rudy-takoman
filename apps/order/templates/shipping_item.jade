@@ -9,15 +9,15 @@
           .form-group
             label( for="currency-source" ) 金額幣別*
             .radio-inline
-              input( type="radio" id="shipping-currency-twd-#{uid}" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
+              input( type="radio" id="shipping-currency-twd-#{uid}" name="currency-source" value="TWD" checked )
               label( for="shipping-currency-twd-#{uid}" ) 台幣
-            if currencySource != 'TWD'
+            unless currencySource == 'TWD'
               .radio-inline
-                input( type="radio" id="shipping-currency-foreign-#{uid}" name="currency-source" value=currencySource checked )
-                label( for="shipping-currency-foreign-#{uid}" ) #{currencySource}
+                input( type="radio" id="shipping-currency-foreign-#{uid}" name="currency-source" value=currencySource )
+                label( for="shipping-currency-foreign-#{uid}" ) #{money.CURRENCIES[currencySource].cname} (#{currencySource})
           .form-group
             label( for="price-#{uid}" ) 金額*
-            input.form-control( id="price-#{uid}" name="price" value="#{item.get('price') / exchangeRate}" type="text" placeholder="商品金額" required )
+            input.form-control( id="price-#{uid}" name="price" value=item.get('price') type="text" placeholder="運費" required )
             input.form-control.quantity-field( name="quantity" value="1" type="hidden" placeholder="數量" required )
             p.help-block.subtotal-message
           .form-group
@@ -34,10 +34,10 @@
           include ../../../components/main_layout/public/svgs/product.svg
       .col-md-7
         .item-title 運費
-        .item-price= item.get('price')
+        .item-price= acct.formatMoney(item.get('price'))
       .col-md-7
         .item-actions
           a.item-action.edit-item 編輯
           a.item-action.remove-item 刪除
       .col-md-5.text-right
-        .item-subtotal= item.get('price') * item.get('quantity')
+        .item-subtotal= acct.formatMoney(item.get('price') * item.get('quantity'))

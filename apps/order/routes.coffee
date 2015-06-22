@@ -2,10 +2,19 @@
 # Routes file that exports route handlers for ease of testing.
 #
 
+_ = require 'underscore'
 Merchants = require '../../collections/merchants.coffee'
 Order = require '../../models/order.coffee'
 OrderLineItems = require '../../collections/order_line_items.coffee'
+money = require '../../lib/money.js'
+acct = require 'accounting'
 Q = require 'q'
+
+acct.settings.currency = _.defaults
+  precision: 0
+  symbol: 'NT'
+  format: '%s %v'
+, acct.settings.currency
 
 @index = (req, res, next) ->
   return res.redirect '/login' unless req.user
@@ -21,7 +30,7 @@ Q = require 'q'
     .then ->
       res.locals.sd.ORDER = order.toJSON()
       res.locals.sd.ORDER_LINE_ITEMS = orderLineItems.toJSON()
-      res.render 'index', order: order, orderLineItems: orderLineItems
+      res.render 'index', order: order, orderLineItems: orderLineItems, acct: acct, currencies: money.CURRENCIES
     .catch (error) ->
       next error?.body?.message or 'failed to fetch order and order line items'
     .done()
@@ -46,6 +55,6 @@ Q = require 'q'
       orderLineItems = new OrderLineItems()
       res.locals.sd.ORDER = order.toJSON()
       res.locals.sd.ORDER_LINE_ITEMS = orderLineItems.toJSON()
-      res.render 'index', order: order, orderLineItems: orderLineItems
+      res.render 'index', order: order, orderLineItems: orderLineItems, acct: acct, currencies: money.CURRENCIES
     #.fail ->
     #  return next('Failed to fetch the merchant')

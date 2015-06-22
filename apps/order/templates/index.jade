@@ -68,15 +68,19 @@ block body
                   .order-total-breakdown.clearfix
                     .order-total-breakdown-label.pull-left 商品總額
                     #order-product-total.order-total-breakdown-amount.pull-right
+                      = acct.formatMoney(orderLineItems.total('product'))
                   .order-total-breakdown.clearfix
                     .order-total-breakdown-label.pull-left 運費
                     #order-shipping-total.order-total-breakdown-amount.pull-right
+                      = acct.formatMoney(orderLineItems.total('shipping'))
                   .order-total-breakdown.clearfix
                     .order-total-breakdown-label.pull-left 代買費
                     #order-commission-total.order-total-breakdown-amount.pull-right
+                      = acct.formatMoney(orderLineItems.total('commission'))
                   .order-total-breakdown.clearfix
                     .order-total-breakdown-label.pull-left 總計
                     #order-total.order-total-breakdown-amount.pull-right
+                      = acct.formatMoney(orderLineItems.total())
 
           .panel-footer
             .order-line-items-actions
