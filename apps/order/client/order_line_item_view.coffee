@@ -81,10 +81,10 @@ module.exports = class OrderLineItemView extends Backbone.View
   selectedCurrencySource: -> @$currencySourceFields.filter(':checked').val()
 
   updateSubtotalMessage: ->
-    if @selectedCurrencySource() is 'TWD'
-      @$('.subtotal-message').empty()
-    else if isNaN (price = @$priceField.val())
+    if isNaN (price = @$priceField.val())
       @$('.subtotal-message').text "單價必須為數字"
+    else if @selectedCurrencySource() is 'TWD'
+      @$('.subtotal-message').empty()
     else
       @$('.subtotal-message').text "商品單價換算為台幣 #{@formatMoney price, convert: true} 元"
 
