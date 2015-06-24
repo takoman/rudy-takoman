@@ -4,9 +4,9 @@ module.exports =
   related: ->
     return @__related__ if @__related__?
 
-    Product = require '../../../models/product.coffee'
+    Merchant = require '../../../models/merchant.coffee'
 
-    product = new Product @get('product')
+    merchant = new Merchant()
 
     @__related__ =
-      product: product
+      merchant: merchant

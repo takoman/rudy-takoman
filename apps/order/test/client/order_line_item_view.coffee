@@ -1,5 +1,6 @@
 _           = require 'underscore'
 sd          = require('sharify').data
+acct        = require 'accounting'
 benv        = require 'benv'
 sinon       = require 'sinon'
 rewire      = require 'rewire'
@@ -61,8 +62,6 @@ describe 'OrderFormView', ->
 
           it 'renders the shared part of the view properly', ->
             @view.$('[name="currency-source"]').length.should.equal 2
-            @view.$('[name="currency-source"]:checked').val().should.equal 'USD'
-            @view.$('[name="price"]').val().should.equal '0'
 
           if type is 'product'
             it 'renders the product-related view properly', ->
@@ -74,10 +73,23 @@ describe 'OrderFormView', ->
               @view.$('[name="image"]').length.should.equal 1
               @view.$('[name="color"]').length.should.equal 1
               @view.$('[name="size"]').length.should.equal 1
+
+            it 'checks the currency source', ->
+              @view.$('[name="currency-source"]:checked').val().should.equal 'USD'
+
+            it 'fills in the price with 2 decimal places', ->
+              @view.$('[name="price"]').val().should.equal acct.toFixed(0, 2)
+
           else
             it 'renders a hidden quantity input with value set to 1', ->
               @view.$('[name="quantity"][type="hidden"]').length.should.equal 1
               @view.$('[name="quantity"][type="hidden"]').val().should.equal '1'
+
+            it 'checks the currency target', ->
+              @view.$('[name="currency-source"]:checked').val().should.equal 'TWD'
+
+            it 'fills in the price with 0 decimal places', ->
+              @view.$('[name="price"]').val().should.equal acct.toFixed(0, 0)
 
         describe '#edit', ->
           it 'renders the edit mode of the view', ->
@@ -96,6 +108,7 @@ describe 'OrderFormView', ->
             @view.$('.subtotal-message').text().should.equal '單價必須為數字'
 
           it 'shows a currency conversion message if needed', ->
+            @view.$('[name="currency-source"][value="USD"]').prop('checked', true)
             @view.$('[name="price"]').val '150'
             @view.updateSubtotalMessage()
             @view.$('.subtotal-message').text().should.containEql "#{150 * @order.get('exchange_rate')}"
@@ -109,18 +122,29 @@ describe 'OrderFormView', ->
             it 'updates the price of the order line item model', ->
               @view.model.get('price').should.equal 100 * 60
 
-            it 'updates the view reflecting the new exchange rate', ->
-              @view.$('[name="price"]').val().should.equal '100'
-              @view.$('[name="currency-source"]:checked').val().should.equal 'USD'
-              @view.$('.subtotal-message').text().should.containEql "#{100 * @order.get('exchange_rate')}"
+            if type is 'product'
+              it 'updates the view reflecting the new exchange rate', ->
+                @view.$('[name="currency-source"]:checked').val().should.equal 'USD'
+                @view.$('[name="price"]').val().should.equal acct.toFixed(100, 2)
+                @view.$('.subtotal-message').text().should.containEql "#{100 * @order.get('exchange_rate')}"
+            else
+              it 'updates the view reflecting the new exchange rate', ->
+                @view.$('[name="currency-source"]:checked').val().should.equal 'TWD'
+                @view.$('[name="price"]').val().should.equal acct.toFixed(100 * @order.get('exchange_rate'))
+                @view.$('.subtotal-message').text().should.be.empty
 
             it 'stores the new exchange rate in @oldFXRate', ->
               @view.oldFXRate.should.equal 60
 
           describe 'currency source changed', ->
-            it 'updates the view with the updated currency', ->
-              @order.set 'currency_source', 'JPY'
-              @view.$('[name="currency-source"]:checked').val().should.equal 'JPY'
+            if type is 'product'
+              it 'updates the view with the updated currency', ->
+                @order.set 'currency_source', 'JPY'
+                @view.$('[name="currency-source"]:checked').val().should.equal 'JPY'
+            else
+              it 'keeps target currency selected', ->
+                @order.set 'currency_source', 'JPY'
+                @view.$('[name="currency-source"]:checked').val().should.equal 'TWD'
 
         describe '#save', ->
           beforeEach ->
@@ -169,16 +193,16 @@ describe 'OrderFormView', ->
               @view.$('.order-line-item-preview .item-title').text().should.equal '2015 限量紀念包'
               @view.$('.order-line-item-preview .item-color').text().should.equal '米白色'
               @view.$('.order-line-item-preview .item-size').text().should.equal 'XL'
-              @view.$('.order-line-item-preview .item-price').text().should.equal "#{100 * @order.get('exchange_rate')}"
-              @view.$('.order-line-item-preview .item-quantity').text().should.equal '2'
-              @view.$('.order-line-item-preview .item-subtotal').text().should.equal "#{2 * 100 * @order.get('exchange_rate')}"
+              @view.$('.order-line-item-preview .item-price').text().should.equal acct.formatMoney(100 * @order.get('exchange_rate'))
+              @view.$('.order-line-item-preview .item-quantity').text().should.equal '2 個'
+              @view.$('.order-line-item-preview .item-subtotal').text().should.equal acct.formatMoney(2 * 100 * @order.get('exchange_rate'))
 
           else
             it 'sets the order notes with correct value', ->
               @view.model.get('notes').should.equal '多退少補'
 
             it 'updates the view with updated order line item attributes', ->
-              @view.$('.item-price').text().should.equal "#{100 * @order.get('exchange_rate')}"
-              @view.$('.order-line-item-preview .item-subtotal').text().should.equal "#{100 * @order.get('exchange_rate')}"
+              @view.$('.item-price').text().should.equal acct.formatMoney(100 * @order.get('exchange_rate'))
+              @view.$('.order-line-item-preview .item-subtotal').text().should.equal acct.formatMoney(100 * @order.get('exchange_rate'))
 
   xdescribe 'existing item', -> undefined

@@ -72,6 +72,20 @@ body
     font-size 18px
     font-weight bold
 
+.order-partial
+  .order-partial-form
+    display none
+  .order-partial-action
+  .order-partial-preview
+    display block
+
+.order-partial[data-state="editing"],
+  .order-partial-form
+    display block
+  .order-partial-action
+  .order-partial-preview
+    display none
+
 .panel-exchange-rate-settings
   .exchange-rate-editing
     display none
@@ -104,6 +118,6 @@ body
     display none
 
 .image-upload-preview
-  display none
+.item-image
   img
     max-height 150px

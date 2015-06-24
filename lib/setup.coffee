@@ -56,7 +56,11 @@ module.exports = (app) ->
     stylus = require 'stylus'
     nib = require 'nib'
     compile = (str, path) ->
-      stylus(str).set('filename', path).use(bootstrap()).use(nib())
+      stylus(str)
+        .set('filename', path)
+        .set('include css', true)
+        .use(bootstrap())
+        .use(nib())
     app.use stylus.middleware
       src: path.resolve(__dirname, "../")
       dest: path.resolve(__dirname, "../public")

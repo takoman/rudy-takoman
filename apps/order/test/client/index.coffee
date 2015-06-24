@@ -1,5 +1,6 @@
 _           = require 'underscore'
 sd          = require('sharify').data
+acct        = require 'accounting'
 benv        = require 'benv'
 sinon       = require 'sinon'
 rewire      = require 'rewire'
@@ -30,9 +31,11 @@ describe 'OrderFormView', ->
     beforeEach (done) ->
       @order = new Order()
       @orderLineItems = new OrderLineItems()
-      benv.render resolve(__dirname, '../../templates/order_creation.jade'),
+      benv.render resolve(__dirname, '../../templates/index.jade'),
         asset: (-> undefined)
         sd: {}
+        _: _
+        acct: acct
         order: @order
         orderLineItems: @orderLineItems
       , =>
@@ -53,10 +56,10 @@ describe 'OrderFormView', ->
           @view.updateTotal()
 
         it 'shows 0 for all the types', ->
-          @view.$('#order-product-total').text().should.equal '0'
-          @view.$('#order-shipping-total').text().should.equal '0'
-          @view.$('#order-commission-total').text().should.equal '0'
-          @view.$('#order-total').text().should.equal '0'
+          @view.$('#order-product-total').text().should.equal acct.formatMoney 0
+          @view.$('#order-shipping-total').text().should.equal acct.formatMoney 0
+          @view.$('#order-commission-total').text().should.equal acct.formatMoney 0
+          @view.$('#order-total').text().should.equal acct.formatMoney 0
 
       describe 'with order line items', ->
         beforeEach ->
@@ -72,10 +75,10 @@ describe 'OrderFormView', ->
           @view.updateTotal()
 
         it 'shows the subtotal for each type', ->
-          @view.$('#order-product-total').text().should.equal '250'
-          @view.$('#order-shipping-total').text().should.equal '15'
-          @view.$('#order-commission-total').text().should.equal '60'
-          @view.$('#order-total').text().should.equal '325'
+          @view.$('#order-product-total').text().should.equal acct.formatMoney 250
+          @view.$('#order-shipping-total').text().should.equal acct.formatMoney 15
+          @view.$('#order-commission-total').text().should.equal acct.formatMoney 60
+          @view.$('#order-total').text().should.equal acct.formatMoney 325
 
     describe '#saveOrderAndRelated', ->
       beforeEach ->

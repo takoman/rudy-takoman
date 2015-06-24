@@ -10,9 +10,15 @@
 
 _ = require 'underscore'
 Backbone = require 'backbone'
+Relations = require './mixins/relations/order.coffee'
+SantaModel = require './mixins/santa_model.coffee'
 { API_URL } = require('sharify').data
 
 module.exports = class Order extends Backbone.Model
+
+  _.extend @prototype, Relations
+  _.extend @prototype, SantaModel
+
   defaults: ->
     currency_target: 'TWD'
 

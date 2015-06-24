@@ -9,20 +9,20 @@
           .form-group
             label( for="currency-source" ) 金額幣別*
             .radio-inline
-              input( type="radio" id="commission-currency-twd" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
-              label( for="commission-currency-twd" ) 台幣
-            if currencySource != 'TWD'
+              input( type="radio" id="commission-currency-twd-#{uid}" name="currency-source" value="TWD" checked )
+              label( for="commission-currency-twd-#{uid}" ) 台幣
+            unless currencySource == 'TWD'
               .radio-inline
-                input( type="radio" id="commission-currency-foreign" name="currency-source" value=currencySource checked )
-                label( for="commission-currency-foreign" ) #{currencySource}
+                input( type="radio" id="commission-currency-foreign-#{uid}" name="currency-source" value=currencySource )
+                label( for="commission-currency-foreign-#{uid}" ) #{money.CURRENCIES[currencySource].cname} (#{currencySource})
           .form-group
-            label( for="price" ) 金額*
-            input#price.form-control( name="price" value="#{item.get('price') / exchangeRate}" type="text" placeholder="商品金額" required )
-            input#quantity.form-control.quantity-field( name="quantity" value="1" type="hidden" placeholder="數量" required )
+            label( for="price-#{uid}" ) 金額*
+            input.form-control( id="price-#{uid}" name="price" value=item.get('price') type="text" placeholder="商品金額" required )
+            input.form-control.quantity-field( name="quantity" value="1" type="hidden" placeholder="數量" required )
             p.help-block.subtotal-message
           .form-group
-            label( for="notes" ) 說明
-            textarea#notes.form-control( name="notes" type="text" placeholder="說明" )
+            label( for="notes-#{uid}" ) 說明
+            textarea.form-control( id="notes-#{uid}" name="notes" type="text" placeholder="說明" )
               = item.get('notes')
           button.cancel-saving-item.btn.btn-secondary.btn-tiny( type="button" ) 取消
           button.save-item.btn.btn-secondary.btn-tiny( type="submit" ) 確定
@@ -34,10 +34,10 @@
           include ../../../components/main_layout/public/svgs/product.svg
       .col-md-7
         .item-title 代買費
-        .item-price= item.get('price')
+        .item-price= acct.formatMoney(item.get('price'))
       .col-md-7
         .item-actions
           a.item-action.edit-item 編輯
           a.item-action.remove-item 刪除
       .col-md-5.text-right
-        .item-subtotal= item.get('price') * item.get('quantity')
+        .item-subtotal= acct.formatMoney(item.get('price') * item.get('quantity'))

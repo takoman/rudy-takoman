@@ -55,5 +55,5 @@ describe 'Order routes', ->
           routes.orderCreation(@req, @res)
             .then =>
               @res.redirect.called.should.not.be.ok
-              @res.render.args[0][0].should.equal 'order_creation'
+              @res.render.args[0][0].should.equal 'index'
               done()

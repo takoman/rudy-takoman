@@ -2,9 +2,38 @@
 # Routes file that exports route handlers for ease of testing.
 #
 
+_ = require 'underscore'
 Merchants = require '../../collections/merchants.coffee'
 Order = require '../../models/order.coffee'
 OrderLineItems = require '../../collections/order_line_items.coffee'
+money = require '../../lib/money.js'
+acct = require 'accounting'
+Q = require 'q'
+
+acct.settings.currency = _.defaults
+  precision: 0
+  symbol: 'NT'
+  format: '%s %v'
+, acct.settings.currency
+
+@index = (req, res, next) ->
+  return res.redirect '/login' unless req.user
+
+  merchants = new Merchants()
+  order = new Order(_id: req.params.id)
+  orderLineItems = new OrderLineItems()
+  merchants.fetch data: user_id: req.user.get('_id')
+    .then ->
+      return next('The logged in user is not a merchant') if merchants.length is 0
+
+      Q.all [order.fetch(), orderLineItems.fetch(data: order_id: req.params.id)]
+    .then ->
+      res.locals.sd.ORDER = order.toJSON()
+      res.locals.sd.ORDER_LINE_ITEMS = orderLineItems.toJSON()
+      res.render 'index', order: order, orderLineItems: orderLineItems, acct: acct, currencies: money.CURRENCIES
+    .catch (error) ->
+      next error?.body?.message or 'failed to fetch order and order line items'
+    .done()
 
 @orderCreation = (req, res, next) ->
   # Redirect to /login if the user is not logged in
@@ -26,6 +55,6 @@ OrderLineItems = require '../../collections/order_line_items.coffee'
       orderLineItems = new OrderLineItems()
       res.locals.sd.ORDER = order.toJSON()
       res.locals.sd.ORDER_LINE_ITEMS = orderLineItems.toJSON()
-      res.render 'order_creation', order: order, orderLineItems: orderLineItems
+      res.render 'index', order: order, orderLineItems: orderLineItems, acct: acct, currencies: money.CURRENCIES
     #.fail ->
     #  return next('Failed to fetch the merchant')
