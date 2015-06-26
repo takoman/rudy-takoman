@@ -1,4 +1,5 @@
 _           = require 'underscore'
+Q           = require 'q'
 sd          = require('sharify').data
 acct        = require 'accounting'
 benv        = require 'benv'
@@ -22,7 +23,7 @@ describe 'OrderFormView', ->
     benv.teardown()
 
   beforeEach ->
-    sinon.stub Backbone, 'sync'
+    @sync = sinon.stub Backbone, 'sync'
 
   afterEach ->
     Backbone.sync.restore()
@@ -109,6 +110,63 @@ describe 'OrderFormView', ->
         ]
         @view.orderLineItems.at(0).related().product.set @products[0]
         @view.orderLineItems.at(1).related().product.set @products[1]
+
+        [@orderDfd, @npLineItemDfd, @productDfd, @pLineItemDfd] = _.map [1..4], -> Q.defer()
+        @sync.withArgs('create', @view.order).returns @orderDfd.promise
+        _.each @view.orderLineItems.last(3), (item) =>
+          @sync.withArgs('create', item).returns @npLineItemDfd.promise
+        _.each @view.orderLineItems.first(2), (item) =>
+          @sync.withArgs('create', item).returns @pLineItemDfd.promise
+        @sync.withArgs('create', @view.orderLineItems.at(0).related().product).returns @productDfd.promise
+        @sync.withArgs('create', @view.orderLineItems.at(1).related().product).returns @productDfd.promise
         @view.saveOrderAndRelated()
 
-      xit 'submits the order creation request', (done) -> undefined
+      it 'submits the order creation request', (done) ->
+        # https://github.com/kriskowal/q/issues/274
+        _.defer =>
+          Backbone.sync.args.length.should.equal 1
+          Backbone.sync.args[0][0].should.equal 'create'
+          Backbone.sync.args[0][1].should.equal @view.order
+          Backbone.sync.args[0][1].url().should.endWith '/api/v1/orders'
+          @orderDfd.resolve()
+          _.defer =>
+            Backbone.sync.args.length.should.equal 6
+            _.each [1..5], (i) -> Backbone.sync.args[i][0].should.equal 'create'
+            Backbone.sync.args[1][1].should.eql @view.orderLineItems.at(2)
+            Backbone.sync.args[2][1].should.eql @view.orderLineItems.at(3)
+            Backbone.sync.args[3][1].should.eql @view.orderLineItems.at(4)
+            Backbone.sync.args[4][1].should.eql @view.orderLineItems.at(0).related().product
+            Backbone.sync.args[5][1].should.eql @view.orderLineItems.at(1).related().product
+            @npLineItemDfd.resolve()
+            @productDfd.resolve()
+            _.defer =>
+              Backbone.sync.args.length.should.equal 8
+              _.each [6, 7], (i) -> Backbone.sync.args[i][0].should.equal 'create'
+              Backbone.sync.args[6][1].should.eql @view.orderLineItems.at(0)
+              Backbone.sync.args[7][1].should.eql @view.orderLineItems.at(1)
+              done()
+
+      it 'shows the success message if everything succeeds', (done) ->
+        _.defer =>
+          @orderDfd.resolve()
+          _.defer =>
+            @npLineItemDfd.resolve()
+            @productDfd.resolve()
+            _.defer =>
+              @pLineItemDfd.resolve()
+              _.defer =>
+                @view.$('.order-edit-message').text().should.equal '訂單儲存成功！'
+                done()
+
+      it 'shows the error message if something goes wrong', (done) ->
+        _.defer =>
+          @orderDfd.resolve()
+          _.defer =>
+            @npLineItemDfd.resolve()
+            # This should reject immediately without creating its
+            # corresponding order line item.
+            @productDfd.reject({responseJSON: message: 'godzilla invasion'})
+            _.defer =>
+              @view.$('.order-edit-message').text().should.equal(
+                '訂單儲存失敗 (Godzilla invasion)。請再試一次或聯絡我們。')
+              done()
