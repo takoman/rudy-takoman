@@ -23,6 +23,6 @@ setupGlobal = ->
   $('[data-toggle="tooltip"]').tooltip()
 
 setupAnalytics = ->
-  analytics(ga: ga)
+  analytics(ga: ga) if ga?
   analytics.trackPageview()
   analytics.registerCurrentUser()

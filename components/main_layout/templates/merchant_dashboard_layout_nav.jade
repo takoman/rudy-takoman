@@ -1,0 +1,42 @@
+//- This can be moved to a helper funtion
+- function isActive(regex) {
+-   var currentPath;
+-   currentPath = sd.CURRENT_PATH.replace(/\/$/, ''); // Strip trailing slash
+-   return regex.test(currentPath);
+- };
+
+- function activeClass(regex) { if (sd && sd.CURRENT_PATH) return isActive(regex) ? 'is-active' : 'is-inactive'; };
+
+.merchant-dashboard-layout-nav
+  a.nav-link.nav-home( href="#" )
+    .nav-link-icon
+      include ../public/svgs/dashboard.svg
+
+  a.nav-link.nav-item( href="#" class=activeClass(/^\/dashboard/) )
+    .nav-link-icon
+      include ../public/svgs/dashboard.svg
+    .nav-link-text 後台首頁
+  a.nav-link.nav-item( href="#" class=activeClass(/^\/profile/) )
+    .nav-link-icon
+      include ../public/svgs/dashboard.svg
+    .nav-link-text 賣家資訊
+  a.nav-link.nav-item( href="#" class=activeClass(/^\/orders(\/.*)?$/) )
+    .nav-link-icon
+      include ../public/svgs/dashboard.svg
+    .nav-link-text 訂單清單
+  a.nav-link.nav-item( href="#" class=activeClass(/^\/products/) )
+    .nav-link-icon
+      include ../public/svgs/dashboard.svg
+    .nav-link-text 商品清單
+  a.nav-link.nav-item( href="#" class=activeClass(/^\/reviews/) )
+    .nav-link-icon
+      include ../public/svgs/dashboard.svg
+    .nav-link-text 我的評價
+  a.nav-link.nav-item( href="#" class=activeClass(/^\/money/) )
+    .nav-link-icon
+      include ../public/svgs/dashboard.svg
+    .nav-link-text 歐付寶
+  a.nav-link.nav-item( href="#" class=activeClass(/^\/settings/) )
+    .nav-link-icon
+      include ../public/svgs/dashboard.svg
+    .nav-link-text 帳戶設定
