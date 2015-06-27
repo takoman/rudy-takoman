@@ -15,10 +15,13 @@ html
     include ../../modal/template
 
     block body
+      include ./merchant_dashboard_layout_nav
+      include ./merchant_dashboard_layout_header
+      .merchant-dashboard-layout-container
+        .merchant-dashboard-layout-content
+          block content
+
     #scripts
-      if sd.NODE_ENV != 'test'
-        //- Google analytics script (and potentially others, e.g. Mixpanel)
-        include ./google_analytics.html
 
       //- Wire up sharify
       if sharify

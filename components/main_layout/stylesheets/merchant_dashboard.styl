@@ -1,0 +1,96 @@
+$with-sidebar = 'min-width: 1024px'
+$sidebar-width = 260px
+$nav-home-height = 100px
+$nav-item-height = 70px
+$nav-item-boarder-color = $gray-darkest * 1.4
+$nav-icon-height = 35px
+$header-height = 50px
+
+.merchant-dashboard-layout-nav
+  background-color $gray-darkest
+  color $white
+
+  @media screen and ({$with-sidebar})
+    position fixed
+    left 0
+    top 0
+    width $sidebar-width
+    min-height 100%
+
+  .nav-link
+    display block
+    color $gray-light
+
+  .nav-item
+    position relative
+    height $nav-item-height
+    padding (($nav-item-height - $nav-icon-height ) / 2)
+    padding-left 50px
+    border-top 2px dashed $nav-item-boarder-color
+    transition all 0.25s ease-in-out
+    transition-property color, background-color, border-color
+    &:last-of-type
+      border-bottom 2px dashed $nav-item-boarder-color
+      &:before
+        bottom: -2px  // to cover the 2px bottom border of the last .nav-item
+    &:before
+      content: ''
+      position: absolute
+      top: -2px       // to cover the 2px top border of the .nav-item
+      left: 0
+      bottom: 0
+      width: 10px
+      transition background-color 0.25s ease-in-out
+    &:hover, &.is-active
+      color $white
+      background-color $gray-darkest * 0.8
+      border-color transparent
+      &:before
+        background-color $red
+      + .nav-link
+        border-top-color transparent
+      .nav-link-icon
+        > svg
+          path, rect, circle
+            fill $white
+
+  .nav-link-icon, .nav-link-text
+    display inline-block
+    vertical-align middle
+
+  .nav-link-icon
+    height $nav-icon-height
+    width $nav-icon-height
+    margin-right 30px
+    > svg
+      width 100%
+      height 100%
+      path, rect, circle
+        fill $gray-light
+        transition fill 0.25s ease-in-out
+
+  .nav-link-text
+    line-height $nav-icon-height
+    font-size 15px
+    letter-spacing 0.3em
+
+  .nav-home
+    height $nav-home-height
+    padding 15px
+    text-align center
+    .nav-link-icon
+      height 100%
+      width 100%
+      > svg
+        height 100%
+
+.merchant-dashboard-layout-container
+  @media screen and ({$with-sidebar})
+    padding-left $sidebar-width
+
+.merchant-dashboard-layout-content
+  background-color $gray-lighter
+
+.merchant-dashboard-layout-header
+  background-color $gray-lightest * 1.03
+  height $header-height

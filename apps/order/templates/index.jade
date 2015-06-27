@@ -1,4 +1,4 @@
-extends ../../../components/main_layout/templates/index
+extends ../../../components/main_layout/templates/merchant_dashboard
 include ../../../components/buttons/index
 
 append locals
@@ -7,90 +7,87 @@ append locals
 block head
   title Order Creation
 
-block body
-  #left-bar( style="position:fixed; width: 264px; height: 1200px; background:#333333;" )
-  #right-content( style="padding-left:264px;")
-    #top-bar( style="padding-left:264px; position: relative; height:50px; background: #f4f4f4;" )
-    .row
-      .col-md-22.col-md-offset-1
-        ol.breadcrumb
-          li: a( href="#") 訂單清單
-          li= order.isNew() ? '新增訂單' : moment(order.get('created_at')).format('YYYY-MM-DD') + ' 建立的訂單'
-    .row
-      .col-md-22.col-md-offset-1
-        h1.pull-left( style="font-size: 24px; font-weight: bold;" )
-          = order.isNew() ? '新增訂單' : '編輯訂單'
-        .pull-right( style="margin-top: 20px;")
-          a.btn.btn-secondary.btn-tiny 取消訂單
-          a.btn.btn-disabled.btn-tiny 儲存訂單
-        .clearfix
-      .col-md-22.col-md-offset-1
-        .order-edit-message.alert( role="alert" )
-    .row
-      .col-md-6.col-md-offset-1
-        .panel.panel-primary
-          .panel-header 訂單資訊
-          .panel-content
-            .order-partial.order-id
-              label 訂單編號
-              p= order.get('_id')
-            .order-partial.order-due-at
-              label
-                | 訂單保留期限
-                a( data-toggle="tooltip" data-placement="right" title="當訂單確認送出後，買家有七天的時間可以付款。若買家在七天內沒有完成付款，此份訂單即失效。請記得善意提醒一下您的買家喔！" ) ?
-              .order-partial-form
-                form#form-set-due-at
-                  //- TODO: need a partial form to set due date
-              .order-partial-preview
-                p.order-due-at-preview 需於訂單送出後 7 天內付款
-            .order-partial.order-notes
-              label 附註
-              a#edit-order-notes.order-partial-action.pull-right 修改
-              .order-partial-form
-                form#form-set-notes
-                  .form-group
-                    textarea.form-control( name="notes" placeholder="訂單的附註說明..." rows="5")
-                      = order.get('notes')
-                  .form-group
-                    +button("button", "確定")(class="btn btn-sm btn-secondary btn-navy", type="submit")
-              .order-partial-preview
-                p.order-notes-preview= order.get('notes')
+block content
+  .row
+    .col-md-22.col-md-offset-1
+      ol.breadcrumb
+        li: a( href="#") 訂單清單
+        li= order.isNew() ? '新增訂單' : moment(order.get('created_at')).format('YYYY-MM-DD') + ' 建立的訂單'
+  .row
+    .col-md-22.col-md-offset-1
+      h1.pull-left( style="font-size: 24px; font-weight: bold;" )
+        = order.isNew() ? '新增訂單' : '編輯訂單'
+      .pull-right( style="margin-top: 20px;")
+        a.btn.btn-secondary.btn-tiny 取消訂單
+        a.btn.btn-disabled.btn-tiny 儲存訂單
+      .clearfix
+    .col-md-22.col-md-offset-1
+      .order-edit-message.alert( role="alert" )
+  .row
+    .col-md-6.col-md-offset-1
+      .panel.panel-primary
+        .panel-header 訂單資訊
+        .panel-content
+          .order-partial.order-id
+            label 訂單編號
+            p= order.get('_id')
+          .order-partial.order-due-at
+            label
+              | 訂單保留期限
+              a( data-toggle="tooltip" data-placement="right" title="當訂單確認送出後，買家有七天的時間可以付款。若買家在七天內沒有完成付款，此份訂單即失效。請記得善意提醒一下您的買家喔！" ) ?
+            .order-partial-form
+              form#form-set-due-at
+                //- TODO: need a partial form to set due date
+            .order-partial-preview
+              p.order-due-at-preview 需於訂單送出後 7 天內付款
+          .order-partial.order-notes
+            label 附註
+            a#edit-order-notes.order-partial-action.pull-right 修改
+            .order-partial-form
+              form#form-set-notes
+                .form-group
+                  textarea.form-control( name="notes" placeholder="訂單的附註說明..." rows="5")
+                    = order.get('notes')
+                .form-group
+                  +button("button", "確定")(class="btn btn-sm btn-secondary btn-navy", type="submit")
+            .order-partial-preview
+              p.order-notes-preview= order.get('notes')
 
-      .col-md-16
-        include ./exchange_rate_settings
+    .col-md-16
+      include ./exchange_rate_settings
 
-        .panel.panel-order-line-items( class=(order.isNew() ? 'panel-disabled' : 'panel-secondary') )
-          .panel-header
-            .panel-title STEP 2. 訂單內容
-          .panel-content
-            .order-line-items
-            .order-total-summary
-              .row
-                .col-md-10.col-md-offset-14
-                  .order-total-breakdown.clearfix
-                    .order-total-breakdown-label.pull-left 商品總額
-                    #order-product-total.order-total-breakdown-amount.pull-right
-                      = acct.formatMoney(orderLineItems.total('product'))
-                  .order-total-breakdown.clearfix
-                    .order-total-breakdown-label.pull-left 運費
-                    #order-shipping-total.order-total-breakdown-amount.pull-right
-                      = acct.formatMoney(orderLineItems.total('shipping'))
-                  .order-total-breakdown.clearfix
-                    .order-total-breakdown-label.pull-left 代買費
-                    #order-commission-total.order-total-breakdown-amount.pull-right
-                      = acct.formatMoney(orderLineItems.total('commission'))
-                  .order-total-breakdown.clearfix
-                    .order-total-breakdown-label.pull-left 總計
-                    #order-total.order-total-breakdown-amount.pull-right
-                      = acct.formatMoney(orderLineItems.total())
+      .panel.panel-order-line-items( class=(order.isNew() ? 'panel-disabled' : 'panel-secondary') )
+        .panel-header
+          .panel-title STEP 2. 訂單內容
+        .panel-content
+          .order-line-items
+          .order-total-summary
+            .row
+              .col-md-10.col-md-offset-14
+                .order-total-breakdown.clearfix
+                  .order-total-breakdown-label.pull-left 商品總額
+                  #order-product-total.order-total-breakdown-amount.pull-right
+                    = acct.formatMoney(orderLineItems.total('product'))
+                .order-total-breakdown.clearfix
+                  .order-total-breakdown-label.pull-left 運費
+                  #order-shipping-total.order-total-breakdown-amount.pull-right
+                    = acct.formatMoney(orderLineItems.total('shipping'))
+                .order-total-breakdown.clearfix
+                  .order-total-breakdown-label.pull-left 代買費
+                  #order-commission-total.order-total-breakdown-amount.pull-right
+                    = acct.formatMoney(orderLineItems.total('commission'))
+                .order-total-breakdown.clearfix
+                  .order-total-breakdown-label.pull-left 總計
+                  #order-total.order-total-breakdown-amount.pull-right
+                    = acct.formatMoney(orderLineItems.total())
 
-          .panel-footer
-            .order-line-items-actions
-              button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="product" ) 新增商品
-              button.select-product.btn.btn-primary.btn-tiny( type="button" ) 從清單新增商品
-              button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="shipping" ) 新增運費
-              button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="commission" ) 新增代買費
+        .panel-footer
+          .order-line-items-actions
+            button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="product" ) 新增商品
+            button.select-product.btn.btn-primary.btn-tiny( type="button" ) 從清單新增商品
+            button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="shipping" ) 新增運費
+            button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="commission" ) 新增代買費
 
-        p.btn-toolbar.text-right
-          button.cancel-order-update.btn.btn-secondary.btn-tiny( type="button" ) 取消訂單
-          button.save-order.btn.btn-tiny( type="button" ) 儲存訂單
+      p.btn-toolbar.text-right
+        button.cancel-order-update.btn.btn-secondary.btn-tiny( type="button" ) 取消訂單
+        button.save-order.btn.btn-tiny( type="button" ) 儲存訂單
