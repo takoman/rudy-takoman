@@ -11,8 +11,8 @@ block content
   .row
     .col-md-22.col-md-offset-1
       ol.breadcrumb
-        li: a( href="#") 訂單清單
-        li= order.isNew() ? '新增訂單' : moment(order.get('created_at')).format('YYYY-MM-DD') + ' 建立的訂單'
+        li: a( href="#" ) 訂單清單
+        li.active= order.isNew() ? '新增訂單' : moment(order.get('created_at')).format('YYYY-MM-DD') + ' 建立的訂單'
   .row
     .col-md-22.col-md-offset-1
       h1.pull-left( style="font-size: 24px; font-weight: bold;" )

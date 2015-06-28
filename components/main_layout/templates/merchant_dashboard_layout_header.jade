@@ -1,2 +1,14 @@
 .merchant-dashboard-layout-container
   .merchant-dashboard-layout-header
+    .row
+      .col-md-16
+        .merchant-icon
+          img
+        .merchant-name
+          = merchant.get('merchant_name')
+      .col-md-8.text-right
+        .merchant-header-nav
+          ol.action-list
+            li: a( href="#" ) 前往我的賣場
+            li: a( href="#" ) 登出
+        .merchant-notification

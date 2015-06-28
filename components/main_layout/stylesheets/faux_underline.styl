@@ -1,0 +1,27 @@
+//
+// CSS trick to adjust the border-bottom to make it look like a nicer text-decoration: underline
+// Use it like a.faux-underline or use the mixin directly
+//
+
+faux-underline()
+  &
+    display inline
+    position relative
+    text-decoration none
+  &:before
+    content ''
+    position absolute
+    left 0
+    top 0
+    display inline-block
+    height 1em
+    width 100%
+    margin-top 0.4em
+    border-bottom 1px solid $black
+  &:hover
+    text-decoration none
+  &:hover:before
+    border-bottom-color $black
+
+.faux-underline
+  faux-underline()

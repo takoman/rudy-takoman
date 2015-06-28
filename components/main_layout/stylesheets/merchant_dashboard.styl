@@ -1,20 +1,21 @@
-$with-sidebar = 'min-width: 1024px'
-$sidebar-width = 260px
-$nav-home-height = 100px
-$nav-item-height = 70px
-$nav-item-boarder-color = $gray-darkest * 1.4
-$nav-icon-height = 35px
-$header-height = 50px
+with-sidebar = 'min-width: 1024px'
+sidebar-width = 260px
+nav-home-height = 100px
+nav-item-height = 70px
+nav-item-boarder-color = $gray-darkest * 1.4
+nav-icon-height = 35px
+header-height = 50px
+header-icon-height = 30px
 
 .merchant-dashboard-layout-nav
   background-color $gray-darkest
-  color $white
+  color white
 
-  @media screen and ({$with-sidebar})
+  @media screen and ({with-sidebar})
     position fixed
     left 0
     top 0
-    width $sidebar-width
+    width sidebar-width
     min-height 100%
 
   .nav-link
@@ -23,14 +24,14 @@ $header-height = 50px
 
   .nav-item
     position relative
-    height $nav-item-height
-    padding (($nav-item-height - $nav-icon-height ) / 2)
+    height nav-item-height
+    padding ((nav-item-height - nav-icon-height ) / 2)
     padding-left 50px
-    border-top 2px dashed $nav-item-boarder-color
+    border-top 2px dashed nav-item-boarder-color
     transition all 0.25s ease-in-out
     transition-property color, background-color, border-color
     &:last-of-type
-      border-bottom 2px dashed $nav-item-boarder-color
+      border-bottom 2px dashed nav-item-boarder-color
       &:before
         bottom: -2px  // to cover the 2px bottom border of the last .nav-item
     &:before
@@ -42,11 +43,11 @@ $header-height = 50px
       width: 10px
       transition background-color 0.25s ease-in-out
     &:hover, &.is-active
-      color $white
+      color white
       background-color $gray-darkest * 0.8
       border-color transparent
       &:before
-        background-color $red
+        background-color red
       + .nav-link
         border-top-color transparent
       .nav-link-icon
@@ -59,8 +60,8 @@ $header-height = 50px
     vertical-align middle
 
   .nav-link-icon
-    height $nav-icon-height
-    width $nav-icon-height
+    height nav-icon-height
+    width nav-icon-height
     margin-right 30px
     > svg
       width 100%
@@ -70,12 +71,12 @@ $header-height = 50px
         transition fill 0.25s ease-in-out
 
   .nav-link-text
-    line-height $nav-icon-height
+    line-height nav-icon-height
     font-size 15px
     letter-spacing 0.3em
 
   .nav-home
-    height $nav-home-height
+    height nav-home-height
     padding 15px
     text-align center
     .nav-link-icon
@@ -85,12 +86,34 @@ $header-height = 50px
         height 100%
 
 .merchant-dashboard-layout-container
-  @media screen and ({$with-sidebar})
-    padding-left $sidebar-width
+  @media screen and ({with-sidebar})
+    padding-left sidebar-width
 
 .merchant-dashboard-layout-content
   background-color $gray-lighter
 
 .merchant-dashboard-layout-header
   background-color $gray-lightest * 1.03
-  height $header-height
+  height header-height
+  padding ((header-height - header-icon-height) / 2) 0
+  padding-left header-height - header-icon-height
+
+  .merchant-icon, .merchant-name, .merchant-header-nav, .merchant-notification
+    display inline-block
+    vertical-align middle
+  .merchant-icon
+    height header-icon-height
+    width header-icon-height
+    background-color $gray
+    margin-right 10px
+    > img
+      width 100%
+  .merchant-name
+    font-size 15px
+    letter-spacing 0.2em
+  .merchant-notification
+    height header-height
+    width header-height
+    background-color $red
+    margin (-(header-height - header-icon-height) / 2) 0
+    margin-left 20px

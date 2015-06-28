@@ -30,7 +30,12 @@ acct.settings.currency = _.defaults
     .then ->
       res.locals.sd.ORDER = order.toJSON()
       res.locals.sd.ORDER_LINE_ITEMS = orderLineItems.toJSON()
-      res.render 'index', order: order, orderLineItems: orderLineItems, acct: acct, currencies: money.CURRENCIES
+      res.render 'index',
+        merchant: merchants.at(0)
+        order: order
+        orderLineItems: orderLineItems
+        acct: acct
+        currencies: money.CURRENCIES
     .catch (error) ->
       next error?.body?.message or 'failed to fetch order and order line items'
     .done()
@@ -55,6 +60,11 @@ acct.settings.currency = _.defaults
       orderLineItems = new OrderLineItems()
       res.locals.sd.ORDER = order.toJSON()
       res.locals.sd.ORDER_LINE_ITEMS = orderLineItems.toJSON()
-      res.render 'index', order: order, orderLineItems: orderLineItems, acct: acct, currencies: money.CURRENCIES
+      res.render 'index',
+        merchant: merchants.at(0)
+        order: order
+        orderLineItems: orderLineItems
+        acct: acct
+        currencies: money.CURRENCIES
     #.fail ->
     #  return next('Failed to fetch the merchant')
