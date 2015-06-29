@@ -76,8 +76,8 @@
         .item-price= acct.formatMoney(item.get('price'))
         .item-quantity #{item.get('quantity')} 個
       .col-md-7
-        .item-actions
-          a.item-action.edit-item 編輯
-          a.item-action.remove-item 刪除
+        ol.item-actions.action-list
+          li: a.item-action.edit-item( href="#" ) 編輯
+          li: a.item-action.remove-item( href="#" ) 刪除
       .col-md-5.text-right
         .item-subtotal= acct.formatMoney(item.get('price') * item.get('quantity'))

@@ -20,7 +20,15 @@
 .panel.panel-secondary,
 .panel.panel-disabled
   .panel-header
-    color $white
+    &, a
+      color $white
+    a:hover
+      color $gray-lightest
+    .action-list
+      li > a:before
+        border-bottom-color $white
+      li > a:hover:before
+        border-bottom-color $gray-lightest
 
 .panel.panel-primary
   .panel-header

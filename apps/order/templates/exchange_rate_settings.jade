@@ -1,7 +1,9 @@
 .panel.panel-secondary.panel-exchange-rate-settings( data-state=(order.isNew() ? 'editing' : '') )
   .panel-header.clearfix
     .panel-title.pull-left STEP 1. 訂單匯率
-    a#edit-exchange-rate.pull-right 修改
+    .pull-right
+      ol.item-actions.action-list
+        li: a#edit-exchange-rate.item-action.edit-item( href="#" ) 修改
   .panel-content
     .exchange-rate-settings
       .exchange-rate-editing

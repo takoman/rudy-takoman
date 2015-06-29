@@ -42,7 +42,9 @@ block content
               p.order-due-at-preview 需於訂單送出後 7 天內付款
           .order-partial.order-notes
             label 附註
-            a#edit-order-notes.order-partial-action.pull-right 修改
+            .order-partial-action.pull-right
+              ol.item-actions.action-list
+                li: a#edit-order-notes.item-action.edit-item( href="#" ) 編輯
             .order-partial-form
               form#form-set-notes
                 .form-group
