@@ -1,25 +1,5 @@
 @import "../../../components/main_layout/stylesheets/variables"
 
-#add-item-bar-position
-  height 70px
-
-#add-item-bar
-  background-color $gray-lightest
-  padding-top 20px
-  padding-bottom 20px
-  display flex
-  flex-flow row wrap
-  button
-    display flex
-    margin auto
-
-.add-item-bar-fixed
-  position fixed
-  width inherit
-  bottom 0
-  padding 0px
-  margin 0
-
 .order-line-item
   border-bottom-style dotted
   border-bottom-color $gray-dark
@@ -85,6 +65,24 @@
     display none
   #edit-exchange-rate
     display none
+
+.panel-order-line-items
+  .panel-footer
+    padding 15px 20px
+    background-color $gray-lightest * 1.03
+
+.order-line-items-actions
+  > .btn
+    display block
+    margin-bottom 10px
+  @media screen and (min-width: 1024px)
+    // TODO Need a mixin to generate the prefixes
+    display flex
+    > .btn
+      flex 1 1 auto
+      margin-right 20px
+      &:last-of-type
+        margin-right 0
 
 .panel-order-line-items.panel-disabled
   .panel-content

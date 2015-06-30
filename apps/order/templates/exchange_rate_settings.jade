@@ -25,7 +25,7 @@
                 input.form-control( id="exchange-rate" name="exchange-rate" type="number" min="0.01" step="0.01" value="1" placeholder="填入數字，如：31.50" required )
                 p#exchange-rate-settings-message.help-block
 
-              button#set-exchange-rate.btn.btn-secondary.btn-tiny( type="submit" ) 繼續下一步
+              +button("button", "繼續下一步")(class="btn btn-sm btn-primary btn-navy", id="set-exchange-rate", type="submit", data-icon="button-arrow")
 
       .exchange-rate-results
         .exchange-rate-results-item
