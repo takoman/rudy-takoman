@@ -40,7 +40,7 @@
     "typeahead.js": "git://github.com/twitter/typeahead.js.git",
     "underscore": "1.8.3",
     "underscore.string": "2.3.3",
-    "waypoints": "git://github.com/imakewebthings/waypoints.git"
+    "waypoints": "^3.1.1"
   },
   "devDependencies": {
     "benv": "^1.1.0",
