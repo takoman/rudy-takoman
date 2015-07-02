@@ -1,4 +1,5 @@
 @import "../../../components/main_layout/stylesheets/variables"
+@import 'nib'
 
 .order-line-item
   border-bottom-style dotted
@@ -79,10 +80,9 @@
     display block
     margin-bottom 10px
   @media screen and (min-width: 1024px)
-    // TODO Need a mixin to generate the prefixes
-    display flex
+    display(flex)
     > .btn
-      flex 1 1 auto
+      flex(1 1 auto)
       margin 0 20px 0 0
       &:last-of-type
         margin-right 0
