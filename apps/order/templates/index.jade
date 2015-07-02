@@ -64,6 +64,13 @@ block content
           .panel-title STEP 2. 訂單內容
         .panel-content
           .order-line-items
+            //- Render item placeholders to give better experience
+            each item in orderLineItems
+              .order-line-item
+                .order-line-item-preview
+                  .row
+                    .col-md-5
+                      .item-image
           .order-total-summary
             .row
               .col-md-10.col-md-offset-14

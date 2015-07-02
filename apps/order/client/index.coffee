@@ -28,7 +28,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @$currencySourceInput = @$ '#form-set-exchange-rate [name="currency-source"]'
     @$exchangeRateInput = @$ '#form-set-exchange-rate [name="exchange-rate"]'
 
-    @setupStickyActions()  # Have to set up waypoint before init items
+    @setupStickyActions()
     @initializeItems()
 
     # TODO We have to refresh waypoints every time the vertical position of
@@ -47,20 +47,27 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     'change select#currency-source': 'toggleExchangeRateInput'
 
   initializeItems: ->
+    views = []
     @orderLineItems.each (item) =>
       itemView = new OrderLineItemView
         type: item.get('type')
         order: @order
         model: item
-      @$('.panel-order-line-items .order-line-items').append itemView.el
+      views.push itemView.el
+    @$('.panel-order-line-items .order-line-items').html views
 
   setupStickyActions: ->
     $actionsRow = @$('.panel-order-line-items .panel-footer')
-    new Waypoint.Sticky
+    sticky = new Waypoint.Sticky
       element: $actionsRow[0]
       direction: 'up'
       offset: 'bottom-in-view'
       handler: -> $actionsRow.outerWidth @$wrapper.outerWidth()
+
+    # Trigger the sticky row if it already goes beyond page bottom.
+    pageBottom = $(window).scrollTop() + $(window).height()
+    actionsRowBottom = $actionsRow.offset().top + $actionsRow.outerHeight()
+    sticky.waypoint.trigger(['up']) if actionsRowBottom > pageBottom
 
   startEditingOrderExchangeRate: ->
     @$currencySourceInput.val(@order.get 'currency_source').trigger 'change'
