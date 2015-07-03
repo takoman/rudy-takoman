@@ -1,6 +1,5 @@
 _           = require 'underscore'
 Backbone    = require 'backbone'
-remodal     = require '../../lib/vendor/remodal.js'
 template    = -> require('./template.jade') arguments...
 
 module.exports = class ModalDialogView extends Backbone.View
@@ -22,6 +21,7 @@ module.exports = class ModalDialogView extends Backbone.View
       @closeOnOutsideClick, @modalHeader, @modalContent, @cancelLabel,
       @confirmLabel } = _.defaults options, @defaults
 
+    remodal = require '../../lib/vendor/remodal.js'
     modalId = "modal-dialog-id-#{_.uniqueId()}"
     @$el.html template
       modalId: modalId
