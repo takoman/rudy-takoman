@@ -1,0 +1,42 @@
+extends ../../../components/main_layout/templates/merchant_dashboard
+include ../../../components/buttons/index
+
+append locals
+  - assetPackage = 'orders'
+
+block head
+  title Orders
+
+block content
+  .row
+    .col-md-22.col-md-offset-1
+      //- Breadcrumbs
+      ol.breadcrumb
+        li: a( href="/dashboard" ) 後台首頁
+        li.active 訂單清單
+
+      h1.pull-left 訂單清單
+      .pull-right
+        +button("a", "建立訂單")(class="btn btn-sm btn-primary btn-navy", data-icon="button-arrow", href="/orders/create")
+
+      //- Orders list
+      table.table.table-striped.table-no-row-border
+        thead
+          tr
+            th 建立日期
+            th 訂單編號
+            th 金額
+            th 狀態
+            th
+        tbody
+          each order in orders.models
+            tr
+              td= moment(order.get('created_at')).format('YYYY-MM-DD')
+              td= order.get('_id')
+              td= acct.formatMoney(order.get('total'))
+              td= order.get('status')
+              td
+                ol.order-actions.action-list
+                  li: a( href="/orders/#{order.get('_id')}" ) 編輯訂單
+                  li: a 預覽網址
+                  li: a 付款網址
