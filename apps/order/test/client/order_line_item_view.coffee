@@ -193,8 +193,8 @@ describe 'OrderFormView', ->
               @view.$('.order-line-item-preview .item-title').text().should.equal '2015 限量紀念包'
               @view.$('.order-line-item-preview .item-color').text().should.equal '米白色'
               @view.$('.order-line-item-preview .item-size').text().should.equal 'XL'
-              @view.$('.order-line-item-preview .item-price').text().should.equal acct.formatMoney(100 * @order.get('exchange_rate'))
-              @view.$('.order-line-item-preview .item-quantity').text().should.equal '2 個'
+              @view.$('.order-line-item-preview .item-price').text().should.equal "單價：#{acct.formatMoney(100 * @order.get('exchange_rate'))}"
+              @view.$('.order-line-item-preview .item-quantity').text().should.equal '數量：2 個'
               @view.$('.order-line-item-preview .item-subtotal').text().should.equal acct.formatMoney(2 * 100 * @order.get('exchange_rate'))
 
           else
