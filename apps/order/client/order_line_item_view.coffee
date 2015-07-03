@@ -1,10 +1,12 @@
 _        = require 'underscore'
+_s       = require 'underscore.string'
 Backbone = require "backbone"
 sd = require("sharify").data
 OrderLineItem = require "../../../models/order_line_item.coffee"
 Order = require "../../../models/order.coffee"
 CurrentUser = require "../../../models/current_user.coffee"
 UploadForm = require "../../../components/upload/client/index.coffee"
+ModalDialog = require "../../../components/modal_dialog/view.coffee"
 money = require '../../../lib/money.js'
 acct = require 'accounting'
 orderLineItemTemplate = -> require("../templates/order_line_item_form.jade") arguments...
@@ -36,6 +38,7 @@ module.exports = class OrderLineItemView extends Backbone.View
     @render()
 
   events:
+    'click .remove-item, .edit-item, .cancel-saving-item': 'intercept'
     'click .remove-item': 'destroy'
     'submit .form-order-line-item': 'save'
     'click .edit-item': 'edit'
@@ -58,6 +61,7 @@ module.exports = class OrderLineItemView extends Backbone.View
 
     @updateSubtotalMessage()
     @setupFileUpload() if @type is 'product'
+    @setupRemoveDialog()
 
   setupCurrencyExchange: ->
     # Cache the source and target currencies
@@ -77,6 +81,20 @@ module.exports = class OrderLineItemView extends Backbone.View
         url = $(data.result).find('Location').text()
         @$('input[name="image"]').val url
         @$('.image-upload-preview, .order-line-item-preview .item-image').html imagesTemplate images: [{ original: url }]
+
+  setupRemoveDialog: ->
+    # We replace the entire html when calling render() everytime,
+    # so we have to remove old dialog modal and set up new one.
+    @removeDialog.remove() if @removeDialog?
+    @removeDialog = new ModalDialog
+      $trigger: @$('.remove-item')
+      onConfirmation: => @model.destroy()
+      modalHeader: """
+        <h3>刪除#{_s.truncate @model.title(), 15}</h3>
+      """
+      modalContent: """
+        <p>刪除<strong>#{@model.title()}</strong>後將無法回復，你確定要刪除嗎？</p>
+      """
 
   selectedCurrencySource: -> @$currencySourceFields.filter(':checked').val()
 
@@ -129,9 +147,12 @@ module.exports = class OrderLineItemView extends Backbone.View
 
     @$('.order-line-item').removeAttr 'data-state'
 
-  destroy: ->
-    # TODO: need confirmation
-    @model.destroy()
+  intercept: (e) -> e.preventDefault()
+
+  remove: ->
+    # clean up child views
+    @removeDialog.remove()
+    super()
 
   edit: -> @$('.order-line-item').attr 'data-state', 'editing'
 

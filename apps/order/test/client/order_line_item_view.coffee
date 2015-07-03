@@ -9,16 +9,23 @@ fabricate   = require '../../../../test/helpers/fabricator.coffee'
 OrderLineItem = require "../../../../models/order_line_item.coffee"
 Order = require "../../../../models/order.coffee"
 { resolve } = require 'path'
+
+ModalDialog = benv.requireWithJadeify(
+  resolve(__dirname, '../../../../components/modal_dialog/view'),
+  ['template']
+)
 OrderLineItemView = benv.requireWithJadeify(
   resolve(__dirname, '../../client/order_line_item_view'),
-  ['orderLineItemTemplate']
+  ['orderLineItemTemplate', 'imagesTemplate']
 )
 OrderLineItemView.__set__ 'UploadForm', sinon.stub()
+OrderLineItemView.__set__ 'ModalDialog', ModalDialog
 
 describe 'OrderFormView', ->
   before (done) ->
     benv.setup ->
       benv.expose $: benv.require 'jquery'
+      window.$ = window.jQuery = $
       Backbone.$ = $
       done()
 
