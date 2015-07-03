@@ -1,7 +1,9 @@
 .panel.panel-secondary.panel-exchange-rate-settings( data-state=(order.isNew() ? 'editing' : '') )
   .panel-header.clearfix
     .panel-title.pull-left STEP 1. 訂單匯率
-    a#edit-exchange-rate.pull-right 修改
+    .pull-right
+      ol.item-actions.action-list
+        li: a#edit-exchange-rate.item-action.edit-item( href="#" ) 修改
   .panel-content
     .exchange-rate-settings
       .exchange-rate-editing
@@ -23,7 +25,7 @@
                 input.form-control( id="exchange-rate" name="exchange-rate" type="number" min="0.01" step="0.01" value="1" placeholder="填入數字，如：31.50" required )
                 p#exchange-rate-settings-message.help-block
 
-              button#set-exchange-rate.btn.btn-secondary.btn-tiny( type="submit" ) 繼續下一步
+              +button("button", "繼續下一步")(class="btn btn-sm btn-primary btn-navy", id="set-exchange-rate", type="submit", data-icon="button-arrow")
 
       .exchange-rate-results
         .exchange-rate-results-item

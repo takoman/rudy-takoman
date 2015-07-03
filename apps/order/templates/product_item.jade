@@ -4,7 +4,9 @@
   .order-line-item-form
     .order-line-item-form-header.clearfix
       h3.pull-left 新增商品
-      .pull-right: a.remove-item 移除
+      .pull-right
+        ol.item-actions.action-list
+          li: a.item-action.remove-item( href="#" ) 移除
     #form-image-upload.hidden( data-file-input-id="image-upload-#{uid}" )
     .row
       .col-md-12
@@ -60,8 +62,9 @@
             .checkbox
               input( id="add-to-product-list-#{uid}" name="add-to-proudct-list" type="checkbox")
               label( for="add-to-product-list-#{uid}" ) 加入商品清單
-          button.cancel-saving-item.btn.btn-secondary.btn-tiny( type="button" ) 取消
-          button.save-item.btn.btn-secondary.btn-tiny( type="submit" ) 確定
+          +button("button", "取消")(class="btn btn-sm btn-secondary btn-navy cancel-saving-item", type="button", data-icon="button-arrow")
+          | &nbsp;
+          +button("button", "確定")(class="btn btn-sm btn-primary btn-navy save-item", type="submit", data-icon="button-arrow")
 
   .order-line-item-preview
     .row
@@ -73,11 +76,11 @@
         .item-title= item.related().product.get('title')
         .item-color= item.related().product.get('color')
         .item-size= item.related().product.get('size')
-        .item-price= acct.formatMoney(item.get('price'))
-        .item-quantity #{item.get('quantity')} 個
+        .item-quantity 數量：#{item.get('quantity')} 個
+        .item-price 單價：#{acct.formatMoney(item.get('price'))}
       .col-md-7
-        .item-actions
-          a.item-action.edit-item 編輯
-          a.item-action.remove-item 刪除
+        ol.item-actions.action-list
+          li: a.item-action.edit-item( href="#" ) 編輯
+          li: a.item-action.remove-item( href="#" ) 刪除
       .col-md-5.text-right
         .item-subtotal= acct.formatMoney(item.get('price') * item.get('quantity'))

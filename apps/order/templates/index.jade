@@ -11,15 +11,16 @@ block content
   .row
     .col-md-22.col-md-offset-1
       ol.breadcrumb
-        li: a( href="#") 訂單清單
-        li= order.isNew() ? '新增訂單' : moment(order.get('created_at')).format('YYYY-MM-DD') + ' 建立的訂單'
+        li: a( href="#" ) 訂單清單
+        li.active= order.isNew() ? '新增訂單' : moment(order.get('created_at')).format('YYYY-MM-DD') + ' 建立的訂單'
   .row
     .col-md-22.col-md-offset-1
-      h1.pull-left( style="font-size: 24px; font-weight: bold;" )
+      h1.pull-left
         = order.isNew() ? '新增訂單' : '編輯訂單'
-      .pull-right( style="margin-top: 20px;")
-        a.btn.btn-secondary.btn-tiny 取消訂單
-        a.btn.btn-disabled.btn-tiny 儲存訂單
+      .pull-right
+        +button("a", "取消訂單")(class="btn btn-sm btn-secondary btn-navy cancel-order", data-icon="button-arrow")
+        | &nbsp;
+        +button("a", "儲存訂單")(class="btn btn-sm btn-primary btn-navy save-order", data-icon="button-arrow")
       .clearfix
     .col-md-22.col-md-offset-1
       .order-edit-message.alert( role="alert" )
@@ -42,7 +43,9 @@ block content
               p.order-due-at-preview 需於訂單送出後 7 天內付款
           .order-partial.order-notes
             label 附註
-            a#edit-order-notes.order-partial-action.pull-right 修改
+            .order-partial-action.pull-right
+              ol.item-actions.action-list
+                li: a#edit-order-notes.item-action.edit-item( href="#" ) 編輯
             .order-partial-form
               form#form-set-notes
                 .form-group
@@ -61,6 +64,13 @@ block content
           .panel-title STEP 2. 訂單內容
         .panel-content
           .order-line-items
+            //- Render item placeholders to give better experience
+            each item in orderLineItems
+              .order-line-item
+                .order-line-item-preview
+                  .row
+                    .col-md-5
+                      .item-image
           .order-total-summary
             .row
               .col-md-10.col-md-offset-14
@@ -83,11 +93,12 @@ block content
 
         .panel-footer
           .order-line-items-actions
-            button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="product" ) 新增商品
-            button.select-product.btn.btn-primary.btn-tiny( type="button" ) 從清單新增商品
-            button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="shipping" ) 新增運費
-            button.add-item.btn.btn-primary.btn-tiny( type="button" data-item-type="commission" ) 新增代買費
+            +button("a", "新增商品")(class="btn btn-primary btn-red add-item", data-icon="product", data-item-type="product", data-icon-align="left")
+            +button("a", "從清單新增商品")(class="btn btn-primary btn-red select-item", data-icon="product", data-icon-align="left")
+            +button("a", "新增運費")(class="btn btn-primary btn-red add-item", data-icon="product", data-item-type="shipping", data-icon-align="left")
+            +button("a", "新增代買費")(class="btn btn-primary btn-red add-item", data-icon="product", data-item-type="commission", data-icon-align="left")
 
       p.btn-toolbar.text-right
-        button.cancel-order-update.btn.btn-secondary.btn-tiny( type="button" ) 取消訂單
-        button.save-order.btn.btn-tiny( type="button" ) 儲存訂單
+        +button("a", "取消訂單")(class="btn btn-sm btn-secondary btn-navy cancel-order", data-icon="button-arrow")
+        | &nbsp;
+        +button("a", "儲存訂單")(class="btn btn-sm btn-primary btn-navy save-order", data-icon="button-arrow")

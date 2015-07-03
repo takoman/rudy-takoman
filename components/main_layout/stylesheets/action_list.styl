@@ -1,0 +1,23 @@
+//
+// Underlined action list styles
+//
+
+.action-list
+  @extend .list-inline
+
+.action-list
+  margin-bottom 0
+  li
+    &
+      padding 0
+      font-size 13px
+    &:not(:last-child):after
+      content '|'
+      display inline-block
+      font-size 0.8em
+      color $gray-darker
+      margin 0 0.8em
+    a
+      faux-underline()
+      display inline-block
+      vertical-align middle

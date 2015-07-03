@@ -1,38 +1,5 @@
-@import "../../../components/main_layout/stylesheets"
-
-body
-  background-color $gray-lighter
-
-.breadcrumb
-  padding 20px 0 0 0
-  margin 0
-  list-style none
-  li
-    display inline-block
-.breadcrumb>li+li:before
-  padding 0 5px
-  color #333333
-  content "/\00a0"
-
-#add-item-bar-position
-  height 70px
-
-#add-item-bar
-  background-color $gray-lightest
-  padding-top 20px
-  padding-bottom 20px
-  display flex
-  flex-flow row wrap
-  button
-    display flex
-    margin auto
-
-.add-item-bar-fixed
-  position fixed
-  width inherit
-  bottom 0
-  padding 0px
-  margin 0
+@import "../../../components/main_layout/stylesheets/variables"
+@import 'nib'
 
 .order-line-item
   border-bottom-style dotted
@@ -100,6 +67,26 @@ body
   #edit-exchange-rate
     display none
 
+.panel-order-line-items
+  .panel-footer
+    padding 15px 20px
+    background-color $gray-lightest * 1.03
+    &.stuck
+      position fixed
+      bottom 0
+
+.order-line-items-actions
+  > .btn
+    display block
+    margin-bottom 10px
+  @media screen and (min-width: 1024px)
+    display(flex)
+    > .btn
+      flex(1 1 auto)
+      margin 0 20px 0 0
+      &:last-of-type
+        margin-right 0
+
 .panel-order-line-items.panel-disabled
   .panel-content
   .panel-footer
@@ -117,10 +104,27 @@ body
   .order-line-item-preview
     display none
 
-.image-upload-preview
+// Center and crop images with CSS.
+// http://jonathannicol.com/blog/2014/06/16/centre-crop-thumbnails-with-css/
 .item-image
+  position relative
+  height 150px
+  overflow hidden
+  img, svg
+    position absolute
+    width 100%
+    left 50%
+    top 50%
+    height 100%
+    width auto
+    transform translate(-50%,-50%)
+  svg
+    height 80%
+    width 80%
+
+.image-upload-preview
   img
-    max-height 150px
+    max-width 150px
 
 .order-edit-message
   display none

@@ -2,7 +2,9 @@
   .order-line-item-form
     .order-line-item-form-header.clearfix
       h3.pull-left 新增代買費
-      .pull-right: a.remove-item 移除
+      .pull-right
+        ol.item-actions.action-list
+          li: a.item-action.remove-item( href="#" ) 移除
     .row
       .col-md-12
         form.form-order-line-item
@@ -24,8 +26,9 @@
             label( for="notes-#{uid}" ) 說明
             textarea.form-control( id="notes-#{uid}" name="notes" type="text" placeholder="說明" )
               = item.get('notes')
-          button.cancel-saving-item.btn.btn-secondary.btn-tiny( type="button" ) 取消
-          button.save-item.btn.btn-secondary.btn-tiny( type="submit" ) 確定
+          +button("button", "取消")(class="btn btn-sm btn-secondary btn-navy cancel-saving-item", type="button", data-icon="button-arrow")
+          | &nbsp;
+          +button("button", "確定")(class="btn btn-sm btn-primary btn-navy save-item", type="submit", data-icon="button-arrow")
 
   .order-line-item-preview
     .row
@@ -36,8 +39,8 @@
         .item-title 代買費
         .item-price= acct.formatMoney(item.get('price'))
       .col-md-7
-        .item-actions
-          a.item-action.edit-item 編輯
-          a.item-action.remove-item 刪除
+        ol.item-actions.action-list
+          li: a.item-action.edit-item( href="#" ) 編輯
+          li: a.item-action.remove-item( href="#" ) 刪除
       .col-md-5.text-right
         .item-subtotal= acct.formatMoney(item.get('price') * item.get('quantity'))

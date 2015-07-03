@@ -11,11 +11,18 @@ Backbone    = require 'backbone'
 Order = require "../../../../models/order.coffee"
 OrderLineItem = require "../../../../models/order_line_item.coffee"
 OrderLineItems = require "../../../../collections/order_line_items.coffee"
+Merchant = require "../../../../models/merchant.coffee"
 
 describe 'OrderFormView', ->
   before (done) ->
     benv.setup ->
       benv.expose $: benv.require 'jquery'
+      # benv.expose() exposes variables to the "global" object, instead of
+      # the "window". Let's do it ourselves to make requiring waypoints work.
+      window.$ = window.jQuery = $
+      # Then we have to expose Waypoint to the global space as well.
+      benv.expose Waypoint: benv.require('waypoints/lib/jquery.waypoints.min.js', 'Waypoint')
+      require 'waypoints/lib/shortcuts/sticky.min.js'
       Backbone.$ = $
       done()
 
@@ -32,6 +39,7 @@ describe 'OrderFormView', ->
     beforeEach (done) ->
       @order = new Order()
       @orderLineItems = new OrderLineItems()
+      @merchant = new Merchant()
       benv.render resolve(__dirname, '../../templates/index.jade'),
         asset: (-> undefined)
         sd: {}
@@ -39,6 +47,7 @@ describe 'OrderFormView', ->
         acct: acct
         order: @order
         orderLineItems: @orderLineItems
+        merchant: @merchant
       , =>
         @view = new OrderFormView
           el: $('body')

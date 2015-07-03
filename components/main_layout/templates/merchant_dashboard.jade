@@ -11,7 +11,7 @@ html
     block head
     link( type='text/css', rel='stylesheet', href=asset('/assets/main_layout' + sd.CSS_EXT) )
     link( type='text/css', rel='stylesheet', href=asset('/assets/' + assetPackage + sd.CSS_EXT) )
-  body( class=bodyClass )
+  body( class="merchant-dashboard #{bodyClass}" )
     include ../../modal/template
 
     block body

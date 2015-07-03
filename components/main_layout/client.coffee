@@ -13,6 +13,7 @@ setupJquery = ->
   require 'typeahead.js/dist/typeahead.bundle.min.js'
   require 'jquery.transition'
   require 'waypoints/lib/jquery.waypoints.min.js'
+  require 'waypoints/lib/shortcuts/sticky.min.js'
   require '../../lib/vendor/tooltip.js'
   $.ajaxSettings.headers =
     'X-XAPP-TOKEN'  : sd.TAKOMAN_XAPP_TOKEN
