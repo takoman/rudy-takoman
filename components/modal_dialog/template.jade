@@ -1,0 +1,13 @@
+include ../buttons/index
+
+.modal.modal-confirm( data-remodal-id=modalId )
+  .modal-actions
+    button.remodal-close( data-remodal-action='close' )
+  .modal-header
+    != modalHeader
+  .modal-content
+    != modalContent
+  .modal-footer
+    +button("button", cancelLabel)(class="btn btn-sm btn-secondary btn-navy" data-icon="button-arrow" data-remodal-action="cancel")
+    | &nbsp;
+    +button("button", confirmLabel)(class="btn btn-sm btn-primary btn-navy" data-icon="button-arrow" data-remodal-action="confirm")
