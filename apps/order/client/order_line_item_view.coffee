@@ -62,6 +62,7 @@ module.exports = class OrderLineItemView extends Backbone.View
     @updateSubtotalMessage()
     @setupFileUpload() if @type is 'product'
     @setupRemoveDialog()
+    @setupDirtyForm()
 
   setupCurrencyExchange: ->
     # Cache the source and target currencies
@@ -95,6 +96,9 @@ module.exports = class OrderLineItemView extends Backbone.View
       modalContent: """
         <p>刪除<strong>#{@model.title()}</strong>後將無法回復，你確定要刪除嗎？</p>
       """
+
+  setupDirtyForm: ->
+    @$('form.form-order-line-item').areYouSure(slient: true)
 
   selectedCurrencySource: -> @$currencySourceFields.filter(':checked').val()
 
@@ -146,6 +150,8 @@ module.exports = class OrderLineItemView extends Backbone.View
     @isCreated = true
 
     @$('.order-line-item').removeAttr 'data-state'
+    # Resacn the form since it's not actually saved to the server
+    @$('form.form-order-line-item').trigger 'rescan.areYouSure'
 
   intercept: (e) -> e.preventDefault()
 

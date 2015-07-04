@@ -25,7 +25,9 @@ describe 'OrderFormView', ->
   before (done) ->
     benv.setup ->
       benv.expose $: benv.require 'jquery'
+      benv.expose jQuery: $
       window.$ = window.jQuery = $
+      require '../../../../lib/vendor/jquery.are-you-sure.js'
       Backbone.$ = $
       done()
 
