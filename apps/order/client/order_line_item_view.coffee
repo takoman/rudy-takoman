@@ -34,6 +34,7 @@ module.exports = class OrderLineItemView extends Backbone.View
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
     @listenTo @order, 'change', @orderChanged
+    @listenTo @model.related().product, 'change', @render if @model.isProduct()
 
     @render()
 
@@ -98,6 +99,11 @@ module.exports = class OrderLineItemView extends Backbone.View
       """
 
   setupDirtyForm: ->
+    # We replace the entire form when saving the form (but not actually
+    # saving to the server) every time. This makes the dirty checking
+    # harder to do, because we have to check the difference between the
+    # very original form data and the data of the current form.
+    # TODO: maybe we can keep the form part when re-rendering.
     @$('form.form-order-line-item').areYouSure(slient: true)
 
   selectedCurrencySource: -> @$currencySourceFields.filter(':checked').val()
@@ -151,6 +157,9 @@ module.exports = class OrderLineItemView extends Backbone.View
 
     @$('.order-line-item').removeAttr 'data-state'
     # Resacn the form since it's not actually saved to the server
+    # TODO: This currently has no effect, since we replace the entire form
+    # after saving, and the dirty form checking will be initialized on the
+    # new form.
     @$('form.form-order-line-item').trigger 'rescan.areYouSure'
 
   intercept: (e) -> e.preventDefault()

@@ -24,3 +24,5 @@ module.exports = class OrderLineItem extends Backbone.Model
       @related().product.get('title') or '商品'
     else
       '項目'
+
+  isProduct: -> @get('type') is 'product'
