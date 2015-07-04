@@ -15,7 +15,7 @@ Browser = require "zombie"
 integration = require "../../../test/helpers/integration"
 
 describe "commits", ->
-  
+
   before (done) ->
     integration.startServer -> done()
 
@@ -23,6 +23,6 @@ describe "commits", ->
     integration.closeServer()
 
   it "displays the list of commits", (done) ->
-    Browser.visit "http://localhost:5000/commits", (err, browser) ->
+    Browser.visit "http://localhost:6000/commits", (err, browser) ->
       browser.html().should.match /.*Adding a README.*/
       done()

@@ -22,21 +22,21 @@ describe 'takomanXappMiddleware', ->
 
   before (done) ->
     api.listen 4001, ->
-      app.listen 4000, ->
+      app.listen 3000, ->
         done()
 
   it 'fetches an xapp token and stores it in the request', (done) ->
-    request('http://localhost:4000/foo').end (res) ->
+    request('http://localhost:3000/foo').end (res) ->
       res.text.should.equal 'x-foo-token'
       done()
 
   it 'injects the cached token on subsequent requests', (done) ->
-    request('http://localhost:4000/foo').end (res) ->
+    request('http://localhost:3000/foo').end (res) ->
       res.text.should.equal 'x-foo-token'
       done()
 
   it 'expires the token after the expiration time', (done) ->
-    request('http://localhost:4000/foo').end (res) ->
+    request('http://localhost:3000/foo').end (res) ->
       res.text.should.equal 'x-foo-token'
       setTimeout ->
         (takomanXappMiddleware.token?).should.not.be.ok
