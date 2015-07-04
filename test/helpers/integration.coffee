@@ -21,8 +21,8 @@ express = require "express"
   return callback() if @child?
   envVars =
     NODE_ENV: "test"
-    API_URL: "http://localhost:5000/__api"
-    PORT: 5000
+    API_URL: "http://localhost:6000/__api"
+    PORT: 6000
   envVars[k] = val for k, val of process.env when not envVars[k]?
   @child = spawn "node_modules/.bin/coffee", ["index.coffee"],
     customFds: [0, 1, 2]
@@ -40,7 +40,7 @@ express = require "express"
 process.on "exit", @closeServer
 
 # You can debug your integration app and run this app server by running
-# this module directly and opening up localhost:5000.
+# this module directly and opening up localhost:6000.
 # e.g. `coffee test/helpers/integration.coffee`
 return unless module is require.main
 @startServer => @child.stdout.on "data", (data) -> console.log data.toString()

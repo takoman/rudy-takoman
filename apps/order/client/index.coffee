@@ -30,6 +30,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
 
     @setupStickyActions()
     @initializeItems()
+    @setupDirtyFormConfirmation()
 
     # TODO We have to refresh waypoints every time the vertical position of
     # the panel footer changes (almost every time the document height changes,
@@ -68,6 +69,13 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     pageBottom = $(window).scrollTop() + $(window).height()
     actionsRowBottom = $actionsRow.offset().top + $actionsRow.outerHeight()
     sticky.waypoint.trigger(['up']) if actionsRowBottom > pageBottom
+
+  # Set up dirty form confirmation *only for* order line item forms.
+  # TODO: Do all the forms and show better/more useful message.
+  setupDirtyFormConfirmation: ->
+    $(window).on 'beforeunload', =>
+      if _.any _.map(@$('form.form-order-line-item'), (f) -> $(f).hasClass('dirty'))
+        return '修改尚未儲存，您確定要離開嗎？'
 
   startEditingOrderExchangeRate: ->
     @$currencySourceInput.val(@order.get 'currency_source').trigger 'change'
