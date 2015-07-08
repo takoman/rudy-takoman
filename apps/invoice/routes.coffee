@@ -6,7 +6,7 @@ Invoice = require '../../models/invoice.coffee'
 InvoiceLineItems = require '../../collections/invoice_line_items.coffee'
 
 @index = (req, res, next) ->
-  invoice = new Invoice id: req.params.id
+  invoice = new Invoice _id: req.params.id
   invoice.fetch
     success: (model, response, options) ->
       invoiceLineItems = new InvoiceLineItems()

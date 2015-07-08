@@ -8,3 +8,14 @@ module.exports = class InvoiceLineItem extends Backbone.Model
   _.extend @prototype, SantaModel
 
   urlRoot: "#{API_URL}/api/v1/invoice_line_items"
+
+  title: ->
+    return unless @get('order_line_item')?
+    if @get('order_line_item')['type'] is 'product'
+      "商品"
+    else if @get('order_line_item')['type'] is 'commission'
+      "代買費"
+    else if @get('order_line_item')['type'] is 'shipping'
+      "運費"
+    else
+      ""

@@ -7,14 +7,7 @@ Merchants = require '../../collections/merchants.coffee'
 Order = require '../../models/order.coffee'
 OrderLineItems = require '../../collections/order_line_items.coffee'
 money = require '../../lib/money.js'
-acct = require 'accounting'
 Q = require 'q'
-
-acct.settings.currency = _.defaults
-  precision: 0
-  symbol: 'NT'
-  format: '%s %v'
-, acct.settings.currency
 
 @index = (req, res, next) ->
   return res.redirect '/login' unless req.user
@@ -34,7 +27,6 @@ acct.settings.currency = _.defaults
         merchant: merchants.at(0)
         order: order
         orderLineItems: orderLineItems
-        acct: acct
         currencies: money.CURRENCIES
     .catch (error) ->
       next error?.body?.message or 'failed to fetch order and order line items'

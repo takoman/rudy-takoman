@@ -31,7 +31,7 @@ module.exports = class ConfirmationView extends Backbone.View
   renderInvoiceLineItems: ->
     @invoiceLineItems.each (invoiceLineItem) ->
       oli = invoiceLineItem.get 'order_line_item'
-      product = new Product(id: oli.product) if oli.product?
+      product = new Product(_id: oli.product) if oli.product?
       product?.fetch()  # When the item is not a product, this will be undefined.
         .done((data, textStatus, xhr) ->
           $ili = $("[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}']")

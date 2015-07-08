@@ -5,15 +5,23 @@
 _       = require 'underscore'
 uuid    = require 'node-uuid'
 moment  = require 'moment'
+acct    = require 'accounting'
 { parse, format } = require 'url'
 
 _.mixin require 'underscore.string'
+
+acct.settings.currency = _.defaults
+  precision: 0
+  symbol: 'NT'
+  format: '%s %v'
+, acct.settings.currency
 
 module.exports = (req, res, next) ->
 
   # Attach libraries to locals
   res.locals._ = _
   res.locals.moment = moment
+  res.locals.acct = acct
 
   # Pass the user agent into locals for data-useragent device detection
   res.locals.userAgent = req.get('user-agent')
