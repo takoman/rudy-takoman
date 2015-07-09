@@ -53,6 +53,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
       itemView = new OrderLineItemView
         type: item.get('type')
         order: @order
+        orderLineItems: @orderLineItems
         model: item
       views.push itemView.el
     @$('.panel-order-line-items .order-line-items').html views
@@ -124,6 +125,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     itemView = new OrderLineItemView
       type: $(e.currentTarget).data 'item-type'
       order: @order
+      orderLineItems: @orderLineItems
       model: @orderLineItems.add new OrderLineItem()
 
     itemView.edit()

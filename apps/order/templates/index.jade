@@ -94,10 +94,12 @@ block content
 
         .panel-footer
           .order-line-items-actions
-            +button("a", "新增商品")(class="btn btn-primary btn-red add-item", data-icon="product", data-item-type="product", data-icon-align="left")
-            +button("a", "從清單新增商品")(class="btn btn-primary btn-red select-item", data-icon="product", data-icon-align="left")
-            +button("a", "新增運費")(class="btn btn-primary btn-red add-item", data-icon="product", data-item-type="shipping", data-icon-align="left")
-            +button("a", "新增代買費")(class="btn btn-primary btn-red add-item", data-icon="product", data-item-type="commission", data-icon-align="left")
+            span 新增:
+            +button("a", "商品")(class="btn btn-primary btn-red add-item", data-icon="product", data-item-type="product", data-icon-align="left")
+            //+button("a", "從商品清單")(class="btn btn-primary btn-red select-item", data-icon="product", data-icon-align="left")
+            +button("a", "運費")(class="btn btn-primary btn-red add-item", data-icon="product", data-item-type="shipping", data-icon-align="left")
+            +button("a", "代買費")(class="btn btn-primary btn-red add-item", data-icon="product", data-item-type="commission", data-icon-align="left")
+            +button("a", "稅金")(class="btn btn-primary btn-red add-item", data-icon="product", data-item-type="tax", data-icon-align="left")
 
       p.btn-toolbar.text-right
         +button("a", "取消訂單")(class="btn btn-sm btn-secondary btn-navy cancel-order", data-icon="button-arrow")

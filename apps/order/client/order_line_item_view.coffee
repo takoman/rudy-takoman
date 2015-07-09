@@ -3,6 +3,7 @@ _s       = require 'underscore.string'
 Backbone = require "backbone"
 sd = require("sharify").data
 OrderLineItem = require "../../../models/order_line_item.coffee"
+OrderLineItems = require "../../../collections/order_line_items.coffee"
 Order = require "../../../models/order.coffee"
 CurrentUser = require "../../../models/current_user.coffee"
 UploadForm = require "../../../components/upload/client/index.coffee"
@@ -23,7 +24,7 @@ module.exports = class OrderLineItemView extends Backbone.View
     order: new Order()
 
   initialize: (options) ->
-    { @type, @order } = _.defaults options, @defaults()
+    { @type, @order, @orderLineItems } = _.defaults options, @defaults()
 
     @oldFXRate = @order.get 'exchange_rate'
 
@@ -46,6 +47,7 @@ module.exports = class OrderLineItemView extends Backbone.View
     'click .cancel-saving-item': 'cancel'
     'change .form-order-line-item [name="currency-source"]': 'updateSubtotalMessage'
     'keyup .form-order-line-item [name="price"]': 'updateSubtotalMessage'  # TODO: throttle this
+    'keyup .form-order-line-item [name="tax-rate"]': 'updateTaxMessage'
 
   render: ->
     @$el.html orderLineItemTemplate
@@ -106,7 +108,11 @@ module.exports = class OrderLineItemView extends Backbone.View
     # TODO: maybe we can keep the form part when re-rendering.
     @$('form.form-order-line-item').areYouSure(slient: true)
 
-  selectedCurrencySource: -> @$currencySourceFields.filter(':checked').val()
+  selectedCurrencySource: ->
+    if @type is 'tax'
+      'TWD'
+    else
+      @$currencySourceFields.filter(':checked').val()
 
   updateSubtotalMessage: ->
     if isNaN (price = @$priceField.val())
@@ -115,6 +121,15 @@ module.exports = class OrderLineItemView extends Backbone.View
       @$('.subtotal-message').empty()
     else
       @$('.subtotal-message').text "商品單價換算為台幣 #{@formatMoney price, convert: true} 元"
+
+  updateTaxMessage: ->
+    if isNaN (taxRate = @$('.form-order-line-item [name="tax-rate"]').val())
+      @$('.subtotal-message').text "單價必須為數字"
+    else
+      productTotal = @orderLineItems.total('product')
+      productTax = @formatMoney(productTotal * taxRate, convert: false)
+      @$('.subtotal-message').text "商品稅金為台幣 #{productTax} 元"
+      @$priceField.val(productTax)
 
   orderChanged: ->
     newFXRate = @order.get 'exchange_rate'

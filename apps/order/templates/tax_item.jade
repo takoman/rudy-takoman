@@ -1,0 +1,38 @@
+.order-line-item.commission-item
+  .order-line-item-form
+    .order-line-item-form-header.clearfix
+      h3.pull-left 新增稅金
+      .pull-right
+        ol.item-actions.action-list
+          li: a.item-action.remove-item( href="#" ) 移除
+    .row
+      .col-md-12
+        form.form-order-line-item
+          .form-group
+            label( for="tax-rate-#{uid}" ) 稅率*
+            input.form-control( id="tax-rate-#{uid}" name="tax-rate" value=item.get('tax-rate') type="text" placeholder="稅率" required )
+            input.form-control.price-field( name="price" value="0" type="hidden" required )
+            input.form-control.quantity-field( name="quantity" value="1" type="hidden" placeholder="數量" required )
+            p.help-block.subtotal-message
+          .form-group
+            label( for="notes-#{uid}" ) 說明
+            textarea.form-control( id="notes-#{uid}" name="notes" type="text" placeholder="說明" )
+              = item.get('notes')
+          +button("button", "取消")(class="btn btn-sm btn-secondary btn-navy cancel-saving-item", type="button", data-icon="button-arrow")
+          | &nbsp;
+          +button("button", "確定")(class="btn btn-sm btn-primary btn-navy save-item", type="submit", data-icon="button-arrow")
+
+  .order-line-item-preview
+    .row
+      .col-md-5
+        .item-image
+          include ../../../components/main_layout/public/svgs/product.svg
+      .col-md-7
+        .item-title 稅金
+        .item-price= acct.formatMoney(item.get('price'))
+      .col-md-7
+        ol.item-actions.action-list
+          li: a.item-action.edit-item( href="#" ) 編輯
+          li: a.item-action.remove-item( href="#" ) 刪除
+      .col-md-5.text-right
+        .item-subtotal= acct.formatMoney(item.get('price') * item.get('quantity'))
