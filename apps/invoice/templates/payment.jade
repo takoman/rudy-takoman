@@ -1,3 +1,5 @@
+include ../../../components/buttons/index
+
 .invoice-shipping
   .container
     .col-sm-16
@@ -7,7 +9,7 @@
       .panel.panel-disabled.panel-bordered.invoice-payment
         .panel-header 2. 歐付寶付款
         .panel-content
-          button.btn.btn-primary.pay-invoice( type="button" ) 付款
+          +button("button", "付款")(class="btn btn-cta btn-red pay-invoice", data-icon="button-arrow", type="button")
           .payment-form-placeholder
     .col-sm-8
       .panel.panel-secondary.panel-bordered.invoice-total-summary
@@ -33,8 +35,8 @@
                           | 數量：
                           = item.get('quantity')
                         .invoice-line-item-price
-                          | 單價：NT.
-                          = item.get('price')
+                          | 單價：
+                          = acct.formatMoney(item.get('price'))
                         .invoice-line-item-subtotal
-                          | 小計：NT.
-                          = item.get('price') * item.get('quantity')
+                          | 小計：
+                          = acct.formatMoney(item.get('price') * item.get('quantity'))

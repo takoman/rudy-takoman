@@ -1,4 +1,6 @@
 _ = require 'underscore'
+Q = require 'q'
+acct = require 'accounting'
 Backbone = require 'backbone'
 moment = require 'moment'
 FlakeId = require 'flake-idgen'
@@ -28,27 +30,29 @@ module.exports = class ShippingView extends Backbone.View
 
     new AllPayModalView(el: $('<div></div>').appendTo('body'), data: data).startPayment()
 
-  initialize: ({ el, invoice, invoiceLineItems }) ->
-    @invoice = invoice
-    @invoiceLineItems = invoiceLineItems
+  initialize: (options) ->
+    { @merchant, @invoice, @invoiceLineItems } = options
     @render()
 
   render: ->
     @$el.html template
       _: _
+      acct: acct
       invoice: @invoice
       invoiceLineItems: @invoiceLineItems
 
     @renderInvoiceLineItems()
 
+  # TODO: This is identical to the one in shipping. We should DRY this up.
   renderInvoiceLineItems: ->
     @invoiceLineItems.each (invoiceLineItem) ->
       oli = invoiceLineItem.get('order_line_item')
-      product = new Product(id: oli.product) if oli.product?
-      product?.fetch()  # When the item is not a product, this will be undefined.
-        .done((data, textStatus, xhr) ->
+      product = new Product(_id: oli.product) if oli.product?
+      Q(product?.fetch())  # When the item is not a product, this will be undefined.
+        .then ->
           $ili = $("[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}']")
           $ili.find('.invoice-line-item-image').html "<img src='#{product.get('images')?[0]?.original}'>"
           $ili.find('.invoice-line-item-brand').text "#{product.get('brand')}"
           $ili.find('.invoice-line-item-title').text "#{product.get('title')}"
-        ).fail((xhr, textStatus, error) -> undefined)
+        .catch -> undefined
+        .done()
