@@ -2,22 +2,31 @@
 # Routes file that exports route handlers for ease of testing.
 #
 
+Merchant = require '../../models/merchant.coffee'
 Invoice = require '../../models/invoice.coffee'
 InvoiceLineItems = require '../../collections/invoice_line_items.coffee'
+Q= require 'q'
 
 @index = (req, res, next) ->
+  merchant = new Merchant()
   invoice = new Invoice _id: req.params.id
-  invoice.fetch
-    success: (model, response, options) ->
-      invoiceLineItems = new InvoiceLineItems()
-      invoiceLineItems.fetch
-        data: { invoice_id: invoice.get('_id') }
-        success: (collection, response, options) ->
-          res.locals.sd.INVOICE = invoice.toJSON()
-          res.locals.sd.INVOICE_LINE_ITEMS = invoiceLineItems.toJSON()
-          res.render 'index', step: req.params.step, invoice: invoice, invoiceLineItems: invoiceLineItems
-        error: -> next()
-    error: -> next()
+  invoiceLineItems = new InvoiceLineItems()
+  Q(invoice.fetch())
+    .then ->
+      Q.all [
+        invoiceLineItems.fetch(data: invoice_id: invoice.get('_id'))
+        merchant.set(_id: invoice.get('order')?.merchant).fetch()
+      ]
+    .then ->
+      res.locals.sd.INVOICE = invoice.toJSON()
+      res.locals.sd.INVOICE_LINE_ITEMS = invoiceLineItems.toJSON()
+      res.render 'index',
+        step: req.params.step
+        merchant: merchant
+        invoice: invoice
+        invoiceLineItems: invoiceLineItems
+    .catch (error) -> next(error?.body?.message)
+    .done()
 
 @shipping = (req, res, next) =>
   req.params.step = 'shipping'
