@@ -1,40 +1,48 @@
+include ../../../components/buttons/index
+
 .invoice-shipping
   .container
     .col-sm-16
       .panel.panel-secondary.panel-bordered.invoice-shipping-info
         .panel-header 1. 訂購資料
         .panel-content
-          form
-            .form-group
-              label( for="full-name" ) 姓名
-              input#full-name.form-control( name="name", type="text", placeholder="您的姓名", required )
-            .form-group
-              label( for="country" ) 國家
-              select#country.form-control( name="country", required )
-                each c in countries
-                  option( value=c[0] )= c[1]
-            .form-group
-              label( for="city" ) 縣市
-              #city( data-role="county", data-name="city", data-style="form-control" )
-            .form-group
-              label( for="district" ) 鄉鎮區
-              #district( data-role="district", data-style="form-control" )
-            .form-group
-              label( for="address" ) 地址
-              input#address.form-control( name="address", type="text", placeholder="地址" )
-            .form-group
-              label( for="zipcode" ) 郵遞區號
-              #zipcode( data-role="zipcode", data-style="form-control" )
-            .form-group
-              label( for="phone-number" ) 電話
-              input#phone-number.form-control( name="phone-number", type="text", placeholder="您的聯絡電話" )
-            .form-group
-              label( for="email" ) 電子信箱
-              input#email.form-control( name="email", type="email", placeholder="您的 email" )
-            .from-group
-              label( for="notes" ) 備註
-              textarea#notes.form-control( name="notes", rows="3" )
-            button.btn.btn-primary( type="submit" ) 繼續下一步
+          .row
+            .col-md-12
+              form
+                .form-group.required
+                  label.control-label( for="full-name" ) 姓名
+                  input#full-name.form-control( name="name" type="text" placeholder="您的姓名" required autofocus)
+                .form-group.required
+                  label.control-label( for="email" ) 電子信箱
+                  input#email.form-control( name="email" type="email" placeholder="您的 email" required)
+                .form-group.required
+                  label.control-label( for="country" ) 國家
+                  .select-control
+                    select#country.form-control( name="country" required )
+                      each c in countries
+                        option( value=c[0] )= c[1]
+                .form-group.required
+                  label.control-label( for="city" ) 縣市
+                  .select-control
+                    #city( data-role="county" data-name="city" data-style="form-control" required )
+                .form-group.required
+                  label.control-label( for="district" ) 鄉鎮區
+                  .select-control
+                    #district( data-role="district" data-style="form-control" required )
+                .form-group.required
+                  label.control-label( for="address" ) 地址
+                  input#address.form-control( name="address" type="text" placeholder="地址" required )
+                .form-group.required
+                  label.control-label( for="zipcode" ) 郵遞區號
+                  #zipcode( data-role="zipcode" data-style="form-control" required)
+                .form-group
+                  label.control-label( for="phone-number" ) 電話
+                  input#phone-number.form-control( name="phone-number" type="text" placeholder="您的聯絡電話" )
+                .form-group
+                  label.control-label( for="notes" ) 備註
+                  textarea#notes.form-control( name="notes" rows="3" )
+                .form-group
+                  +button("button", "前往付款")(class="btn btn-cta btn-red", data-icon="button-arrow", type="submit")
       .panel.panel-disabled.panel-bordered.invoice-payment
         .panel-header 2. 歐付寶付款
     .col-sm-8

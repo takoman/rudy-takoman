@@ -5,12 +5,18 @@ InvoiceLineItems = require '../../../collections/invoice_line_items.coffee'
 OrderLineItem = require '../../../models/order_line_item.coffee'
 Product = require '../../../models/product.coffee'
 CheckoutHeaderView = require '../../../components/checkout_header/view.coffee'
+acct = require 'accounting'
 template = -> require('../templates/confirmation.jade') arguments...
 
+acct.settings.currency = _.defaults
+  precision: 0
+  symbol: 'NT'
+  format: '%s %v'
+, acct.settings.currency
+
 module.exports = class ConfirmationView extends Backbone.View
-  initialize: ({ el, invoice, invoiceLineItems }) ->
-    @invoice = invoice
-    @invoiceLineItems = invoiceLineItems
+  initialize: (options) ->
+    { @merchant, @invoice, @invoiceLineItems } = options
     @render()
 
   events:
@@ -22,7 +28,9 @@ module.exports = class ConfirmationView extends Backbone.View
     unless @$('.invoice-confirmation').length > 0
       @$el.html template
         _: _
+        acct: acct
         moment: moment
+        merchant: @merchant
         invoice: @invoice
         invoiceLineItems: @invoiceLineItems
 

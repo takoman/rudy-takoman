@@ -18,6 +18,7 @@ Q= require 'q'
         merchant.set(_id: invoice.get('order')?.merchant).fetch()
       ]
     .then ->
+      res.locals.sd.MERCHANT = merchant.toJSON()
       res.locals.sd.INVOICE = invoice.toJSON()
       res.locals.sd.INVOICE_LINE_ITEMS = invoiceLineItems.toJSON()
       res.render 'index',
