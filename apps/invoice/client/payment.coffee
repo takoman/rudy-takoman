@@ -28,7 +28,7 @@ module.exports = class ShippingView extends Backbone.View
       ItemName: @invoiceLineItems.allpayItemName()
       ChoosePayment: 'ALL'
 
-    new AllPayModalView(el: $('<div></div>').appendTo('body'), data: data).startPayment()
+    new AllPayModalView(data: data).startPayment()
 
   initialize: (options) ->
     { @merchant, @invoice, @invoiceLineItems } = options
