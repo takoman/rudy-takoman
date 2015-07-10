@@ -88,6 +88,10 @@ block content
                   #order-commission-total.order-total-breakdown-amount.pull-right
                     = acct.formatMoney(orderLineItems.total('commission'))
                 .order-total-breakdown.clearfix
+                  .order-total-breakdown-label.pull-left 稅金
+                  #order-tax-total.order-total-breakdown-amount.pull-right
+                    = acct.formatMoney(orderLineItems.total('tax'))
+                .order-total-breakdown.clearfix
                   .order-total-breakdown-label.pull-left 總計
                   #order-total.order-total-breakdown-amount.pull-right
                     = acct.formatMoney(orderLineItems.total())

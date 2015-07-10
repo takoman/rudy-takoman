@@ -9,9 +9,9 @@
       .col-md-12
         form.form-order-line-item
           .form-group
-            label( for="tax-rate-#{uid}" ) 稅率*
-            input.form-control( id="tax-rate-#{uid}" name="tax-rate" value=item.get('tax-rate') type="text" placeholder="稅率" required )
-            input.form-control.price-field( name="price" value="0" type="hidden" required )
+            label( for="tax-rate-#{uid}" ) 稅率(%)*
+            input.form-control( id="tax-rate-#{uid}" name="tax-rate" value="#{taxRate}" type="text" placeholder="稅率" required )
+            input.form-control.price-field( name="price" value=item.get('price') type="hidden" required )
             input.form-control.quantity-field( name="quantity" value="1" type="hidden" placeholder="數量" required )
             p.help-block.subtotal-message
           .form-group

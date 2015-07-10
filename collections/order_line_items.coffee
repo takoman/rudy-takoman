@@ -21,6 +21,6 @@ module.exports = class OrderLineItems extends Backbone.Collection
     , 0
 
   comparator: (item) ->
-    types = ['product', 'shipping', 'commission']
+    types = ['product', 'shipping', 'commission', 'tax']
     index = _.indexOf types, item.get('type')
     return if index is -1 then types.length else index

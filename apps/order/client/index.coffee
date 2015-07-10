@@ -114,11 +114,13 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @$('.order-notes').removeAttr 'data-state'
 
   updateTotal: ->
-    types = ['product', 'shipping', 'commission']
+    types = ['product', 'shipping', 'commission', 'tax']
 
     _.each types, (t) => @$("#order-#{t}-total").text acct.formatMoney @orderLineItems.total(t)
     @$('#order-total').text acct.formatMoney @orderLineItems.total()
 
+    #for update tax
+    @order.trigger 'totalChanged'
   orderChanged: -> undefined
 
   addItem: (e) ->

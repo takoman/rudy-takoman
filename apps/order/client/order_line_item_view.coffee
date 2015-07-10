@@ -27,6 +27,7 @@ module.exports = class OrderLineItemView extends Backbone.View
     { @type, @order, @orderLineItems } = _.defaults options, @defaults()
 
     @oldFXRate = @order.get 'exchange_rate'
+    @taxRate = 0
 
     # Create a fx instance to handle currencies exchange
     @fx = money.factory()
@@ -34,9 +35,9 @@ module.exports = class OrderLineItemView extends Backbone.View
 
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
-    @listenTo @order, 'change', @orderChanged
+    @listenTo @order, 'change', @orderChanged if @type isnt 'tax'
     @listenTo @model.related().product, 'change', @render if @model.isProduct()
-
+    @listenTo @order, 'totalChanged', @updateTax if @type is 'tax'
     @render()
 
   events:
@@ -56,6 +57,7 @@ module.exports = class OrderLineItemView extends Backbone.View
       type: @type
       currencySource: @cs
       currencyTarget: @ct
+      taxRate: @taxRate
 
     # Since we replace the entire html, we have to cache selectors everytime
     # after rendering.
@@ -127,9 +129,14 @@ module.exports = class OrderLineItemView extends Backbone.View
       @$('.subtotal-message').text "單價必須為數字"
     else
       productTotal = @orderLineItems.total('product')
-      productTax = @formatMoney(productTotal * taxRate, convert: false)
+      productTax = @formatMoney(productTotal * taxRate / 100, convert: false)
       @$('.subtotal-message').text "商品稅金為台幣 #{productTax} 元"
       @$priceField.val(productTax)
+
+  updateTax: ->
+    productTotal = @orderLineItems.total('product')
+    @model.set 'price', @formatMoney(productTotal * @taxRate / 100, convert: false)
+    @render()
 
   orderChanged: ->
     newFXRate = @order.get 'exchange_rate'
@@ -148,6 +155,9 @@ module.exports = class OrderLineItemView extends Backbone.View
 
   save: (e) ->
     e.preventDefault()
+
+    if @type is 'tax'
+      @taxRate = @$('.form-order-line-item [name="tax-rate"]').val()
 
     if @type is 'product'
       @model.related().product.set
