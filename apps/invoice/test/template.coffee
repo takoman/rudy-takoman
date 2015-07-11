@@ -5,10 +5,12 @@ path = require 'path'
 sinon = require 'sinon'
 cheerio = require 'cheerio'
 moment = require 'moment'
+acct = require 'accounting'
 Backbone = require 'backbone'
 Invoice = require '../../../models/invoice.coffee'
 InvoiceLineItem = require '../../../models/invoice_line_item.coffee'
 InvoiceLineItems = require '../../../collections/invoice_line_items.coffee'
+Merchant = require '../../../models/merchant.coffee'
 fabricate = require '../../../test/helpers/fabricator.coffee'
 
 render = (templateName) ->
@@ -59,13 +61,16 @@ describe 'Invoice', ->
       @clock = sinon.useFakeTimers(moment(now).unix() * 1000)
       @invoice = new Invoice fabricate('invoice', due_at: due)
       @invoiceLineItems = new InvoiceLineItems [fabricate('invoice_line_item')]
+      @merchant = new Merchant fabricate('merchant')
       @$ = cheerio.load render('index')
         _: _
         moment: moment
+        acct: acct
         sd: { INVOICE: @invoice.toJSON() }
         asset: (-> undefined)
         invoice: @invoice
         invoiceLineItems: @invoiceLineItems
+        merchant: @merchant
 
     afterEach ->
       @clock.restore()
