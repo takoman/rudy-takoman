@@ -33,8 +33,8 @@ module.exports = class InvoiceLineItems extends Backbone.Collection
 
   allpayItemName: ->
     itemNames = _.compact(@map (i) ->
-      if i.get('order_line_item')?.type is 'product'
-        "#{i.get('order_line_item').product?.title} x #{i.get('quantity')}"
+      if i.related().order_line_item.isProduct()
+        "#{i.related().order_line_item.related().product.get('title')} x #{i.get('quantity')}"
       else
         ''
     ).join('#')

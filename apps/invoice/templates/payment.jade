@@ -9,7 +9,7 @@ include ../../../components/buttons/index
       .panel.panel-disabled.panel-bordered.invoice-payment
         .panel-header 2. 歐付寶付款
         .panel-content
-          +button("button", "付款")(class="btn btn-cta btn-red pay-invoice", data-icon="button-arrow", type="button")
+          +button("button", "付款")(class="btn btn-cta btn-red btn-disabled pay-invoice", data-icon="button-arrow", type="button", disabled)
           .payment-form-placeholder
     .col-sm-8
       .panel.panel-secondary.panel-bordered.invoice-total-summary
