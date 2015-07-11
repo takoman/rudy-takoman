@@ -1,3 +1,4 @@
+_ = require 'underscore'
 { API_URL, APP_URL } = require('sharify').data
 
 module.exports =
@@ -6,7 +7,7 @@ module.exports =
 
     Product = require '../../../models/product.coffee'
 
-    product = new Product @get('product')
+    product = new Product(if _.isString(@get('product')) then {_id: @get('product')} else @get('product'))
 
     @__related__ =
       product: product

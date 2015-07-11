@@ -1,15 +1,16 @@
 _ = require 'underscore'
+Q = require 'q'
 Backbone = require 'backbone'
 InvoiceLineItems = require '../../../collections/invoice_line_items.coffee'
 OrderLineItem = require '../../../models/order_line_item.coffee'
 Product = require '../../../models/product.coffee'
 CheckoutHeaderView = require '../../../components/checkout_header/view.coffee'
+acct = require 'accounting'
 template = -> require('../templates/shipping.jade') arguments...
 
 module.exports = class ShippingView extends Backbone.View
-  initialize: ({ el, invoice, invoiceLineItems }) ->
-    @invoice = invoice
-    @invoiceLineItems = invoiceLineItems
+  initialize: (options) ->
+    { @merchant, @invoice, @invoiceLineItems } = options
     @render()
     @initializeAddressWidget()
 
@@ -17,6 +18,8 @@ module.exports = class ShippingView extends Backbone.View
     @$el.html template
       countries: @getCountriesList()
       _: _
+      acct: acct
+      merchant: @merchant
       invoice: @invoice
       invoiceLineItems: @invoiceLineItems
 
@@ -25,14 +28,15 @@ module.exports = class ShippingView extends Backbone.View
   renderInvoiceLineItems: ->
     @invoiceLineItems.each (invoiceLineItem) ->
       oli = invoiceLineItem.get('order_line_item')
-      product = new Product(id: oli.product) if oli.product?
-      product?.fetch()  # When the item is not a product, this will be undefined.
-        .done((data, textStatus, xhr) ->
+      product = new Product(_id: oli.product) if oli.product?
+      Q(product?.fetch())  # When the item is not a product, this will be undefined.
+        .then ->
           $ili = $("[data-invoice-line-item-id='#{invoiceLineItem.get('_id')}']")
           $ili.find('.invoice-line-item-image').html "<img src='#{product.get('images')?[0]?.original}'>"
           $ili.find('.invoice-line-item-brand').text "#{product.get('brand')}"
           $ili.find('.invoice-line-item-title').text "#{product.get('title')}"
-        ).fail((xhr, textStatus, error) -> undefined)
+        .catch -> undefined
+        .done()
 
   initializeAddressWidget: ->
     @$('form').twzipcode()

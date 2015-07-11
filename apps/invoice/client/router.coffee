@@ -14,7 +14,8 @@ module.exports = class InvoiceRouter extends Backbone.Router
     'invoices/:id/shipping': 'shipping'
     'invoices/:id/payment': 'payment'
 
-  initialize: (invoice, invoiceLineItems) ->
+  initialize: (merchant, invoice, invoiceLineItems) ->
+    @merchant = merchant
     @invoice = invoice
     @invoiceLineItems = invoiceLineItems
     @initializeBanner()
@@ -25,17 +26,20 @@ module.exports = class InvoiceRouter extends Backbone.Router
   invoiceConfirmation: ->
     new InvoiceConfirmationView
       el: $('.invoice-content')
+      merchant: @merchant
       invoice: @invoice
       invoiceLineItems: @invoiceLineItems
 
   shipping: ->
     new InvoiceShippingView
       el: $('.invoice-content')
+      merchant: @merchant
       invoice: @invoice
       invoiceLineItems: @invoiceLineItems
 
   payment: ->
     new InvoicePaymentView
       el: $('.invoice-content')
+      merchant: @merchant
       invoice: @invoice
       invoiceLineItems: @invoiceLineItems

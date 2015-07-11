@@ -1,3 +1,5 @@
+include ../../../components/buttons/index
+
 .invoice-confirmation
   .container
     - var due = moment(invoice.get('due_at'));
@@ -11,10 +13,12 @@
           .merchant-summary
             .merchant-logo
               img
-            .merchant-source-countries 美國
-            .merchant-name 美國好物代購
+            .merchant-source-countries
+              = merchant.get('source_countries').join(", ")
+            .merchant-name
+              = merchant.get('merchant_name')
             .merchant-actions
-              a.btn.btn-tiny.btn-secondary 聯絡賣家
+              +button("a", "聯絡賣家")(class="btn btn-sm btn-secondary btn-navy", data-icon="button-arrow" )
           .invoice-summary
             .invoice-summary-item
               .invoice-summary-item-label 訂單編號
@@ -30,8 +34,8 @@
               .invoice-summary-item-label 附註
               .invoice-summary-item-content
                 p
-                  | 特價貨品的折扣有期限，
-                  | 請於指定日期內結賬匯款。
+                  | 特定商品的折扣有期限，
+                  | 請於指定日期內完成付款。
                   | 若超過繳費期限，請通知您的賣家，
                   | 另外建立一張訂單。
       .col-sm-18
@@ -46,23 +50,24 @@
                 th 小計
             tbody
               each item in invoiceLineItems.models
-                if item.get('order_line_item').type == 'product'
-                  tr( data-invoice-line-item-id=item.get('_id') )
-                    td.table-cell-image.invoice-line-item-image
-                    td.invoice-line-item-details
-                      .invoice-line-item-brand
-                      .invoice-line-item-title
-                    td.invoice-line-item-price
-                      | NT.
-                      = item.get('price')
-                    td.invoice-line-item-quantity
-                      = item.get('quantity')
-                    td.invoice-line-item-subtotal
-                      | NT.
-                      = item.get('price') * item.get('quantity')
+                tr( data-invoice-line-item-id=item.get('_id') )
+                  td.table-cell-image.invoice-line-item-image
+                    unless item.get('order_line_item') && item.get('order_line_item')['type'] == 'product'
+                      include ../../../components/main_layout/public/svgs/product.svg
+                  td.invoice-line-item-details
+                    .invoice-line-item-brand
+                    .invoice-line-item-title
+                      unless item.get('order_line_item') && item.get('order_line_item')['type'] == 'product'
+                        = item.title()
+                  td.invoice-line-item-price
+                    = acct.formatMoney(item.get('price'))
+                  td.invoice-line-item-quantity
+                    = item.get('quantity')
+                  td.invoice-line-item-subtotal
+                    = acct.formatMoney(item.get('price') * item.get('quantity'))
         .row
           .col-sm-10.col-sm-offset-14
             include ./invoice_total_summary_mixin
             +invoice-total-summary(invoice, invoiceLineItems)
             .invoice-actions
-              a.confirm-invoice.btn.btn-primary.btn-full-width 結賬
+              +button("a", "前往結賬")(class="btn btn-lg btn-cta btn-red btn-full-width confirm-invoice", data-icon="button-arrow")

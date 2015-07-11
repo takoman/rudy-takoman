@@ -10,12 +10,6 @@ money = require '../../lib/money.js'
 acct = require 'accounting'
 Q = require 'q'
 
-acct.settings.currency = _.defaults
-  precision: 0
-  symbol: 'NT'
-  format: '%s %v'
-, acct.settings.currency
-
 @index = (req, res, next) ->
   return res.redirect '/login' unless req.user
 
@@ -34,7 +28,6 @@ acct.settings.currency = _.defaults
         merchant: merchants.at(0)
         order: order
         orderLineItems: orderLineItems
-        acct: acct
         currencies: money.CURRENCIES
     .catch (error) ->
       next error?.body?.message or 'failed to fetch order and order line items'
@@ -46,16 +39,10 @@ acct.settings.currency = _.defaults
 
   # Require the logged in user to be a merchant
   merchants = new Merchants()
-
-  merchants.fetch data: user_id: req.user.get('_id')
-    # NOTE: Server-side Backbone.sync uses backbone-super-sync, which returns
-    # a Q promise that has slightly different interfaces than a jQuery one.
-    # https://github.com/artsy/backbone-super-sync/blob/2e7eacbecf26982b9f57c94d8c7f79ac3dff8801/index.js#L89
+  Q(merchants.fetch data: user_id: req.user.get('_id'))
     .then ->
       return next('The logged in user is not a merchant') if merchants.length is 0
 
-      # When editing, the order and orderLineItems objects should be fetched
-      # from the server before rendering.
       order = new Order(merchant: merchants.at(0).get('_id'))
       orderLineItems = new OrderLineItems()
       res.locals.sd.ORDER = order.toJSON()
@@ -66,5 +53,6 @@ acct.settings.currency = _.defaults
         orderLineItems: orderLineItems
         acct: acct
         currencies: money.CURRENCIES
-    #.fail ->
-    #  return next('Failed to fetch the merchant')
+    .catch (error) ->
+      next error?.body?.message or 'failed to fetch merchant or order'
+    .done()

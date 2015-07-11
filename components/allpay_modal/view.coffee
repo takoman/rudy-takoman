@@ -5,9 +5,10 @@ module.exports = class AllPayModal extends Backbone.View
   # We can also use simple _.template templating language
   # http://underscorejs.org/#template
   template: ->
-    '<div class="allpay-form-placeholder"></div>' +
-    '<div class="allpay-window-overlay"></div>' +
-    '<iframe class="allpay-window" name="allpay-window" width="1000px" height="800px"></iframe>'
+    '<div class="allpay-modal">' +
+    '  <div class="allpay-form-placeholder"></div>' +
+    '  <iframe class="allpay-window" name="allpay-window" width="1000px" height="800px"></iframe>' +
+    '</div>'
 
   initialize: (options) ->
     { @data } = options
@@ -20,7 +21,15 @@ module.exports = class AllPayModal extends Backbone.View
     @render()
 
   render: ->
-    @$el.html @template()
+    remodal = require '../../lib/vendor/remodal.js'
+    @setElement $(@template())
+    @modal = @$el.remodal
+      hashTracking: false
+      closeOnConfirm: false
+      closeOnCancel: false
+      closeOnEscape: false
+      closeOnOutsideClick: false
+    @modal.open()
 
   startPayment: ->
     # Backbone by default expects the response to be JSON, so we have to
@@ -31,7 +40,6 @@ module.exports = class AllPayModal extends Backbone.View
     @model.save @data, { dataType: "html" }
 
   postToIframe: (model, res, options) ->
-    $('body').addClass 'no-scroll'
     @$('.allpay-form-placeholder').html(res)
       .find('form').attr('target', 'allpay-window')
       .submit()
