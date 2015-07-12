@@ -51,13 +51,19 @@ module.exports = class OrderLineItemView extends Backbone.View
     'keyup .form-order-line-item [name="tax-rate"]': 'updateTaxMessage'
 
   render: ->
+    if @type isnt 'tax' or @model.get('price') is 0
+      taxRate = ''
+    else
+      productTotal = @orderLineItems.total('product')
+      taxRate = @model.get('price') / productTotal * 100
+
     @$el.html orderLineItemTemplate
       _: _, fx: @fx, acct: acct, money: money  # pass in some helpers
       item: @model
       type: @type
       currencySource: @cs
       currencyTarget: @ct
-      taxRate: @taxRate
+      taxRate: taxRate
 
     # Since we replace the entire html, we have to cache selectors everytime
     # after rendering.
@@ -135,8 +141,7 @@ module.exports = class OrderLineItemView extends Backbone.View
 
   updateTax: ->
     productTotal = @orderLineItems.total('product')
-    @model.set 'price', @formatMoney(productTotal * @taxRate / 100, convert: false)
-    @render()
+    @model.set 'price', @formatMoney(productTotal * @taxRate / 100)
 
   orderChanged: ->
     newFXRate = @order.get 'exchange_rate'
