@@ -1,5 +1,5 @@
 _ = require 'underscore'
-_s = require 'underscore.string'
+Q = require 'q'
 AllPay = require 'allpay'
 InvoicePayment = require '../../models/invoice_payment.coffee'
 { APP_URL, ALLPAY_PLATFORM_ID, ALLPAY_AIO_HASH_KEY, ALLPAY_AIO_HASH_IV,
@@ -45,44 +45,13 @@ allpay = new AllPay
   invoiceId = req.params.id
   data = req.body
 
-  if data.CheckMacValue is allpay.genCheckMacValue _.omit data, 'CheckMacValue'
-    # TODO: move the creation of the invoice payment to the model
-    payment = new InvoicePayment
-      external_id: data.TradeNo
-      invoice: invoiceId
-      #payment_account:  # TODO: create or fetch a payment account
-      total: data.TradeAmt
-      #result:
-      #message:
-      details:
-        # NOTE: When later updating the payment, we have to be careful not to
-        # erase the offline_payment_details data.
-        offline_payment_details:
-          merchant_id: data.MerchantID
-          merchant_trade_no: data.MerchantTradeNo
-          return_code: data.RtnCode
-          return_message: data.RtnMsg
-          trade_no: data.TradeNo
-          trade_amount: data.TradeAmt
-          payment_type: data.PaymentType
-          trade_date: data.TradeDate
-          check_mac_value: data.CheckMacValue
-          expire_date: data.ExpireDate
+  if data.CheckMacValue isnt allpay.genCheckMacValue _.omit data, 'CheckMacValue'
+    return res.send 'invalid offline payment (check mac value not match)'
 
-    if _s.startsWith data.PaymentType, 'ATM'
-      _.extend payment.get('details')?.offline_payment_details,
-        bank_code: data.BankCode
-        v_account: data.vAccount
+  payment = new InvoicePayment()
+  payment.setAllPayOfflinePaymentData invoiceId, data
 
-    if _s.startsWith(data.PaymentType, 'CVS') or _s.startsWith(data.PaymentType, 'BARCODE')
-      _.extend payment.get('details')?.offline_payment_details,
-        payment_no: data.PaymentNo
-        barcode_1: data.Barcode1
-        barcode_2: data.Barcode2
-        barcode_3: data.Barcode3
-
-    payment.save()
-      .then -> res.render 'offline_payment_redirected', invoiceId: invoiceId
-      .fail -> next 'failed to create the invoice payment'
-  else
-    res.send 'invalid offline payment'
+  Q(payment.save())
+    .then -> res.render 'offline_payment_redirected', invoiceId: invoiceId
+    .catch -> next 'failed to create the invoice payment'
+    .done()
