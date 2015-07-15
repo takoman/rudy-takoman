@@ -27,7 +27,15 @@ module.exports = class OrderLineItemView extends Backbone.View
     { @type, @order, @orderLineItems } = _.defaults options, @defaults()
 
     @oldFXRate = @order.get 'exchange_rate'
-    @taxRate = 0
+
+    if @type isnt 'tax' or @model.get('price') is 0
+      @taxRate = 0
+    else
+      productTotal = @orderLineItems.total('product')
+      if productTotal isnt 0
+        @taxRate = @model.get('price') / productTotal * 100
+      else
+        @taxRate = 0
 
     # Create a fx instance to handle currencies exchange
     @fx = money.factory()
@@ -51,19 +59,13 @@ module.exports = class OrderLineItemView extends Backbone.View
     'keyup .form-order-line-item [name="tax-rate"]': 'updateTaxMessage'
 
   render: ->
-    if @type isnt 'tax' or @model.get('price') is 0
-      taxRate = ''
-    else
-      productTotal = @orderLineItems.total('product')
-      taxRate = @model.get('price') / productTotal * 100
-
     @$el.html orderLineItemTemplate
       _: _, fx: @fx, acct: acct, money: money  # pass in some helpers
       item: @model
       type: @type
       currencySource: @cs
       currencyTarget: @ct
-      taxRate: taxRate
+      taxRate: parseFloat acct.toFixed @taxRate, 2
 
     # Since we replace the entire html, we have to cache selectors everytime
     # after rendering.
@@ -141,7 +143,9 @@ module.exports = class OrderLineItemView extends Backbone.View
 
   updateTax: ->
     productTotal = @orderLineItems.total('product')
-    @model.set 'price', @formatMoney(productTotal * @taxRate / 100)
+    productTax = @formatMoney(productTotal * @taxRate / 100)
+    @model.set 'price', productTax
+    @$('.subtotal-message').text "商品稅金為台幣 #{productTax} 元"
 
   orderChanged: ->
     newFXRate = @order.get 'exchange_rate'
@@ -163,6 +167,9 @@ module.exports = class OrderLineItemView extends Backbone.View
 
     if @type is 'tax'
       @taxRate = @$('.form-order-line-item [name="tax-rate"]').val()
+      productTotal = @orderLineItems.total('product')
+      productTax = @formatMoney(productTotal * @taxRate / 100)
+      @$priceField.val(productTax)
 
     if @type is 'product'
       @model.related().product.set
