@@ -1,0 +1,17 @@
+block locals
+  - headerClasses = ''
+  - navClasses = ''
+  - contentClasses = ''
+
+.hero-header( class=headerClasses )
+  .hero-header-nav( class=navClasses )
+    .container-fluid
+      .brand
+        include ../main_layout/public/svgs/takoman.svg
+      nav.minimal-nav
+        ol.item-actions.action-list
+          li: a.item-action.login( href="#" ) 登入
+          li: a.item-action.signup( href="#" ) 註冊
+  .hero-header-content( class=contentClasses )
+    .container
+      block content

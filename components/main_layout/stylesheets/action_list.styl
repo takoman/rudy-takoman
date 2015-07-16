@@ -7,6 +7,7 @@
 
 .action-list
   margin-bottom 0
+  color $gray-darker
   li
     &
       padding 0
@@ -15,9 +16,12 @@
       content '|'
       display inline-block
       font-size 0.8em
-      color $gray-darker
+      color inherit
       margin 0 0.8em
     a
+      color inherit
       faux-underline()
       display inline-block
       vertical-align middle
+    a:hover
+      color $black
