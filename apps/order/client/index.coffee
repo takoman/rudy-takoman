@@ -53,6 +53,7 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
       itemView = new OrderLineItemView
         type: item.get('type')
         order: @order
+        orderLineItems: @orderLineItems
         model: item
       views.push itemView.el
     @$('.panel-order-line-items .order-line-items').html views
@@ -113,17 +114,20 @@ module.exports.OrderFormView = class OrderFormView extends Backbone.View
     @$('.order-notes').removeAttr 'data-state'
 
   updateTotal: ->
-    types = ['product', 'shipping', 'commission']
+    types = ['product', 'shipping', 'commission', 'tax']
 
     _.each types, (t) => @$("#order-#{t}-total").text acct.formatMoney @orderLineItems.total(t)
     @$('#order-total').text acct.formatMoney @orderLineItems.total()
 
+    #for update tax
+    @order.trigger 'totalChanged'
   orderChanged: -> undefined
 
   addItem: (e) ->
     itemView = new OrderLineItemView
       type: $(e.currentTarget).data 'item-type'
       order: @order
+      orderLineItems: @orderLineItems
       model: @orderLineItems.add new OrderLineItem()
 
     itemView.edit()

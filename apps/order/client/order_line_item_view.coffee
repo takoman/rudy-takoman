@@ -3,6 +3,7 @@ _s       = require 'underscore.string'
 Backbone = require "backbone"
 sd = require("sharify").data
 OrderLineItem = require "../../../models/order_line_item.coffee"
+OrderLineItems = require "../../../collections/order_line_items.coffee"
 Order = require "../../../models/order.coffee"
 CurrentUser = require "../../../models/current_user.coffee"
 UploadForm = require "../../../components/upload/client/index.coffee"
@@ -23,9 +24,18 @@ module.exports = class OrderLineItemView extends Backbone.View
     order: new Order()
 
   initialize: (options) ->
-    { @type, @order } = _.defaults options, @defaults()
+    { @type, @order, @orderLineItems } = _.defaults options, @defaults()
 
     @oldFXRate = @order.get 'exchange_rate'
+
+    if @type isnt 'tax' or @model.get('price') is 0
+      @taxRate = 0
+    else
+      productTotal = @orderLineItems.total('product')
+      if productTotal isnt 0
+        @taxRate = @model.get('price') / productTotal * 100
+      else
+        @taxRate = 0
 
     # Create a fx instance to handle currencies exchange
     @fx = money.factory()
@@ -33,9 +43,9 @@ module.exports = class OrderLineItemView extends Backbone.View
 
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
-    @listenTo @order, 'change', @orderChanged
+    @listenTo @order, 'change', @orderChanged if @type isnt 'tax'
     @listenTo @model.related().product, 'change', @render if @model.isProduct()
-
+    @listenTo @order, 'totalChanged', @updateTax if @type is 'tax'
     @render()
 
   events:
@@ -46,6 +56,7 @@ module.exports = class OrderLineItemView extends Backbone.View
     'click .cancel-saving-item': 'cancel'
     'change .form-order-line-item [name="currency-source"]': 'updateSubtotalMessage'
     'keyup .form-order-line-item [name="price"]': 'updateSubtotalMessage'  # TODO: throttle this
+    'keyup .form-order-line-item [name="tax-rate"]': 'updateTaxMessage'
 
   render: ->
     @$el.html orderLineItemTemplate
@@ -54,6 +65,7 @@ module.exports = class OrderLineItemView extends Backbone.View
       type: @type
       currencySource: @cs
       currencyTarget: @ct
+      taxRate: parseFloat acct.toFixed @taxRate, 2
 
     # Since we replace the entire html, we have to cache selectors everytime
     # after rendering.
@@ -106,7 +118,11 @@ module.exports = class OrderLineItemView extends Backbone.View
     # TODO: maybe we can keep the form part when re-rendering.
     @$('form.form-order-line-item').areYouSure(slient: true)
 
-  selectedCurrencySource: -> @$currencySourceFields.filter(':checked').val()
+  selectedCurrencySource: ->
+    if @type is 'tax'
+      'TWD'
+    else
+      @$currencySourceFields.filter(':checked').val()
 
   updateSubtotalMessage: ->
     if isNaN (price = @$priceField.val())
@@ -115,6 +131,21 @@ module.exports = class OrderLineItemView extends Backbone.View
       @$('.subtotal-message').empty()
     else
       @$('.subtotal-message').text "商品單價換算為台幣 #{@formatMoney price, convert: true} 元"
+
+  updateTaxMessage: ->
+    if isNaN (taxRate = @$('.form-order-line-item [name="tax-rate"]').val())
+      @$('.subtotal-message').text "單價必須為數字"
+    else
+      productTotal = @orderLineItems.total('product')
+      productTax = @formatMoney(productTotal * taxRate / 100, convert: false)
+      @$('.subtotal-message').text "商品稅金為台幣 #{productTax} 元"
+      @$priceField.val(productTax)
+
+  updateTax: ->
+    productTotal = @orderLineItems.total('product')
+    productTax = @formatMoney(productTotal * @taxRate / 100)
+    @model.set 'price', productTax
+    @$('.subtotal-message').text "商品稅金為台幣 #{productTax} 元"
 
   orderChanged: ->
     newFXRate = @order.get 'exchange_rate'
@@ -133,6 +164,12 @@ module.exports = class OrderLineItemView extends Backbone.View
 
   save: (e) ->
     e.preventDefault()
+
+    if @type is 'tax'
+      @taxRate = @$('.form-order-line-item [name="tax-rate"]').val()
+      productTotal = @orderLineItems.total('product')
+      productTax = @formatMoney(productTotal * @taxRate / 100)
+      @$priceField.val(productTax)
 
     if @type is 'product'
       @model.related().product.set

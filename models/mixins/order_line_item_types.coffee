@@ -1,2 +1,2 @@
 module.exports =
-  orderLineItemTypes: ['product', 'shipping', 'commission']
+  orderLineItemTypes: ['product', 'shipping', 'commission', 'tax']

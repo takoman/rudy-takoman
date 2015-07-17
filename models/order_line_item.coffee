@@ -22,6 +22,8 @@ module.exports = class OrderLineItem extends Backbone.Model
       '代買費'
     else if @get('type') is 'product'
       @related().product.get('title') or '商品'
+    else if @get('type') is 'tax'
+      '稅金'
     else
       '項目'
 

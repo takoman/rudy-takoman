@@ -7,6 +7,7 @@ rewire      = require 'rewire'
 Backbone    = require 'backbone'
 fabricate   = require '../../../../test/helpers/fabricator.coffee'
 OrderLineItem = require "../../../../models/order_line_item.coffee"
+OrderLineItems = require "../../../../collections/order_line_items.coffee"
 Order = require "../../../../models/order.coffee"
 { resolve } = require 'path'
 
@@ -42,6 +43,105 @@ describe 'OrderFormView', ->
     Backbone.sync.restore()
 
   describe 'new item', ->
+    describe 'tax item', ->
+      beforeEach ->
+        @orderLineItems = new OrderLineItems()
+        @orderLineItems.add type: 'product', price: 1000, quantity: 2
+        @order = new Order fabricate('order', currency_source: 'USD', exchange_rate: 30)
+        @view = new OrderLineItemView
+          type: 'tax'
+          order: @order
+          model: new OrderLineItem()
+          orderLineItems: @orderLineItems
+
+      describe '#initialize', ->
+        it 'overrides the default value of attributes with options passed in', ->
+          @view.type.should.equal 'tax'
+          @view.order.should.equal @order
+
+        it 'renders the normal mode of the view', ->
+          _.isUndefined(@view.$('.order-line-item').attr('data-state')).should.be.ok
+
+        it 'renders a hidden quantity input with value set to 1', ->
+          @view.$('[name="quantity"][type="hidden"]').length.should.equal 1
+          @view.$('[name="quantity"][type="hidden"]').val().should.equal '1'
+
+        it 'renders a hidden price input with value set to 0', ->
+          @view.$('[name="price"][type="hidden"]').length.should.equal 1
+          @view.$('[name="price"][type="hidden"]').val().should.equal acct.toFixed(0, 0)
+
+      describe '#edit', ->
+        it 'renders the edit mode of the view', ->
+          @view.edit()
+          @view.$('.order-line-item').attr('data-state').should.equal 'editing'
+
+      describe '#updateTaxMessage', ->
+        it 'shows error messages when the input value is not a valid number', ->
+          @view.$('.form-order-line-item [name="tax-rate"]').val 'this is not a number'
+          @view.updateTaxMessage()
+          @view.$('.subtotal-message').text().should.equal '單價必須為數字'
+
+        it 'shows helper messages when the input value is a valid number', ->
+          @view.$('.form-order-line-item [name="tax-rate"]').val '8'
+          @view.updateTaxMessage()
+          @view.$('.subtotal-message').text().should.containEql "#{@orderLineItems.total('product') * 8 / 100}"
+
+      describe '#updateTax', ->
+        describe 'new product item added', ->
+          beforeEach ->
+            @view.taxRate = 8
+            @orderLineItems.add type: 'product', price: 1000, quantity: 1
+
+          it 'updates the total price of product items', ->
+            @orderLineItems.total('product').should.equal 1000 * 3
+
+          it 'updates the price of the tax item model', ->
+            @view.updateTax()
+            @view.model.get('price').should.equal 1000 * 3 * 8 / 100
+
+          it 'updates helper messages', ->
+            @view.updateTax()
+            @view.$('.subtotal-message').text().should.containEql "#{@orderLineItems.total('product') * 8 / 100}"
+
+        describe 'remove product item from orderLineItems', ->
+          beforeEach ->
+            @view.taxRate = 8
+            @orderLineItems.pop()
+
+          it 'updates the total price of product items', ->
+            @orderLineItems.total('product').should.equal 0
+
+          it 'updates the price of the tax item model', ->
+            @view.updateTax()
+            @view.model.get('price').should.equal 0
+
+      describe '#save', ->
+        #
+        describe 'all the data were changed', ->
+          beforeEach ->
+            @view.$('[name="tax-rate"]').val '10'
+            @view.$('[name="notes"]').val '當地消費稅'
+            @view.save($.Event('click'))
+
+          it 'sets the order line item model attributes with correct values', ->
+            @view.model.get('price').should.equal 2000 * 10 / 100
+
+          it 'marks the @isCreated flag as true', ->
+            @view.isCreated.should.be.ok
+
+          it 'does not actually save the model to the server', ->
+            Backbone.sync.called.should.not.be.ok
+
+          it 'switches to normal mode', ->
+            _.isUndefined(@view.$('.order-line-item').attr('data-state')).should.be.ok
+
+          it 'sets the order notes with correct value', ->
+            @view.model.get('notes').should.equal '當地消費稅'
+
+          it 'updates the view with updated order line item attributes', ->
+            @view.$('.item-price').text().should.equal acct.formatMoney(2000 * 10 / 100)
+            @view.$('.order-line-item-preview .item-subtotal').text().should.equal acct.formatMoney(2000 * 10 / 100)
+
     _.each ['product', 'shipping', 'commission'], (type) ->
       describe "#{type} item", ->
         beforeEach ->
