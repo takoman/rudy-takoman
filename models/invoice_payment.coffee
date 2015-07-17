@@ -41,3 +41,20 @@ module.exports = class InvoicePayment extends Backbone.Model
         barcode_3: allPayData.Barcode3
 
     @set _.pick(invoicePaymentData, (v) -> v?)
+
+  isOffline: -> @get('allpay_offline_payment_details')?
+
+  # AKA AllPay Offline Payment Details
+  aopd: -> @get('allpay_offline_payment_details') or {}
+
+  paymentType: -> @aopd()['payment_type']?.split('_')[0]
+
+  paymentTypeLabel: ->
+    if @paymentType() is 'ATM'
+      'ATM'
+    else if @paymentType() is 'CVS'
+      '超商代碼'
+    else if @paymentType() is 'BARCODE'
+      '超商條碼'
+    else
+      ''

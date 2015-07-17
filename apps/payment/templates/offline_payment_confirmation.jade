@@ -1,0 +1,66 @@
+extends ../../../components/hero_header/template
+include ../../../components/buttons/index
+
+append locals
+  - headerClasses = 'payment-confirmation-header'
+  - contentClasses = ''
+
+block content
+  .row
+    .col-md-12
+      .payment-confirmation-icon
+        include ../../../components/main_layout/public/svgs/product.svg
+      .payment-confirmation-details
+        .thank-you 感謝您的訂購
+        //- Maybe this should be trade_no?
+        .confirmation-number 訂單確認碼：#{invoicePayment.get('_id')}
+        p
+          | 訂購確認信已寄到此信箱：sharonlinyic@gmail.com
+          | 匯款資訊如下，別忘記在期限內到#{invoicePayment.paymentType() == 'ATM' ? 'ATM' : '超商'}付款喔！
+      .payment-confirmation-actions
+
+    .col-md-12
+      .offline-payment-details
+        .payment-amount
+          | 繳費金額：#{invoicePayment.aopd()['trade_amount']} 元
+        .payment-type
+          | 付款方式：
+          = invoicePayment.paymentTypeLabel()
+        if invoicePayment.paymentType() == 'ATM'
+          .bank-code
+            | 銀行代碼：
+            = invoicePayment.aopd()['bank_code']
+          .bank-account
+            | ATM 繳款帳號：
+            = invoicePayment.aopd()['v_account']
+        if invoicePayment.paymentType() == 'CVS'
+          .payment-no
+            | 繳費代碼：
+            = invoicePayment.aopd()['payment_no']
+            | （請抄下此組代碼至 7-ELEVEN、全家、萊爾富、OK 繳費）
+        if invoicePayment.paymentType() == 'BARCODE'
+          div Don't show the barcodes but show a print button
+        .expire-date
+          | 繳費截止日期：
+          = moment(invoicePayment.aopd()['expire_date']).format('YYYY/MM/DD HH:mm:ss')
+        if invoicePayment.paymentType() == 'ATM'
+          ul.payment-reminder.payment-type-atm
+            li 轉賬成功後，系統將於 1 至 2 小時內發送繳款成功通知。
+            li 若您於此段時間未收到繳款成功通知，請於上班時間來電或利用官網的線上回報通知客服。
+            li 晚上 12 點至凌晨 1 點為銀行固定維護時間，如於此期間進行轉賬，將於凌晨 1 點後入賬。
+            li 若使用ATM櫃員機，可選擇轉帳 / 轉出 ( 繳費單筆上限3萬元 ) 或繳費 ( 無上限3萬元限制 ) 之功能按鈕；若為使用第一銀行ATM櫃員機，請選擇「繳費」按鈕。(示意圖)
+            li 適用【繳費】功能之銀行ATM櫃員機：玉山銀行、臺灣銀行、中國信託、土地銀行、富邦銀行、第一銀行、華南銀行、台新銀行、彰化銀行。(無上限3萬元限制)
+        if invoicePayment.paymentType() == 'CVS'
+          ul.payment-reminder.payment-type-cvs
+            li 超商代碼的繳費期限為7天，請務必於期限內進行繳款。
+        if invoicePayment.paymentType() == 'BARCODE'
+          ul.payment-reminder.payment-type-barcode
+            li 本繳費單請以雷射印表機列印。
+            li 條碼的入帳時間為3-5個工作日，若您超過入帳時間未收到通知，請與歐付寶聯繫。聯絡電話： (02)2655-0115。
+            li 超商條碼的繳費期限為7天，請務必於期限內進行繳款。例：08/01的20:15分購買商品，繳費期限為7天，表示8/08 的20:15分前您必須前往繳費。
+            li 提醒您！超商店員不會在結帳時另收手續費。
+            li 此付款系統由「歐付寶第三方支付股份有限公司」提供。
+      .offline-payment-actions
+        //-+button("a", "傳LINE給我")(class="btn btn-sm btn-secondary btn-colored-bg", data-icon="button-arrow", data-icon-align="left")
+        //-| &nbsp;
+        +button("a", "列印")(class="btn btn-sm btn-secondary btn-colored-bg", data-icon="button-arrow", data-icon-align="left")
