@@ -17,6 +17,6 @@ block content
         p
           | 訂購確認信已寄到此信箱：sharonlinyic@gmail.com
           | 別忘了回來給賣家評價喔！
-      .payment-confirmation-actions
+        .payment-confirmation-actions
         unless invoicePayment.isOffline()
           +button("a", "評價賣家")(class="btn btn-sm btn-primary btn-colored-bg", data-icon="button-arrow")
