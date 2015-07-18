@@ -5,6 +5,7 @@ Backbone = require 'backbone'
 moment = require 'moment'
 FlakeId = require 'flake-idgen'
 intformat = require 'biguint-format'
+PaymentAccounts = require '../../../collections/payment_accounts.coffee'
 InvoiceLineItems = require '../../../collections/invoice_line_items.coffee'
 OrderLineItems = require '../../../collections/order_line_items.coffee'
 OrderLineItem = require '../../../models/order_line_item.coffee'
@@ -19,7 +20,7 @@ module.exports = class PaymentView extends Backbone.View
   initialize: (options) ->
     { @merchant, @invoice, @invoiceLineItems } = options
     @render()
-    @fetchAndRenderProducts()
+    @preparePaymentAndRenderProduct()
 
   render: ->
     @$el.html template
@@ -31,12 +32,12 @@ module.exports = class PaymentView extends Backbone.View
   payViaAllPay: ->
     merchantTradeNo = intformat((new FlakeId().next()), 'hex')
     data =
-      invoiceId: @invoice.get('_id')
-      MerchantID: '2000132' # TODO: use the actual merchant ID
+      invoiceId: @invoice.get '_id'
+      MerchantID: @merchantAccount.get 'external_id'
       MerchantTradeNo: merchantTradeNo
       MerchantTradeDate: moment.utc().format('YYYY/MM/DD HH:mm:ss')
       PaymentType: 'aio'
-      # Maybe we should move the total calculation to the server side?
+      # TODO: Maybe we should move the total calculation to the server side?
       TotalAmount: @invoiceLineItems.total()
       TradeDesc: "#{@merchant.get('merchant_name')}訂單 (#{merchantTradeNo})"
       ItemName: @invoiceLineItems.allpayItemName()
@@ -44,8 +45,19 @@ module.exports = class PaymentView extends Backbone.View
 
     new AllPayModalView(data: data).startPayment()
 
-  fetchAndRenderProducts: ->
-    promises = []
+  #
+  # Fetch necessary data for submitting payment to AllPay, render products
+  # details, and enable the "pay" button.
+  #
+  preparePaymentAndRenderProduct: ->
+    # TODO: Maybe we should move the account fetching to the server side?
+    paymentAccounts = new PaymentAccounts()
+    promises = [
+      Q(paymentAccounts.fetch(data: merchant_id: @merchant.get('_id')))
+        .then =>
+          throw new Error('no payment account associated with this merchant') if paymentAccounts.length is 0
+          @merchantAccount = paymentAccounts.at(0)
+    ]
     @invoiceLineItems.each (ili) ->
       oli = ili.related().order_line_item
       if oli.isProduct()
@@ -59,5 +71,5 @@ module.exports = class PaymentView extends Backbone.View
 
     Q.all(promises)
       .then (results) -> @$('button.pay-invoice').removeClass('btn-disabled').removeAttr 'disabled'
-      .catch (error) -> undefined
+      .catch (error) -> console.log error
       .done()

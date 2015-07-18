@@ -10,3 +10,7 @@ module.exports = class Invoice extends Backbone.Model
   urlRoot: "#{API_URL}/api/v1/invoices"
 
   href: -> "/invoices/#{@get('_id')}"
+
+  isUnpaid: -> @get('status') is 'unpaid'
+  isPaid: -> @get('status') is 'paid'
+  isOrverdue: -> @get('status') is 'overdue'

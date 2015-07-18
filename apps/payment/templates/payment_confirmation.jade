@@ -1,0 +1,22 @@
+extends ../../../components/hero_header/template
+include ../../../components/buttons/index
+
+append locals
+  - headerClasses = 'payment-confirmation-header'
+  - contentClasses = ''
+
+block content
+  .row
+    .col-md-12.col-md-offset-6
+      .payment-confirmation-icon
+        include ../../../components/main_layout/public/svgs/product.svg
+      .payment-confirmation-details
+        .thank-you 感謝您的訂購
+        //- Maybe this should be trade_no?
+        .confirmation-number 訂單確認碼：#{invoicePayment.get('_id')}
+        p
+          | 訂購確認信已寄到此信箱：sharonlinyic@gmail.com
+          | 別忘了回來給賣家評價喔！
+        .payment-confirmation-actions
+        unless invoicePayment.isOffline()
+          +button("a", "評價賣家")(class="btn btn-sm btn-primary btn-colored-bg", data-icon="button-arrow")

@@ -1,0 +1,37 @@
+@import '../main_layout/stylesheets/variables'
+@import 'nib'
+
+.hero-header
+  &
+    min-height 400px
+    color $white
+    background-color $red
+    transition background-color .5s ease-in-out
+    position relative
+
+  &.navy
+    background-color $navy
+
+  .brand
+    width 100%
+    text-align center
+    margin 30px 0
+    svg
+      width 180px
+      path, rect, circle
+        fill $white
+
+  .minimal-nav
+    position absolute
+    top 30px
+    right 30px
+    .action-list
+      color $gray-lightest
+    .action-list li a
+      color $gray-lightest
+      &:hover
+        color $white
+    .action-list li a:before
+      border-bottom-color $gray-lightest
+      &:hover
+        border-bottom-color $white

@@ -1,0 +1,63 @@
+.payment
+  .hero-header
+    padding-bottom 80px
+  .brand
+    margin-bottom 80px
+
+  .payment-confirmation
+    font-size 0
+    margin-bottom 30px
+  .payment-confirmation-icon,
+  .payment-confirmation-details
+    display inline-block
+    vertical-align top
+  .payment-confirmation-icon
+    width 25%
+    svg
+      width 80%
+      height 80%
+  .payment-confirmation-details
+    width 75%
+    padding-left 20px
+    font-size 14px
+    .thank-you, .confirmation-number
+      font-size 24px
+      font-weight 100
+      letter-spacing 2px
+      line-height 1.3em
+    .confirmation-number
+      margin-bottom 10px
+    p
+      font-size 15px
+      line-height 1.5em
+
+  .offline-payment-details
+    border-left 1px dotted $white
+    padding 0 0 10px 40px
+  .offline-payment-details-item
+    font-size 16px
+    line-height 2em
+    + ol.payment-reminder
+      margin-top 15px
+  ol.payment-reminder
+    margin-bottom 20px
+    font-size 12px
+    color $gray-lightest
+    padding-left 20px
+
+  .hero-signup
+    padding 50px 0
+    background-color $gray-lightest
+
+  @media print
+    > *
+      display none
+    .payment-confirmation-header
+      display block
+    .minimal-nav, .btn
+      display none
+    .brand
+      margin-bottom 30px
+      svg
+        rect, path, circle
+          fill $red
