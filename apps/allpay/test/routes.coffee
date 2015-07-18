@@ -107,20 +107,19 @@ describe 'Allpay routes', ->
             external_id: @atmData.TradeNo
             invoice: @invoiceId
             total: @atmData.TradeAmt
-            details:
-              offline_payment_details:
-                merchant_id: @atmData.MerchantID
-                merchant_trade_no: @atmData.MerchantTradeNo
-                return_code: @atmData.RtnCode
-                return_message: @atmData.RtnMsg
-                trade_no: @atmData.TradeNo
-                trade_amount: @atmData.TradeAmt
-                payment_type: @atmData.PaymentType
-                trade_date: @atmData.TradeDate
-                check_mac_value: @atmData.CheckMacValue
-                expire_date: @atmData.ExpireDate
-                bank_code: @atmData.BankCode
-                v_account: @atmData.vAccount
+            allpay_offline_payment_details:
+              merchant_id: @atmData.MerchantID
+              merchant_trade_no: @atmData.MerchantTradeNo
+              return_code: @atmData.RtnCode
+              return_message: @atmData.RtnMsg
+              trade_no: @atmData.TradeNo
+              trade_amount: @atmData.TradeAmt
+              payment_type: @atmData.PaymentType
+              trade_date: @atmData.TradeDate
+              check_mac_value: @atmData.CheckMacValue
+              expire_date: @atmData.ExpireDate
+              bank_code: @atmData.BankCode
+              v_account: @atmData.vAccount
 
         it 'renders the redirection template', ->
           @thenSpy.args[0][0]()
@@ -139,22 +138,21 @@ describe 'Allpay routes', ->
               external_id: @cvsBarcodeData.TradeNo
               invoice: @invoiceId
               total: @cvsBarcodeData.TradeAmt
-              details:
-                offline_payment_details:
-                  merchant_id: @cvsBarcodeData.MerchantID
-                  merchant_trade_no: @cvsBarcodeData.MerchantTradeNo
-                  return_code: @cvsBarcodeData.RtnCode
-                  return_message: @cvsBarcodeData.RtnMsg
-                  trade_no: @cvsBarcodeData.TradeNo
-                  trade_amount: @cvsBarcodeData.TradeAmt
-                  payment_type: @cvsBarcodeData.PaymentType
-                  trade_date: @cvsBarcodeData.TradeDate
-                  check_mac_value: @cvsBarcodeData.CheckMacValue
-                  expire_date: @cvsBarcodeData.ExpireDate
-                  payment_no: @cvsBarcodeData.PaymentNo
-                  barcode_1: @cvsBarcodeData.Barcode1
-                  barcode_2: @cvsBarcodeData.Barcode2
-                  barcode_3: @cvsBarcodeData.Barcode3
+              allpay_offline_payment_details:
+                merchant_id: @cvsBarcodeData.MerchantID
+                merchant_trade_no: @cvsBarcodeData.MerchantTradeNo
+                return_code: @cvsBarcodeData.RtnCode
+                return_message: @cvsBarcodeData.RtnMsg
+                trade_no: @cvsBarcodeData.TradeNo
+                trade_amount: @cvsBarcodeData.TradeAmt
+                payment_type: @cvsBarcodeData.PaymentType
+                trade_date: @cvsBarcodeData.TradeDate
+                check_mac_value: @cvsBarcodeData.CheckMacValue
+                expire_date: @cvsBarcodeData.ExpireDate
+                payment_no: @cvsBarcodeData.PaymentNo
+                barcode_1: @cvsBarcodeData.Barcode1
+                barcode_2: @cvsBarcodeData.Barcode2
+                barcode_3: @cvsBarcodeData.Barcode3
 
           it 'renders the redirection template', ->
             @thenSpy.args[0][0]()
@@ -168,4 +166,4 @@ describe 'Allpay routes', ->
         routes.offlinePaymentRedirected @req, @res
 
       it 'sends proper error message', ->
-        @res.send.args[0][0].should.equal 'invalid offline payment'
+        @res.send.args[0][0].should.equal 'invalid offline payment (check mac value not match)'
