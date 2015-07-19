@@ -8,7 +8,7 @@ include ../../../components/buttons/index
         .panel-content
           .row
             .col-md-12
-              form
+              form.form-contact-and-shipping
                 .form-group.required
                   label.control-label( for="full-name" ) 姓名
                   input#full-name.form-control( name="name" type="text" placeholder="您的姓名" required autofocus)
@@ -36,13 +36,13 @@ include ../../../components/buttons/index
                   label.control-label( for="zipcode" ) 郵遞區號
                   #zipcode( data-role="zipcode" data-style="form-control" required)
                 .form-group
-                  label.control-label( for="phone-number" ) 電話
-                  input#phone-number.form-control( name="phone-number" type="text" placeholder="您的聯絡電話" )
+                  label.control-label( for="phone" ) 電話
+                  input#phone.form-control( name="phone" type="text" placeholder="您的聯絡電話" )
+                //-.form-group
+                //-  label.control-label( for="notes" ) 備註
+                //-  textarea#notes.form-control( name="notes" rows="3" )
                 .form-group
-                  label.control-label( for="notes" ) 備註
-                  textarea#notes.form-control( name="notes" rows="3" )
-                .form-group
-                  +button("button", "前往付款")(class="btn btn-cta btn-red", data-icon="button-arrow", type="submit")
+                  +button("button", "前往付款")(class="btn btn-cta btn-red submit-shipping", data-icon="button-arrow", type="submit")
       .panel.panel-disabled.panel-bordered.invoice-payment
         .panel-header 2. 歐付寶付款
     .col-sm-8

@@ -2,17 +2,25 @@ _ = require 'underscore'
 Q = require 'q'
 Backbone = require 'backbone'
 InvoiceLineItems = require '../../../collections/invoice_line_items.coffee'
+Order = require '../../../models/order.coffee'
 OrderLineItem = require '../../../models/order_line_item.coffee'
 Product = require '../../../models/product.coffee'
 CheckoutHeaderView = require '../../../components/checkout_header/view.coffee'
 acct = require 'accounting'
 template = -> require('../templates/shipping.jade') arguments...
+{ SESSION_ID } = require('sharify').data
 
 module.exports = class ShippingView extends Backbone.View
+  events:
+    'submit .form-contact-and-shipping': 'submitContactAndShipping'
+
   initialize: (options) ->
     { @merchant, @invoice, @invoiceLineItems } = options
+    @order = new Order @invoice.get('order')
+    @customer = @order.related().customer
     @render()
     @initializeAddressWidget()
+    @prepopulate()
 
   render: ->
     @$el.html template
@@ -24,6 +32,43 @@ module.exports = class ShippingView extends Backbone.View
       invoiceLineItems: @invoiceLineItems
 
     @renderInvoiceLineItems()
+
+  prepopulate: ->
+    # Have to select city and trigger change first for the twzipcode to
+    # populate the dropdown options of district. Then we can select it.
+    @$('[name="city"]').val(@order.get('shipping_address')?['city']).trigger 'change'
+    _.each @order.get('shipping_address'), (v, k) => @$("[name='#{k}']").val v
+
+    unless @customer.isNew()
+      Q(@customer.fetch())
+        .then => _.each @customer.attributes, (v, k) => @$("input[name='#{k}']").val v
+        .catch -> console.log 'fetch customer failed'
+        .done()
+
+  # Create/save the customer and update the order with the shipping address
+  # and the customer.
+  submitContactAndShipping: (e) ->
+    e.preventDefault()
+    @order.set
+      shipping_address:
+        address: @$('input[name="address"]').val()
+        district: @$('select[name="district"]').val()
+        city: @$('select[name="city"]').val()
+        zipcode: @$('input[name="zipcode"]').val()
+        country: @$('select[name="country"]').val()
+
+    @customer.set
+      name: @$('input[name="name"]').val()
+      email: @$('input[name="email"]').val()
+      phone: @$('input[name="phone"]').val()
+      anonymous: true
+      anonymous_session_id: SESSION_ID
+
+    Q(@customer.save())
+      .then => Q @order.set(customer: @customer.get('_id')).save()
+      .then => Backbone.history.navigate "/invoices/#{@invoice.get('_id')}/payment", trigger: true
+      .catch (error) -> console.log error
+      .done()
 
   renderInvoiceLineItems: ->
     @invoiceLineItems.each (invoiceLineItem) ->
