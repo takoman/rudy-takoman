@@ -17,11 +17,15 @@ include ../../../components/buttons/index
           .customer-email
           //-h4 備註
 
-      .panel.panel-disabled.panel-bordered.invoice-payment
+      .panel.panel-secondary.panel-bordered.invoice-payment
         .panel-header 2. 歐付寶付款
         .panel-content
-          +button("button", "付款")(class="btn btn-cta btn-red btn-disabled pay-invoice", data-icon="button-arrow", type="button", disabled)
-          .payment-form-placeholder
+          .row
+            .col-md-24
+              p 請確認訂購資訊無誤後進行付款。
+            .col-md-8
+              +button("button", "付款")(class="btn btn-cta btn-lg btn-red btn-disabled pay-invoice btn-full-width", data-icon="button-arrow", type="button", disabled)
+              .payment-form-placeholder
     .col-sm-8
       .panel.panel-secondary.panel-bordered.invoice-total-summary
         .panel-header 購物總額
