@@ -24,3 +24,12 @@ module.exports = class Order extends Backbone.Model
 
   urlRoot: ->
     "#{API_URL}/api/v1/orders"
+
+  shippingAddress: ->
+    [
+      @get('shipping_address')?.zipcode,
+      @get('shipping_address')?.city,
+      @get('shipping_address')?.district,
+      @get('shipping_address')?.address,
+      @get('shipping_address')?.address_2
+    ].join('')

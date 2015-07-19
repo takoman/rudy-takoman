@@ -7,6 +7,7 @@ FlakeId = require 'flake-idgen'
 intformat = require 'biguint-format'
 PaymentAccounts = require '../../../collections/payment_accounts.coffee'
 InvoiceLineItems = require '../../../collections/invoice_line_items.coffee'
+Order = require '../../../models/order.coffee'
 OrderLineItems = require '../../../collections/order_line_items.coffee'
 OrderLineItem = require '../../../models/order_line_item.coffee'
 Product = require '../../../models/product.coffee'
@@ -16,6 +17,7 @@ template = -> require('../templates/payment.jade') arguments...
 module.exports = class PaymentView extends Backbone.View
   events:
     'click .pay-invoice': 'payViaAllPay'
+    'click .edit-contact-and-shipping': 'editShipping'
 
   initialize: (options) ->
     { @merchant, @invoice, @invoiceLineItems } = options
@@ -28,6 +30,23 @@ module.exports = class PaymentView extends Backbone.View
       acct: acct
       invoice: @invoice
       invoiceLineItems: @invoiceLineItems
+
+    @fetchAndRenderCustomerInfo()
+
+  fetchAndRenderCustomerInfo: ->
+    @order = new Order @invoice.get('order')
+    @customer = @order.related().customer
+    Q.all([Q(@order.fetch()), Q(@customer.fetch())])
+      .then =>
+        @$('.customer-name').text @customer.get 'name'
+        @$('.customer-address').text @order.shippingAddress()
+        @$('.customer-phone').text @customer.get 'phone'
+        @$('.customer-email').text @customer.get 'email'
+      .catch -> console.log 'fetch order or customer failed'
+      .done()
+
+  editShipping: ->
+    Backbone.history.navigate "/invoices/#{@invoice.get '_id'}/shipping", trigger: true
 
   payViaAllPay: ->
     merchantTradeNo = intformat((new FlakeId().next()), 'hex')
