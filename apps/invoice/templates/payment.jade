@@ -4,13 +4,28 @@ include ../../../components/buttons/index
   .container
     .col-sm-16
       .panel.panel-secondary.panel-bordered.invoice-shipping-info
-        .panel-header 1. 訂購資料
+        .panel-header.clearfix
+          .pull-left 1. 訂購資料
+          .pull-right
+            ol.item-actions.action-list
+              li: a.item-action.edit-contact-and-shipping( href="#" ) 修改
         .panel-content
-      .panel.panel-disabled.panel-bordered.invoice-payment
+          h4 訂購人資訊
+          .customer-name
+          .customer-address
+          .customer-phone
+          .customer-email
+          //-h4 備註
+
+      .panel.panel-secondary.panel-bordered.invoice-payment
         .panel-header 2. 歐付寶付款
         .panel-content
-          +button("button", "付款")(class="btn btn-cta btn-red btn-disabled pay-invoice", data-icon="button-arrow", type="button", disabled)
-          .payment-form-placeholder
+          .row
+            .col-md-24
+              p 請確認訂購資訊無誤後進行付款。
+            .col-md-8
+              +button("button", "付款")(class="btn btn-cta btn-lg btn-red btn-disabled pay-invoice btn-full-width", data-icon="button-arrow", type="button", disabled)
+              .payment-form-placeholder
     .col-sm-8
       .panel.panel-secondary.panel-bordered.invoice-total-summary
         .panel-header 購物總額
