@@ -1,0 +1,19 @@
+tr( data-invoice-line-item-id=invoiceLineItem.get('_id') )
+  td.table-cell-image.invoice-line-item-image
+    if invoiceLineItem.related().order_line_item.get('type') == 'commission'
+      include ../../../components/main_layout/public/svgs/product.svg
+    else if invoiceLineItem.related().order_line_item.get('type') == 'shipping'
+      include ../../../components/main_layout/public/svgs/product.svg
+    else if invoiceLineItem.related().order_line_item.get('type') == 'tax'
+      include ../../../components/main_layout/public/svgs/product.svg
+  td
+    .invoice-line-item-brand
+    .invoice-line-item-title
+      = invoiceLineItem.title()
+  td.invoice-line-item-price
+    = acct.formatMoney(invoiceLineItem.get('price'))
+  td.invoice-line-item-quantity
+    = invoiceLineItem.get('quantity')
+  td.invoice-line-item-subtotal
+    = acct.formatMoney(invoiceLineItem.get('price') * invoiceLineItem.get('quantity'))
+  td.invoice-line-item-share 分享
