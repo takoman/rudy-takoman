@@ -40,6 +40,7 @@ module.exports.PaymentConfirmationView = class PaymentConfirmationView extends B
         @$('.panel-order-customer .customer-address').text @order.shippingAddress()
         @$('.panel-order-customer .customer-phone').text @customer.get 'phone'
         @$('.panel-order-customer .customer-email').text @customer.get 'email'
+        @$('.payment-confirmation-details .customer-email').text @customer.get 'email'
       .catch (error) -> console.log error
       .done()
 
