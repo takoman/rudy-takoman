@@ -1,0 +1,22 @@
+.invoice-total-summary
+  .invoice-total-breakdown
+    .invoice-total-breakdown-item.invoice-product-subtotal.clearfix
+      .invoice-total-breakdown-label.pull-left 商品總額
+      .invoice-total-breakdown-amount.pull-right
+        = acct.formatMoney(invoiceLineItems.total('product'))
+    .invoice-total-breakdown-item.invoice-shipping-subtotal.clearfix
+      .invoice-total-breakdown-label.pull-left 運費
+      .invoice-total-breakdown-amount.pull-right
+        = acct.formatMoney(invoiceLineItems.total('shipping'))
+    .invoice-total-breakdown-item.invoice-commission-subtotal.clearfix
+      .invoice-total-breakdown-label.pull-left 代買費
+      .invoice-total-breakdown-amount.pull-right
+        = acct.formatMoney(invoiceLineItems.total('commission'))
+    .invoice-total-breakdown-item.invoice-discount-subtotal.clearfix
+      .invoice-total-breakdown-label.pull-left 優惠折扣
+      .invoice-total-breakdown-amount.pull-right
+        | --
+  .invoice-total.clearfix
+    .invoice-total-label.pull-left 總計
+    .invoice-total-amount.pull-right
+      = acct.formatMoney(invoiceLineItems.total())

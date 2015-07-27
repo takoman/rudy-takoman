@@ -67,7 +67,6 @@ include ../../../components/buttons/index
                     = acct.formatMoney(item.get('price') * item.get('quantity'))
         .row
           .col-sm-10.col-sm-offset-14
-            include ./invoice_total_summary_mixin
-            +invoice-total-summary(invoice, invoiceLineItems)
+            include ./invoice_total_summary
             .invoice-actions
               +button("a", "前往結賬")(class="btn btn-lg btn-cta btn-red btn-full-width confirm-invoice", data-icon="button-arrow")

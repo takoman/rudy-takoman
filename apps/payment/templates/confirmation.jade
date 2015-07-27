@@ -21,3 +21,44 @@ block body
         .col-md-12
           h3 加入會員
         .col-md-12
+
+  .container
+    .order-summary
+      .panel-order-customer.panel.panel-secondary.panel-bordered
+        .panel-header 訂購資料
+        .panel-content
+          h4 訂購人資訊
+          .customer-name
+          .customer-address
+          .customer-phone
+          .customer-email
+          //-h4 備註
+      .panel-invoice-total.panel.panel-secondary.panel-bordered
+        .panel-header 購物總額
+        .panel-content
+
+      .panel-order-merchant.panel.panel-secondary.panel-bordered
+        .panel-header 代購賣家
+        .panel-content
+          .merchant-summary
+            .merchant-logo
+              img
+            .merchant-source-countries
+              //= merchant.get('source_countries').join(", ")
+            .merchant-name
+              //= merchant.get('merchant_name')
+            .merchant-actions
+              +button("a", "聯絡賣家")(class="btn btn-sm btn-secondary btn-navy", data-icon="button-arrow" )
+
+    .order-items
+      .table-responsive
+        table.table.table-dotted.invoice-line-items-table
+          thead
+            tr
+              th 商品
+              th
+              th 單價
+              th 數量
+              th 小計
+              th
+          tbody
