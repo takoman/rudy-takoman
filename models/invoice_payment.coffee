@@ -16,6 +16,8 @@ module.exports = class InvoicePayment extends Backbone.Model
       invoice: invoiceId
       # payment_account:  # TODO: create or fetch a payment account for the customer
       total: allPayData.TradeAmt
+      result: @parseAllPayOfflinePaymentReturnCode allPayData.RtnCode
+      message: allPayData.RtnMsg
       allpay_offline_payment_details:
         merchant_id: allPayData.MerchantID
         merchant_trade_no: allPayData.MerchantTradeNo
@@ -41,6 +43,38 @@ module.exports = class InvoicePayment extends Backbone.Model
         barcode_3: allPayData.Barcode3
 
     @set _.pick(invoicePaymentData, (v) -> v?)
+
+  setAllPayPaymentData: (invoiceId, allPayData = {}) ->
+    invoicePaymentData =
+      external_id: allPayData.TradeNo
+      invoice: invoiceId
+      # payment_account:  # TODO: create or fetch a payment account for the customer
+      total: allPayData.TradeAmt
+      result: @parseAllPayPaymentReturnCode allPayData.RtnCode
+      message: allPayData.RtnMsg
+      details:
+        merchant_id: allPayData.MerchantID
+        merchant_trade_no: allPayData.MerchantTradeNo
+        return_code: allPayData.RtnCode
+        return_message: allPayData.RtnMsg
+        trade_no: allPayData.TradeNo
+        trade_amount: allPayData.TradeAmt
+        payment_date: allPayData.PaymentDate
+        payment_type: allPayData.PaymentType
+        payment_type_charge_fee: allPayData.PaymentTypeChargeFee
+        trade_date: allPayData.TradeDate
+        simulate_paid: allPayData.SimulatePaid
+        check_mac_value: allPayData.CheckMacValue
+
+    @set _.pick(invoicePaymentData, (v) -> v?)
+
+  # Success if code is 1 or 800 (貨到付款訂單建立成功)
+  parseAllPayPaymentReturnCode: (code) ->
+    if code is '1' or code is '800' then 'success' else 'failure'
+
+  # Success if code is 2 (ATM) or 10100073 (CVS/BARCODE)
+  parseAllPayOfflinePaymentReturnCode: (code) ->
+    if code is '2' or code is '10100073' then 'success' else 'failure'
 
   isOffline: -> @get('allpay_offline_payment_details')?
 
