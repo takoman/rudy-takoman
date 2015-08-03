@@ -27,8 +27,8 @@ module.exports = class InvoicePayment extends Backbone.Model
         trade_amount: allPayData.TradeAmt
         payment_type: allPayData.PaymentType
         trade_date: allPayData.TradeDate
-        check_mac_value: allPayData.CheckMacValue
         expire_date: allPayData.ExpireDate
+        raw: allPayData
 
     if _s.startsWith(allPayData.PaymentType, 'ATM')
       _.extend invoicePaymentData.allpay_offline_payment_details,
@@ -64,7 +64,7 @@ module.exports = class InvoicePayment extends Backbone.Model
         payment_type_charge_fee: allPayData.PaymentTypeChargeFee
         trade_date: allPayData.TradeDate
         simulate_paid: allPayData.SimulatePaid
-        check_mac_value: allPayData.CheckMacValue
+        raw: allPayData
 
     @set _.pick(invoicePaymentData, (v) -> v?)
 

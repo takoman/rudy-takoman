@@ -15,5 +15,5 @@ Invoice = require '../../models/invoice.coffee'
       res.locals.sd.INVOICE_PAYMENT = invoicePayment.toJSON()
       res.render 'confirmation', invoice: invoice, invoicePayment: invoicePayment
     .catch (error) ->
-      next error
+      next error?.body?.message or 'failed to fetch invoice and payment'
     .done()
