@@ -39,8 +39,21 @@ allpay = new AllPay
     #Desc_4: ''
 
   html = allpay.createFormHtml _.extend data, CheckMacValue: allpay.genCheckMacValue(data)
-
   res.send html
+
+# AllPay will try to redirect here with payment data after an online payment
+# completed. However, the web ATM website of some banks won't redirect back,
+# so it's recommended to record the payment data via the route specified by
+# ReturnURL (i.e. @paymentCallback below.)
+@onlinePaymentRedirected = (req, res, next) ->
+  invoiceId = req.params.id
+  data = req.body
+
+  if data.CheckMacValue isnt allpay.genCheckMacValue _.omit data, 'CheckMacValue'
+    # TODO: we should log the error somehow
+    return res.send 'invalid offline payment (check mac value not match)'
+
+  res.render 'payment_redirected', invoiceId: invoiceId, paymentExternalId: data.TradeNo
 
 @offlinePaymentRedirected = (req, res, next) ->
   invoiceId = req.params.id
@@ -54,7 +67,7 @@ allpay = new AllPay
   payment.setAllPayOfflinePaymentData invoiceId, data
 
   Q(payment.save())
-    .then -> res.render 'offline_payment_redirected', invoiceId: invoiceId
+    .then -> res.render 'payment_redirected', invoiceId: invoiceId, paymentExternalId: data.TradeNo
     # TODO: we should log the error somehow
     .catch (error) -> next error?.body?.message or 'failed to create the invoice payment'
     .done()

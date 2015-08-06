@@ -1,0 +1,18 @@
+extends ../../../components/hero_header/template
+include ../../../components/buttons/index
+
+append locals
+  - headerClasses = 'payment-confirmation-header'
+  - contentClasses = ''
+
+block content
+  .row
+    .col-md-12.col-md-offset-6
+      .payment-confirmation-icon
+        include ../../../components/main_layout/public/svgs/product.svg
+      .payment-confirmation-details
+        .thank-you 付款尚未完成
+        p
+          | 請稍後再試，或者聯絡 it@takoman.co 我們將儘快回覆您。
+        .payment-confirmation-actions
+          +button("a", "聯絡我們")(href="mailto:it@takoman.co", class="btn btn-sm btn-primary btn-red btn-colored-bg", data-icon="button-arrow")

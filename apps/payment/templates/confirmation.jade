@@ -8,7 +8,9 @@ append head
   title Takoman Payment
 
 block body
-  if invoice.isUnpaid() && invoicePayment.isOffline()
+  if invoicePayment.isNew()
+    include ./no_invoice_payment
+  else if invoice.isUnpaid() && invoicePayment.isOffline()
     include ./offline_payment_confirmation
   else if invoice.isPaid()
     include ./payment_confirmation

@@ -1,4 +1,4 @@
 script.
-  redirect = "/invoices/#{invoiceId}/payment-confirmation"
+  redirect = "/invoices/#{invoiceId}/payment-confirmation?payment_external_id=#{paymentExternalId}"
   // Break out of iframe
   this.top.location !== this.location && (this.top.location = redirect);
