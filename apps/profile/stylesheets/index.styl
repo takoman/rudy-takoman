@@ -1,26 +1,189 @@
-@import '../../../components/main_layout/stylesheets/mixins'
+@import "../../../components/main_layout/stylesheets/variables"
 
-body
-  font-family 'Helvetica', 'Arial', 'sans-serif'
-  color #444
-  padding 10px 100px
-  line-height 1.4em
-
-h1, h2
-  text-align center
-h1
-  font-size 21px
-  margin-bottom 20px
-h2
-  font-weight normal
-  font-size 18px
-
-#header
-  make-md-column(8)
-  make-md-column-offset(4)
-
-#commits-list
-  width 600px
-  margin 20px auto
-  li
-    margin: 20px
+.profile-content-section
+  h2
+    margin-top 70px
+    font-size 30px
+    font-weight 900
+    letter-spacing 2px
+    &:after
+      display block
+      margin 20px auto
+      content ''
+      width 50px
+      height 3px
+      background-color $black
+.profile-products
+  .products
+    .product
+      min-height 400px
+      padding 20px 0
+      .thumbnail
+        text-align center
+        max-width 256px
+        max-height 256px
+        width 100%
+        height 100%
+        margin 0 auto
+        img
+          max-width 100%
+          max-height 100%
+      .info
+        text-align center
+        .brand
+          letter-spacing 1px
+          margin-bottom 10px
+        .title
+          letter-spacing 2px
+          margin-bottom 10px
+        .price
+          font-size 22px
+          letter-spacing 2px
+  .products
+    .featured
+      .product
+        min-height 800px
+        padding 80px 0
+        .thumbnail
+          text-align center
+          max-width 512px
+          max-height 512px
+          width 100%
+          height 100%
+          margin 0 auto
+          img
+            width 100%
+            height 100%
+.review-section
+  background-color #f6f6f6
+  padding 60px 0 30px 0
+  .review-statistics
+    margin 80px 0
+    background $white
+    text-align center
+    position relative
+    padding 40px 0 60px 0
+    h4
+      position absolute
+      top -25px
+      left -75px
+      margin-left 50%
+      width 150px
+      height 50px
+      line-height 50px
+      background-color #303D46
+      color $white
+      letter-spacing 2px
+    .rating-num
+      height 160px
+      color $red
+      font-size 120px
+      font-weight 900
+      letter-spacing 10px
+    .rating
+      svg
+        width 30px
+        height 30px
+        margin 0 8px
+        .fillable
+          fill $red
+      &:after
+        display block
+        margin 38px auto 25px auto
+        content ''
+        width 40px
+        height 4px
+        background-color $black
+    .count
+      font-size 16px
+      font-weight 900
+      letter-spacing 1px
+  .reviews
+    .review
+      padding 20px 0 30px 0
+      background-image linear-gradient(to right, $gray-dark 0%, $gray-dark 50%, rgba(255, 255, 255, 0) 51%, rgba(255, 255, 255, 0) 100%)
+      background-position top
+      background-size 4px 2px
+      background-repeat repeat-x
+      .review-left
+        float left
+        padding-right 10px
+        img
+          width 50px
+          height 50px
+      .review-body
+        float left
+        .review-heading
+          font-size 20px
+          letter-spacing 2px
+          margin-bottom 10px
+        .rating
+          svg
+            width 25px
+            height 25px
+            margin-right 5px
+            .fillable
+              fill $red
+      .review-right
+        float right
+        text-align right
+        .thumbnail
+          margin 5px 0 0 10px
+          display inline-block
+          width 50px
+          height 50px
+          border 1px solid $gray-light
+          img
+            max-width 100%
+            max-height 100%
+    .more
+      text-align center
+      a
+        text-decoration underline
+        font-size 12px
+        letter-spacing 2px
+.contact-section
+  background-color #303D46
+  padding-top 70px
+  .letter-wraper
+    margin 0 auto
+    width 780px
+    height 680px
+    position relative
+    .envelop-back
+      width 780px
+      height 380px
+      position absolute
+      bottom 0
+    .envelop-front
+      width 780px
+      height 380px
+      position absolute
+      bottom 0
+    .paper
+      width 680px
+      height 680px
+      position absolute
+      left 50px
+      top 0
+      background-color $white
+      padding 30px 70px
+      .contact-icon
+        width 60px
+        height 60px
+        border-radius 32px
+        background-color $red
+        padding 10px
+        margin-bottom 15px
+        svg
+          width 40px
+          height 40px
+          .fillable
+            fill $white
+      h3
+        letter-spacing 2px
+        margin-bottom 15px
+      p
+        font-size 16px
+      .contact-form
+        margin-top 20px

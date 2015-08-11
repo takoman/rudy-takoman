@@ -5,4 +5,4 @@
 #Commits = require "../../collections/commits"
 
 @index = (req, res, next) ->
-  res.render "index"
+  res.render 'index'
