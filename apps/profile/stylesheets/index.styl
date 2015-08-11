@@ -1,5 +1,8 @@
 @import "../../../components/main_layout/stylesheets/variables"
 
+body
+  padding-bottom 0
+
 .profile-content-section
   h2
     margin-top 70px
@@ -150,34 +153,54 @@
     width 780px
     height 680px
     position relative
+    overflow hidden
     .envelop-back
       width 780px
       height 380px
       position absolute
       bottom 0
       z-index 996
-    .paper
+    .envelop-top
+      width 780px
+      height 480px
+      position absolute
+      top 80px
+      z-index 996
+      transition all 1.5s ease
+      transition-delay 1.5s
+      &.submitted
+        transform rotate3d(0.1, 0, 0, 180.1deg)
+        z-index 1000
+    #contact-paper
       width 680px
       height 680px
       position absolute
       left 50px
-      top 0
+      bottom 0
       background-color $white
       z-index 997
+      transition height 1s ease-in-out
+      &.submitted
+        height 320px
     .envelop-front
       width 780px
       height 380px
       position absolute
       bottom 0
       z-index 999
-    .form-block
+    #contact-form-block
       width 680px
       height 680px
       position absolute
       left 50px
-      top 0
+      bottom 0
       padding 30px 70px
       z-index 1000
+      transition opacity 0.5s ease-in-out, height 1s ease-in-out
+      &.submitted
+        height 320px
+        z-index 998
+        opacity 0
       .contact-icon
         width 60px
         height 60px

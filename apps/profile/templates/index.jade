@@ -154,12 +154,14 @@ block body
             a( href="#" ) 看更多評價
   .contact-section
     .letter-wraper
+      .envelop-top
+        include ../../../components/main_layout/public/svgs/envelop-top.svg
       .envelop-back
         include ../../../components/main_layout/public/svgs/envelop-back.svg
-      .paper
+      #contact-paper.paper
       .envelop-front
         include ../../../components/main_layout/public/svgs/envelop-front.svg
-      .form-block
+      #contact-form-block
         .row
           .col-md-8
             .contact-icon
@@ -167,7 +169,7 @@ block body
             h3 聯絡賣家
             p 有問題嗎？若需要詢問代買品牌或商品資訊，歡迎來信，我會儘速回答您的問題。
           .col-md-15.col-md-offset-1
-            form.contact-form
+            form#form-contact
               .form-group
                 input.form-control( type="text" placeholder="姓名*")
               .form-group
@@ -175,6 +177,4 @@ block body
               .form-group
                 textarea.form-control( rows="9" placeholder="留言")
               .form-group.text-center
-                +button("a", "送出")(class="btn btn-cta btn-navy", data-icon="button-arrow", data-icon-align="right")
-          
-
+                +button("button", "送出")(class="btn btn-cta btn-navy", data-icon="button-arrow", data-icon-align="right", type="submit")
