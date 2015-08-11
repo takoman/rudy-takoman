@@ -157,6 +157,9 @@ block body
       .envelop-back
         include ../../../components/main_layout/public/svgs/envelop-back.svg
       .paper
+      .envelop-front
+        include ../../../components/main_layout/public/svgs/envelop-front.svg
+      .form-block
         .row
           .col-md-8
             .contact-icon
@@ -173,8 +176,5 @@ block body
                 textarea.form-control( rows="9" placeholder="留言")
               .form-group.text-center
                 +button("a", "送出")(class="btn btn-cta btn-navy", data-icon="button-arrow", data-icon-align="right")
-      .envelop-front
-        include ../../../components/main_layout/public/svgs/envelop-front.svg
-
           
 
