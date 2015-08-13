@@ -1,14 +1,14 @@
 .profile-cover
-  .profile-navbar-transparent.navbar.navbar-default
+  .profile-navbar-top.navbar.navbar-default
     .container-fluid
       .navbar-header
-        a.brand( href='/' )
+        a.profile-navbar-top-brand( href='/' )
           include ../main_layout/public/svgs/takoman.svg
-      ul.nav.navbar-nav.navbar-left
+      ul.nav.navbar-nav.navbar-left.profile-navbar-top-left
         li: a( href='#' ) 駐站賣家
         li: a( href='#' ) 閱讀文章
         li: a( href='#' ) 尋找好物
-      p.nav.navbar-nav.navbar-right.navbar-text
+      p.nav.navbar-nav.navbar-right.navbar-text.profile-navbar-top-right
         if user
           a( href='/logout' ) 登出
         else
@@ -16,11 +16,11 @@
           span |
           a( href='/login' ) 登入
           //a.navbar-search( href='#') S
-  h2.slogan
+  h2.profile-cover-slogan
     |熱衷於購物，喜愛流連在大大小小的精品
     br
     |百貨中，並把自己值得的物品分享給大家。
-  ul.sub-menu
+  ul.profile-cover-submenu
     li.active: a( href='#' ) 買家首頁
     li: a( href='#' ) 關於我
     li: a( href='#' ) 推薦商品
@@ -29,48 +29,47 @@
     .col-sm-9
         .raw
           .col-sm-12
-            .avatar
+            .profile-info-avatar
               img( src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/p148x148/10987680_10202542002350642_7695256773315536575_n.jpg?oh=be15543f9c974efd0258c7d25f0dab5e&oe=5657D0A9&__gda__=1448515890_6d094427fdb7c3ff791c93668d30f4e5" )
           .col-sm-12
-            .basic-info
-              p.area 美國
-              h1: strong 美國好物代購
-              .rating
+            .profile-info-main
+              p.profile-info-area 美國
+              h1.profile-info-h1: strong 美國好物代購
+              .profile-info-hearts
                 include ../main_layout/public/svgs/circle-arrow.svg
                 include ../main_layout/public/svgs/circle-arrow.svg
                 include ../main_layout/public/svgs/circle-arrow.svg
                 include ../main_layout/public/svgs/circle-arrow.svg
                 include ../main_layout/public/svgs/circle-arrow.svg
     .col-sm-9
-      .statistics
+      .profile-info-statistics
         .row
           .col-sm-8.col-sm-offset-0.col-lg-6.col-lg-offset-3.text-center
-            h5: strong 代購人氣
-            .number 15871
+            h5.profile-info-statistics-heading: strong 代購人氣
+            .profile-info-statistics-num 15871
           .col-sm-8.col-lg-6.text-center
-            h5: strong 評價人數
-            .number 735
+            h5.profile-info-statistics-heading: strong 評價人數
+            .profile-info-statistics-num 735
           .col-sm-8.col-lg-6.text-center
-            h5: strong 推薦商品數
-            .number 123
+            h5.profile-info-statistics-heading: strong 推薦商品數
+            .profile-info-statistics-num 123
     .col-sm-6
-      .contact.text-center
+      .profile-info-contact.text-center
         +button("a", "聯絡賣家")(class="btn btn-lg btn-cta btn-red btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
 .sticky-navbar
-  a.brand( href='/' )
+  a.sticky-navbar-brand( href='/' )
     include ../main_layout/public/svgs/takoman.svg
-  .basic-info-block
-    .avatar
-      img( src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/p148x148/10987680_10202542002350642_7695256773315536575_n.jpg?oh=be15543f9c974efd0258c7d25f0dab5e&oe=5657D0A9&__gda__=1448515890_6d094427fdb7c3ff791c93668d30f4e5" )
-    .info
-      h2.title: strong 美國好物代購
-  ul.nav-left
+  .sticky-navbar-profile
+    .sticky-navbar-avatar
+      a( href="#" ): img( src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/p148x148/10987680_10202542002350642_7695256773315536575_n.jpg?oh=be15543f9c974efd0258c7d25f0dab5e&oe=5657D0A9&__gda__=1448515890_6d094427fdb7c3ff791c93668d30f4e5" )
+    a( href="#" ).sticky-navbar-title 美國好物代購
+  ul.sticky-navbar-left
     li.active: a( href='#' ) 買家首頁
     li: a( href='#' ) 關於我
     li: a( href='#' ) 推薦商品
-  .contact
+  .sticky-navbar-contact
     include ../main_layout/public/svgs/circle-arrow.svg
-  .nav-right
+  .sticky-navbar-right
     if user
       a( href='/logout' ) 登出
     else

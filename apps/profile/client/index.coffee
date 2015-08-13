@@ -17,8 +17,7 @@ module.exports.ProfileView = class ProfileView extends Backbone.View
     e.preventDefault()
     @$('#contact-form-block').addClass('submitted')
     @$('#contact-paper').addClass('submitted')
-    @$('.envelop-top').addClass('submitted')
-    
+    @$('#contact-envelop-top').addClass('submitted')
 
 module.exports.init = ->
   new ProfileView

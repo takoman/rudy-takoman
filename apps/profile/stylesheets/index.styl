@@ -3,12 +3,13 @@
 body
   padding-bottom 0
 
-.profile-content-section
-  h2
+.profile-section
+  .profile-section-h2
     margin-top 70px
     font-size 30px
     font-weight 900
     letter-spacing 2px
+    text-align center
     &:after
       display block
       margin 20px auto
@@ -17,56 +18,54 @@ body
       height 3px
       background-color $black
 .profile-products
-  .products
-    .product
-      min-height 400px
-      padding 20px 0
-      .thumbnail
+  .profile-product
+    min-height 400px
+    padding 20px 0
+    .profile-product-thumbnail
+      text-align center
+      max-width 256px
+      max-height 256px
+      width 100%
+      height 100%
+      margin 0 auto
+      img
+        max-width 100%
+        max-height 100%
+    .profile-product-info
+      text-align center
+    .profile-product-brand
+      letter-spacing 1px
+      margin-bottom 10px
+    .profile-product-title
+      letter-spacing 2px
+      margin-bottom 10px
+    .profile-product-price
+      font-size 22px
+      letter-spacing 2px
+  .profile-products-featured
+    .profile-product
+      min-height 800px
+      padding 80px 0
+      .profile-product-thumbnail
         text-align center
-        max-width 256px
-        max-height 256px
+        max-width 512px
+        max-height 512px
         width 100%
         height 100%
         margin 0 auto
         img
-          max-width 100%
-          max-height 100%
-      .info
-        text-align center
-        .brand
-          letter-spacing 1px
-          margin-bottom 10px
-        .title
-          letter-spacing 2px
-          margin-bottom 10px
-        .price
-          font-size 22px
-          letter-spacing 2px
-  .products
-    .featured
-      .product
-        min-height 800px
-        padding 80px 0
-        .thumbnail
-          text-align center
-          max-width 512px
-          max-height 512px
           width 100%
           height 100%
-          margin 0 auto
-          img
-            width 100%
-            height 100%
-.review-section
+.profile-review
   background-color #f6f6f6
   padding 60px 0 30px 0
-  .review-statistics
+  .profile-review-statistics
     margin 80px 0
     background $white
     text-align center
     position relative
     padding 40px 0 60px 0
-    h4
+    .profile-review-h4
       position absolute
       top -25px
       left -75px
@@ -77,13 +76,13 @@ body
       background-color #303D46
       color $white
       letter-spacing 2px
-    .rating-num
+    .profile-review-score
       height 160px
       color $red
       font-size 120px
       font-weight 900
       letter-spacing 10px
-    .rating
+    .profile-review-hearts
       svg
         width 30px
         height 30px
@@ -97,40 +96,40 @@ body
         width 40px
         height 4px
         background-color $black
-    .count
+    .profile-review-count
       font-size 16px
       font-weight 900
       letter-spacing 1px
-  .reviews
-    .review
+  .profile-review-list
+    .profile-review-item
       padding 20px 0 30px 0
       background-image linear-gradient(to right, $gray-dark 0%, $gray-dark 50%, rgba(255, 255, 255, 0) 51%, rgba(255, 255, 255, 0) 100%)
       background-position top
       background-size 4px 2px
       background-repeat repeat-x
-      .review-left
+      .profile-review-item-left
         float left
         padding-right 10px
         img
           width 50px
           height 50px
-      .review-body
+      .profile-review-item-body
         float left
-        .review-heading
+        .profile-review-item-heading
           font-size 20px
           letter-spacing 2px
           margin-bottom 10px
-        .rating
+        .profile-review-item-hearts
           svg
             width 25px
             height 25px
             margin-right 5px
             .fillable
               fill $red
-      .review-right
+      .profile-review-item-right
         float right
         text-align right
-        .thumbnail
+        .profile-review-item-thumbnail
           margin 5px 0 0 10px
           display inline-block
           width 50px
@@ -139,28 +138,28 @@ body
           img
             max-width 100%
             max-height 100%
-    .more
+    .profile-review-more
       text-align center
-      a
+      .profile-review-more-link
         text-decoration underline
         font-size 12px
         letter-spacing 2px
 .contact-section
   background-color #303D46
   padding-top 70px
-  .letter-wraper
+  .contact-wraper
     margin 0 auto
     width 780px
     height 680px
     position relative
     overflow hidden
-    .envelop-back
+    .contact-envelop-back
       width 780px
       height 380px
       position absolute
       bottom 0
       z-index 996
-    .envelop-top
+    .contact-envelop-top
       width 780px
       height 480px
       position absolute
@@ -171,7 +170,7 @@ body
       &.submitted
         transform rotate3d(0.1, 0, 0, 180.1deg)
         z-index 1000
-    #contact-paper
+    .contact-paper
       width 680px
       height 680px
       position absolute
@@ -182,13 +181,13 @@ body
       transition height 1s ease-in-out
       &.submitted
         height 320px
-    .envelop-front
+    .contact-envelop-front
       width 780px
       height 380px
       position absolute
       bottom 0
       z-index 999
-    #contact-form-block
+    .contact-form-block
       width 680px
       height 680px
       position absolute
@@ -213,10 +212,10 @@ body
           height 40px
           .fillable
             fill $white
-      h3
+      .contact-h3
         letter-spacing 2px
         margin-bottom 15px
-      p
+      .contact-info
         font-size 16px
       .contact-form
         margin-top 20px

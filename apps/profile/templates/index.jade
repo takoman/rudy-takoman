@@ -11,163 +11,183 @@ block body
   .profile-header
     include ../../../components/profile_header/template
   .container
-    .profile-products.profile-content-section
-      h2.text-center 推薦商品
-      .products.row
-        .products-col.featured.col-sm-12
-          .product.col-sm-24
-            .thumbnail
+    .profile-products.profile-section
+      h2.profile-section-h2 推薦商品
+      .row
+        .profile-products-col.profile-products-featured.col-sm-12
+          .profile-product.col-sm-24
+            .profile-product-thumbnail
               img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
-            .info
-              h5.brand 3.1 phillip lim
-              h5.title 黑色真皮拉鍊裝飾手提側背包
-              span.price $30000
+            .profile-product-info
+              h5.profile-product-brand 3.1 phillip lim
+              h5.profile-product-title 黑色真皮拉鍊裝飾手提側背包
+              span.profile-product-price $30000
 
-        .products-col.col-sm-12
+        .profile-products-col.col-sm-12
           .row
-            .product.col-sm-12
-              .thumbnail
+            .profile-product.col-sm-12
+              .profile-product-thumbnail
                 img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
-              .info
-                h5.brand 3.1 phillip lim
-                h5.title 黑色真皮拉鍊裝飾手提側背包
-                span.price $30000
-            .product.col-sm-12
-              .thumbnail
+              .profile-product-info
+                h5.profile-product-brand 3.1 phillip lim
+                h5.profile-product-title 黑色真皮拉鍊裝飾手提側背包
+                span.profile-product-price $30000
+            .profile-product.col-sm-12
+              .profile-product-thumbnail
                 img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
-              .info
-                h5.brand 3.1 phillip lim
-                h5.title 黑色真皮拉鍊裝飾手提側背包
-                span.price $30000
+              .profile-product-info
+                h5.profile-product-brand 3.1 phillip lim
+                h5.profile-product-title 黑色真皮拉鍊裝飾手提側背包
+                span.profile-product-price $30000
           .row
-            .product.col-sm-12
-              .thumbnail
+            .profile-product.col-sm-12
+              .profile-product-thumbnail
                 img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
-              .info
-                h5.brand 3.1 phillip lim
-                h5.title 黑色真皮拉鍊裝飾手提側背包
-                span.price $30000
-            .product.col-sm-12
-              .thumbnail
+              .profile-product-info
+                h5.profile-product-brand 3.1 phillip lim
+                h5.profile-product-title 黑色真皮拉鍊裝飾手提側背包
+                span.profile-product-price $30000
+            .profile-product.col-sm-12
+              .profile-product-thumbnail
                 img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
-              .info
-                h5.brand 3.1 phillip lim
-                h5.title 黑色真皮拉鍊裝飾手提側背包
-                span.price $30000
-  .review-section
+              .profile-product-info
+                h5.profile-product-brand 3.1 phillip lim
+                h5.profile-product-title 黑色真皮拉鍊裝飾手提側背包
+                span.profile-product-price $30000
+  .profile-review
     .row
       .col-xs-20.col-xs-offset-2.col-sm-16.col-sm-offset-4.col-md-7.col-md-offset-2
-        .review-statistics
-          h4 平均評價
-          .rating-num 3.0
-          .rating
+        .profile-review-statistics
+          h4.profile-review-h4 平均評價
+          .profile-review-score 3.0
+          .profile-review-hearts
             include ../../../components/main_layout/public/svgs/circle-arrow.svg
             include ../../../components/main_layout/public/svgs/circle-arrow.svg
             include ../../../components/main_layout/public/svgs/circle-arrow.svg
             include ../../../components/main_layout/public/svgs/circle-arrow.svg
             include ../../../components/main_layout/public/svgs/circle-arrow.svg
-          .count 共 735 則評價
+          .profile-review-count 共 735 則評價
       .col-xs-20.col-xs-offset-2.col-sm-16.col-sm-offset-4.col-md-7.col-md-offset-2
       .col-xs-22.col-xs-offset-1.col-md-12.col-md-offset-1.col-lg-11
-        .reviews
-          .review
-            .review-left
+        .profile-review-list
+          .profile-review-item
+            .profile-review-item-left
               a.avatar( href="#" )
                 img( src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/p148x148/10987680_10202542002350642_7695256773315536575_n.jpg?oh=be15543f9c974efd0258c7d25f0dab5e&oe=5657D0A9&__gda__=1448515890_6d094427fdb7c3ff791c93668d30f4e5" )
-            .review-body
-              h4.review-heading 伊納納
-              .rating
+            .profile-review-item-body
+              h4.profile-review-item-heading 伊納納
+              .profile-review-item-hearts
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
-            .review-right
-              .review-info #131212412414 | 12/05/2014
-              .review-products
-                .thumbnail
+            .profile-review-item-right
+              .profile-review-item-info #131212412414 | 12/05/2014
+              .profile-review-item-products
+                .profile-review-item-thumbnail
                   img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
-                .thumbnail
+                .profile-review-item-thumbnail
                   img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
             .clearfix
-          .review
-            .review-left
+          .profile-review-item
+            .profile-review-item-left
               a.avatar( href="#" )
                 img( src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/p148x148/10987680_10202542002350642_7695256773315536575_n.jpg?oh=be15543f9c974efd0258c7d25f0dab5e&oe=5657D0A9&__gda__=1448515890_6d094427fdb7c3ff791c93668d30f4e5" )
-            .review-body
-              h4.review-heading 伊納納
-              .rating
+            .profile-review-item-body
+              h4.profile-review-item-heading 伊納納
+              .profile-review-item-hearts
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
-            .review-right
-              .review-info #131212412414 | 12/05/2014
-              .review-products
-                .thumbnail
+            .profile-review-item-right
+              .profile-review-item-info #131212412414 | 12/05/2014
+              .profile-review-item-products
+                .profile-review-item-thumbnail
                   img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
-                .thumbnail
+                .profile-review-item-thumbnail
                   img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
             .clearfix
-          .review
-            .review-left
+          .profile-review-item
+            .profile-review-item-left
               a.avatar( href="#" )
                 img( src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/p148x148/10987680_10202542002350642_7695256773315536575_n.jpg?oh=be15543f9c974efd0258c7d25f0dab5e&oe=5657D0A9&__gda__=1448515890_6d094427fdb7c3ff791c93668d30f4e5" )
-            .review-body
-              h4.review-heading 伊納納
-              .rating
+            .profile-review-item-body
+              h4.profile-review-item-heading 伊納納
+              .profile-review-item-hearts
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
-            .review-right
-              .review-info #131212412414 | 12/05/2014
-              .review-products
-                .thumbnail
+            .profile-review-item-right
+              .profile-review-item-info #131212412414 | 12/05/2014
+              .profile-review-item-products
+                .profile-review-item-thumbnail
                   img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
-                .thumbnail
+                .profile-review-item-thumbnail
                   img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
             .clearfix
-          .review
-            .review-left
+          .profile-review-item
+            .profile-review-item-left
               a.avatar( href="#" )
                 img( src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/p148x148/10987680_10202542002350642_7695256773315536575_n.jpg?oh=be15543f9c974efd0258c7d25f0dab5e&oe=5657D0A9&__gda__=1448515890_6d094427fdb7c3ff791c93668d30f4e5" )
-            .review-body
-              h4.review-heading 伊納納
-              .rating
+            .profile-review-item-body
+              h4.profile-review-item-heading 伊納納
+              .profile-review-item-hearts
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
                 include ../../../components/main_layout/public/svgs/circle-arrow.svg
-            .review-right
-              .review-info #131212412414 | 12/05/2014
-              .review-products
-                .thumbnail
+            .profile-review-item-right
+              .profile-review-item-info #131212412414 | 12/05/2014
+              .profile-review-item-products
+                .profile-review-item-thumbnail
                   img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
-                .thumbnail
+                .profile-review-item-thumbnail
                   img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
             .clearfix
-          .more
-            a( href="#" ) 看更多評價
+          .profile-review-item
+            .profile-review-item-left
+              a.avatar( href="#" )
+                img( src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/p148x148/10987680_10202542002350642_7695256773315536575_n.jpg?oh=be15543f9c974efd0258c7d25f0dab5e&oe=5657D0A9&__gda__=1448515890_6d094427fdb7c3ff791c93668d30f4e5" )
+            .profile-review-item-body
+              h4.profile-review-item-heading 伊納納
+              .profile-review-item-hearts
+                include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                include ../../../components/main_layout/public/svgs/circle-arrow.svg
+            .profile-review-item-right
+              .profile-review-item-info #131212412414 | 12/05/2014
+              .profile-review-item-products
+                .profile-review-item-thumbnail
+                  img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
+                .profile-review-item-thumbnail
+                  img(src='https://dl.dropboxusercontent.com/s/d2ji72u871ohn8e/p.png')
+            .clearfix
+          .profile-review-more
+            a.profile-review-more-link( href="#" ) 看更多評價
   .contact-section
-    .letter-wraper
-      .envelop-top
+    .contact-wraper
+      #contact-envelop-top.contact-envelop-top
         include ../../../components/main_layout/public/svgs/envelop-top.svg
-      .envelop-back
+      .contact-envelop-back
         include ../../../components/main_layout/public/svgs/envelop-back.svg
-      #contact-paper.paper
-      .envelop-front
+      #contact-paper.contact-paper
+      .contact-envelop-front
         include ../../../components/main_layout/public/svgs/envelop-front.svg
-      #contact-form-block
+      #contact-form-block.contact-form-block
         .row
           .col-md-8
             .contact-icon
               include ../../../components/main_layout/public/svgs/circle-arrow.svg
-            h3 聯絡賣家
-            p 有問題嗎？若需要詢問代買品牌或商品資訊，歡迎來信，我會儘速回答您的問題。
+            h3.contact-h3 聯絡賣家
+            p.contact-info 有問題嗎？若需要詢問代買品牌或商品資訊，歡迎來信，我會儘速回答您的問題。
           .col-md-15.col-md-offset-1
             form#form-contact
               .form-group

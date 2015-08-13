@@ -8,7 +8,7 @@
   background-position center
   background-repeat no-repeat
   position relative
-  .profile-navbar-transparent
+  .profile-navbar-top
     background-color transparent
     background transparent
     border none
@@ -17,7 +17,7 @@
     .navbar-nav > li > a
       color $white
       letter-spacing 0.12em
-    .brand
+    .profile-navbar-top-brand
       float left
       height 120px
       width 240px
@@ -27,17 +27,17 @@
         height 100%
       svg path
         fill $white
-    .navbar-left
+    .profile-navbar-top-left
       margin-left 45px
       font-size 16px
-    .navbar-right
+    .profile-navbar-top-right
       padding-right 10px
       color $white
       a
         padding-left 14px
         padding-right 14px
         letter-spacing 0.2em
-  .slogan
+  .profile-cover-slogan
     left 50%
     top 50%
     text-align center
@@ -47,7 +47,7 @@
     font-size 24px
     letter-spacing 4px
     line-height 38px
-  .sub-menu
+  .profile-cover-submenu
     height 60px
     width 100%
     background-color rgba(255, 255, 255, 0.4);
@@ -72,7 +72,7 @@
 
 .profile-info
   background-color: #f6f6f6
-  .avatar
+  .profile-info-avatar
     float right
     width 128px
     height 128px
@@ -81,34 +81,34 @@
     img
       width 128px
       height 128px
-  .basic-info
+  .profile-info-main
     padding-top 55px
     font-weight bold
-    h1
+    .profile-info-h1
       font-size 27px
       margin-bottom 8px
-    .area
+    .profile-info-area
       margin 0 0 5px
-    .rating
+    .profile-info-hearts
       svg
         width 30px
         height 30px
         .fillable
           fill $red
-  .statistics
+  .profile-info-statistics
     margin-top 48px
     min-height 100px
     background-image linear-gradient(to bottom, $gray 60%, rgba(255, 255, 255, 0) 20%)
     background-position left
     background-size 1px 6px
     background-repeat repeat-y
-    h5
+    .profile-info-statistics-heading
       margin 12px 0 15px
-    .number
+    .profile-info-statistics-num
       font-size 30px
       font-weight 500
       letter-spacing 2px
-  .contact
+  .profile-info-contact
     height 192px
     background-color $red
     padding-top 60px
@@ -132,7 +132,7 @@
     transform translate(0,64px)
   a
     color $gray-darker
-  .brand
+  .sticky-navbar-brand
     display block
     float left
     height 64px
@@ -143,10 +143,10 @@
       height 100%
     svg path
       fill $red
-  .basic-info-block
+  .sticky-navbar-profile
     float left
     width auto
-    .avatar
+    .sticky-navbar-avatar
       float left
       width 32px
       height 32px
@@ -154,21 +154,21 @@
       img
         width 32px
         height 32px
-    .info
+    .sticky-navbar-title
+      display block
       float left
-      padding 0
-      h2.title
-        float left
-        padding 0 15px 0 10px
-        font-size 16px
-        height 20px
-        line-height 20px
-        margin-top 22px
-        background-image linear-gradient(to bottom, $gray 60%, rgba(255, 255, 255, 0) 20%)
-        background-position right
-        background-size 1px 6px
-        background-repeat repeat-y
-  .nav-left
+      height 20px
+      padding 0 15px 0 10px
+      margin-top 22px
+      line-height 20px
+      color $gray-darkest
+      font-size 16px
+      font-weight 900
+      background-image linear-gradient(to bottom, $gray 60%, rgba(255, 255, 255, 0) 20%)
+      background-position right
+      background-size 1px 6px
+      background-repeat repeat-y
+  .sticky-navbar-left
     display block
     float left
     padding-left 20px
@@ -187,7 +187,7 @@
       &.active
         > a
           color $red-darker
-  .nav-right
+  .sticky-navbar-right
     display block
     float right
     padding-right 10px
@@ -196,7 +196,7 @@
       padding-left 14px
       padding-right 14px
       letter-spacing 0.2em
-  .contact
+  .sticky-navbar-contact
     float right
     width 70px
     height 64px
