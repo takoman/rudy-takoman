@@ -5,7 +5,8 @@ append locals
   - assetPackage = 'profile'
 
 append head
-  title Takoman Profile
+  title
+    = merchant.get('merchant_name')
 
 block body
   .profile-header

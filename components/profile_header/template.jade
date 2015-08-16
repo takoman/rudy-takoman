@@ -34,7 +34,7 @@
           .col-sm-12
             .profile-info-main
               p.profile-info-area 美國
-              h1.profile-info-h1 美國好物代購
+              h1.profile-info-h1: = merchant.get('merchant_name')
               .profile-info-hearts
                 include ../main_layout/public/svgs/circle-arrow.svg
                 include ../main_layout/public/svgs/circle-arrow.svg
@@ -62,7 +62,7 @@
   .sticky-navbar-profile
     .sticky-navbar-avatar
       a( href="#" ): img( src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/p148x148/10987680_10202542002350642_7695256773315536575_n.jpg?oh=be15543f9c974efd0258c7d25f0dab5e&oe=5657D0A9&__gda__=1448515890_6d094427fdb7c3ff791c93668d30f4e5" )
-    a( href="#" ).sticky-navbar-title 美國好物代購
+    a( href="#" ).sticky-navbar-title: = merchant.get('merchant_name')
   ul.sticky-navbar-left
     li.active: a( href='#' ) 買家首頁
     li: a( href='#' ) 關於我
