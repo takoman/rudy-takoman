@@ -8,6 +8,7 @@ FlakeId     = require 'flake-idgen'
 intformat   = require 'biguint-format'
 AllPay      = require 'allpay'
 routes      = require '../routes'
+InvoicePayment = require '../../../models/invoice_payment.coffee'
 { APP_URL, ALLPAY_PLATFORM_ID, ALLPAY_AIO_HASH_KEY, ALLPAY_AIO_HASH_IV,
   ALLPAY_AIO_CHECKOUT_URL, ALLPAY_AIO_ORDER_QUERY_URL } = require '../../../config'
 
@@ -107,6 +108,8 @@ describe 'Allpay routes', ->
             external_id: @atmData.TradeNo
             invoice: @invoiceId
             total: @atmData.TradeAmt
+            message: @atmData.RtnMsg
+            result: new InvoicePayment().parseAllPayOfflinePaymentReturnCode @atmData.RtnCode
             allpay_offline_payment_details:
               merchant_id: @atmData.MerchantID
               merchant_trade_no: @atmData.MerchantTradeNo
@@ -116,15 +119,15 @@ describe 'Allpay routes', ->
               trade_amount: @atmData.TradeAmt
               payment_type: @atmData.PaymentType
               trade_date: @atmData.TradeDate
-              check_mac_value: @atmData.CheckMacValue
               expire_date: @atmData.ExpireDate
               bank_code: @atmData.BankCode
               v_account: @atmData.vAccount
+              raw: @atmData
 
         it 'renders the redirection template', ->
           @thenSpy.args[0][0]()
-          @res.render.args[0][0].should.equal 'offline_payment_redirected'
-          @res.render.args[0][1].should.eql invoiceId: @invoiceId
+          @res.render.args[0][0].should.equal 'payment_redirected'
+          @res.render.args[0][1].should.eql invoiceId: @invoiceId, paymentExternalId: @atmData.TradeNo
 
       _.each ['CVS', 'BARCODE'], (method) ->
         describe "#{method} payment", ->
@@ -138,6 +141,8 @@ describe 'Allpay routes', ->
               external_id: @cvsBarcodeData.TradeNo
               invoice: @invoiceId
               total: @cvsBarcodeData.TradeAmt
+              message: @cvsBarcodeData.RtnMsg
+              result: new InvoicePayment().parseAllPayOfflinePaymentReturnCode @cvsBarcodeData.RtnCode
               allpay_offline_payment_details:
                 merchant_id: @cvsBarcodeData.MerchantID
                 merchant_trade_no: @cvsBarcodeData.MerchantTradeNo
@@ -147,17 +152,17 @@ describe 'Allpay routes', ->
                 trade_amount: @cvsBarcodeData.TradeAmt
                 payment_type: @cvsBarcodeData.PaymentType
                 trade_date: @cvsBarcodeData.TradeDate
-                check_mac_value: @cvsBarcodeData.CheckMacValue
                 expire_date: @cvsBarcodeData.ExpireDate
                 payment_no: @cvsBarcodeData.PaymentNo
                 barcode_1: @cvsBarcodeData.Barcode1
                 barcode_2: @cvsBarcodeData.Barcode2
                 barcode_3: @cvsBarcodeData.Barcode3
+                raw: @cvsBarcodeData
 
           it 'renders the redirection template', ->
             @thenSpy.args[0][0]()
-            @res.render.args[0][0].should.equal 'offline_payment_redirected'
-            @res.render.args[0][1].should.eql invoiceId: @invoiceId
+            @res.render.args[0][0].should.equal 'payment_redirected'
+            @res.render.args[0][1].should.eql invoiceId: @invoiceId, paymentExternalId: @cvsBarcodeData.TradeNo
 
     describe 'with incorrect CheckMacValue in the request', ->
       beforeEach ->
