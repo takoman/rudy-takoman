@@ -1,0 +1,64 @@
+extends ../../../components/main_layout/templates/merchant_dashboard
+include ../../../components/buttons/index
+
+append locals
+  - assetPackage = 'merchant-dashboard'
+
+block head
+  title 賣家資訊
+
+block content
+  .row
+    .col-md-22.col-md-offset-1
+      //- Breadcrumbs
+      ol.breadcrumb
+        li: a( href="/merchants/dashboard" ) 後台首頁
+        li.active 賣家資訊
+
+      h1.pull-left 賣家資訊
+      .row
+        .col-md-24
+          .panel.panel-primary
+            .panel-header 編輯賣場資訊
+            .panel-content
+              .profile-preview
+                .row
+                  .col-md-20.col-md-offset-2.col-lg-18.col-lg-offset-3
+                    .row
+                      .profile-preview-cover.col-sm-24
+                    .row
+                      .profile-preview-avatar.col-sm-3.col-sm-offset-2
+                      .profile-preview-info.col-sm-13
+                        .profile-preview-area 美國
+                        .profile-preview-name pingchieh代購
+                        .profile-preview-hearts
+                          include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                          include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                          include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                          include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                          include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                      .col-md-5
+                        .profile-preview-contact
+              .row
+                .col-md-12.col-md-offset-1
+                  form#form-profile-info
+                    .form-group.form-profile-group
+                      .form-profile-input-num 1
+                      .form-profile-input
+                        label( for="cover" ) 封面照片
+                        input.form-control( id="cover" name="cover" type="text")
+                    .form-group.form-profile-group
+                      .form-profile-input-num 2
+                      .form-profile-input
+                        label( for="merchant-name" ) 賣場名稱
+                        input.form-control( id="merchant-name" name="merchant_name" value=merchant.get('merchant_name') type="text")
+                    .form-group.form-profile-group
+                      .form-profile-input-num 3
+                      .form-profile-input
+                        label( for="merchant-desc" ) 描述
+                        input.form-control( id="merchant-desc" name="merchant_desc" value=merchant.get('merchant_name') type="text")
+          .pull-right
+            +button("button", "取消編輯")(class="btn btn-sm btn-secondary btn-navy cancel-editing", data-icon="button-arrow", data-icon-align="right")
+            | 
+            +button("button", "儲存編輯")(class="btn btn-sm btn-primary btn-navy save-profile", data-icon="button-arrow", data-icon-align="right")
+

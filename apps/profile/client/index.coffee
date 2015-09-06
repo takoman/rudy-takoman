@@ -9,15 +9,20 @@ module.exports.ProfileView = class ProfileView extends Backbone.View
 
   events:
     'submit #form-contact': 'saveContact'
+    'click #re-contact': 'reContact'
 
   initializeHeader: ->
     new ProfileHeaderView el: $('.profile-header')
 
   saveContact: (e) ->
     e.preventDefault()
-    @$('#contact-form-block').addClass('submitted')
-    @$('#contact-paper').addClass('submitted')
-    @$('#contact-envelop-top').addClass('submitted')
+    @$('.contact-effect').addClass('submitted')
+
+  reContact: (e) ->
+    e.preventDefault()
+    @$('.contact-effect').removeClass('submitted')
+    @$('#form-contact input, #form-contact textarea').val('')
+
 
 module.exports.init = ->
   new ProfileView

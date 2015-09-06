@@ -145,7 +145,7 @@ body
         font-size 12px
         letter-spacing 2px
 .contact-section
-  background-color #303D46
+  background-color $navy-dark
   padding-top 70px
   .contact-wraper
     margin 0 auto
@@ -153,22 +153,46 @@ body
     height 680px
     position relative
     overflow hidden
+    .contact-feedback
+      opacity 0
+      visibility hidden
+      position absolute
+      top 50px
+      width 100%
+      z-index 1002
+      text-align center
+      font-size 24px
+      line-height 40px
+      color $white
+      transition top 0.5s ease-out, opacity 0.5s ease-out, visibility ease-out 1s
+      transition-delay 0s
+      &.submitted
+        top 70px
+        opacity 1
+        visibility visible
+        transition top 0.5s ease-out, opacity 0.5s ease-out, visibility ease-out 2s
+        transition-delay 2s
+      .contact-feedback-action
+        padding 20px 0
+        z-index 1002
     .contact-envelop-back
       width 780px
-      height 380px
+      height 360px
       position absolute
       bottom 0
       z-index 996
     .contact-envelop-top
       width 780px
-      height 480px
+      height 500px
       position absolute
-      top 80px
+      top 70px
       z-index 996
-      transition all 1.5s ease-in-out
-      transition-delay 1.5s
+      transition all 0.5s ease-in-out
+      transition-delay 0.5s
       &.submitted
         transform rotate3d(0.1, 0, 0, 180.1deg)
+        transition all 0.8s ease-in-out
+        transition-delay 1.2s
         z-index 1000
     .contact-paper
       width 680px
@@ -178,12 +202,15 @@ body
       bottom 0
       background-color $white
       z-index 997
-      transition height 1s ease-in-out
+      transition height 0.5s ease-in-out
+      transition-delay 1.3s
       &.submitted
         height 320px
+        transition height 1s ease-in-out
+        transition-delay 0s
     .contact-envelop-front
       width 780px
-      height 380px
+      height 360px
       position absolute
       bottom 0
       z-index 999
@@ -195,11 +222,15 @@ body
       bottom 0
       padding 30px 70px
       z-index 1000
-      transition opacity 0.5s ease-in-out, height 1s ease-in-out
+      opacity 1
+      transition opacity 0.5s ease-in-out, height 0.5s ease-in-out, z-index 5s
+      transition-delay 1.3s
       &.submitted
         height 320px
         z-index 998
-        opacity 0
+        opacity 1
+        transition opacity 0.5s ease-in-out, height 1s ease-in-out
+        transition-delay 0s
       .contact-icon
         width 60px
         height 60px

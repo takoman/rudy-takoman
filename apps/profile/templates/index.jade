@@ -176,14 +176,20 @@ block body
             a.profile-review-more-link( href="#" ) 看更多評價
   .contact-section
     .contact-wraper
-      #contact-envelop-top.contact-envelop-top
+      .contact-feedback.contact-effect
+        .contact-feedback-msg 感謝你，訊息已寄出！
+          br
+          | 我們會儘快回覆您。
+        .contact-feedback-action
+          +button("a", "傳送更多訊息")(class="btn btn-sm btn-secondary btn-colored-bg" href="#" id="re-contact")
+      #contact-envelop-top.contact-envelop-top.contact-effect
         include ../../../components/main_layout/public/svgs/envelop-top.svg
       .contact-envelop-back
         include ../../../components/main_layout/public/svgs/envelop-back.svg
-      #contact-paper.contact-paper
+      #contact-paper.contact-paper.contact-effect
       .contact-envelop-front
         include ../../../components/main_layout/public/svgs/envelop-front.svg
-      #contact-form-block.contact-form-block
+      #contact-form-block.contact-form-block.contact-effect
         .row
           .col-md-8
             .contact-icon
