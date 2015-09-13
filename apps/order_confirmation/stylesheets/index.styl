@@ -1,0 +1,61 @@
+@import "../../../components/main_layout/stylesheets/variables"
+
+body.order_confirmation
+  .invoice-checkout-banner
+    margin-bottom 80px
+
+  .order-summary-panel
+    border 1px solid $black
+    padding 20px
+    margin-right 20px
+  .merchant-summary
+    text-align center
+    line-height 1.5
+    border-bottom 1px solid $black
+    padding-bottom 20px
+    margin-bottom 20px
+  .merchant-logo
+    text-align center
+    position relative
+    top -55px
+    margin-bottom -55px
+    > img
+      background-color $white
+      width 70px
+      height 70px
+      padding 10px
+  .merchant-name
+    font-size 18px
+    margin-bottom 10px
+
+  .order-summary
+    font-size 12px
+    p
+      line-height 2
+  .order-summary-item
+    &:not(:last-child):after
+      content: '-'
+  .order-summary-item-value
+    font-size 18px
+    color $red
+
+  .order-line-item-price
+  .order-line-item-quantity
+  .order-line-item-subtotal
+    width 120px
+  .order-line-item-subtotal
+    text-align right
+
+  .order-total-summary
+    margin-bottom 30px
+    .order-total-breakdown
+      border-bottom 2px dotted $black
+      padding-bottom $table-condensed-cell-padding
+      margin-bottom $table-condensed-cell-padding
+    .order-total-breakdown-item
+    .order-total
+      padding $table-cell-padding
+      padding-top $table-condensed-cell-padding
+      padding-bottom $table-condensed-cell-padding
+    .order-total
+      font-size 18px

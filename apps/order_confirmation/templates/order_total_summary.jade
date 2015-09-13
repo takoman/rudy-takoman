@@ -1,0 +1,22 @@
+.order-total-summary
+  .order-total-breakdown
+    .order-total-breakdown-item.order-product-subtotal.clearfix
+      .order-total-breakdown-label.pull-left 商品總額
+      .order-total-breakdown-amount.pull-right
+        = acct.formatMoney(orderLineItems.total('product'))
+    .order-total-breakdown-item.order-shipping-subtotal.clearfix
+      .order-total-breakdown-label.pull-left 運費
+      .order-total-breakdown-amount.pull-right
+        = acct.formatMoney(orderLineItems.total('shipping'))
+    .order-total-breakdown-item.order-commission-subtotal.clearfix
+      .order-total-breakdown-label.pull-left 代買費
+      .order-total-breakdown-amount.pull-right
+        = acct.formatMoney(orderLineItems.total('commission'))
+    .order-total-breakdown-item.order-discount-subtotal.clearfix
+      .order-total-breakdown-label.pull-left 優惠折扣
+      .order-total-breakdown-amount.pull-right
+        | --
+  .order-total.clearfix
+    .order-total-label.pull-left 總計
+    .order-total-amount.pull-right
+      = acct.formatMoney(orderLineItems.total())

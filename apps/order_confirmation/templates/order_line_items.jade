@@ -1,0 +1,29 @@
+.table-responsive
+  table.table.table-dotted.order-line-items-table
+    thead
+      tr
+        th 商品
+        th
+        th 單價
+        th 數量
+        th 小計
+    tbody
+      each item in orderLineItems.models
+        tr( data-order-line-item-id=item.get('_id') )
+          td.table-cell-image.order-line-item-image
+            if item.isProduct()
+              img( src=item.productImage() )
+            else
+              include ../../../components/main_layout/public/svgs/product.svg
+          td.order-line-item-details
+            .order-line-item-brand
+              if item.related().product
+                = item.related().product.get('brand')
+            .order-line-item-title
+              = item.title()
+          td.order-line-item-price
+            = acct.formatMoney(item.get('price'))
+          td.order-line-item-quantity
+            = item.get('quantity')
+          td.order-line-item-subtotal
+            = acct.formatMoney(item.get('price') * item.get('quantity'))

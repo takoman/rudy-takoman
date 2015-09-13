@@ -1,4 +1,5 @@
 extends ../../../components/main_layout/templates/index
+include ../../../components/buttons/index
 
 append locals
   - assetPackage = 'order_confirmation'
@@ -8,4 +9,30 @@ append head
   title Order Confirmation
 
 block body
-  h1 Order Confirmation
+  .invoice-checkout-banner
+    include ../../../components/checkout_header/template
+  .order-checkout-banner
+  .order-content
+    .order-confirmation
+      .container
+        if order.get('status') == 'new' || order.get('status') == 'appended'
+          .col-sm-6
+            include ./order_summary
+          .col-sm-18
+            include ./order_line_items
+            .row
+              .col-sm-10.col-sm-offset-14
+                include ./order_total_summary
+                .order-confirmation-actions
+                  .order-confirmation-action
+                    .checkbox
+                      input#order-is-confirmed( name="is-confirmed" type="checkbox" )
+                      label( for="order-is-confirmed" ) 我確定商品、數量跟金額正確。
+                  .order-confirmation-action
+                    +button("a", "前往結賬")(class="btn btn-lg btn-cta btn-red btn-full-width confirm-order", data-icon="button-arrow")
+        else if order.get('status') == 'invoiced'
+          .notice 這份訂單已經確認，請使用以下連結前往付款。
+        else if order.get('status') == 'paid'
+          .notice 這份訂單已經完成付款。
+        else
+          .notice 這份訂單已經失效。如果您有任何問題，請與 <a href="mailto:it@takoman.co">it@takoman.co</a> 聯絡。
