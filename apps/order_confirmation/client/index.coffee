@@ -16,8 +16,25 @@ acct.settings.currency = _.defaults
 , acct.settings.currency
 
 module.exports = class OrderConfirmationView extends Backbone.View
+  events:
+    'change input.order-is-confirmed': 'toggleOrderConfirm'
+
   initialize: (options) ->
     { @order, @orderLineItems } = options
+    @initializeBanner()
+
+  initializeBanner: ->
+    new CheckoutHeaderView el: $('.checkout-header')
+
+  toggleOrderConfirm: (e) ->
+    enabledClasses = 'btn-cta btn-red'
+    disabledClasses = 'btn-disabled'
+    if $(e.currentTarget).is(':checked')
+      $('.confirm-order').removeAttr('disabled')
+        .removeClass(disabledClasses).addClass(enabledClasses)
+    else
+      $('.confirm-order').attr('disabled', 'disabled')
+        .removeClass(enabledClasses).addClass(disabledClasses)
 
 module.exports.init = ->
   new OrderConfirmationView
