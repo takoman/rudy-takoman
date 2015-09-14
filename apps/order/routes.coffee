@@ -9,18 +9,26 @@ OrderLineItems = require '../../collections/order_line_items.coffee'
 money = require '../../lib/money.js'
 acct = require 'accounting'
 Q = require 'q'
+{ API_URL } = require('sharify').data
 
 @index = (req, res, next) ->
-  return res.redirect '/login' unless req.user
+  # TODO: Temporarily pass on to the /orders/:id?access_key=xxx route to
+  # handle anonymous access with an access token
+  # return res.redirect '/login' unless (user = req.user)
+  return next() unless (user = req.user)
 
-  merchants = new Merchants()
-  order = new Order(_id: req.params.id)
+  order = new Order _id: req.params.id
   orderLineItems = new OrderLineItems()
+  merchants = new Merchants()
   merchants.fetch data: user_id: req.user.get('_id')
     .then ->
       return next('The logged in user is not a merchant') if merchants.length is 0
 
-      Q.all [order.fetch(), orderLineItems.fetch(data: order_id: req.params.id)]
+      order.urlRoot = "#{API_URL}/api/v2/orders"
+      Q.all [
+        order.fetch(data: access_token: user.get 'accessToken'),
+        orderLineItems.fetch(data: order_id: req.params.id)
+      ]
     .then ->
       res.locals.sd.ORDER = order.toJSON()
       res.locals.sd.ORDER_LINE_ITEMS = orderLineItems.toJSON()

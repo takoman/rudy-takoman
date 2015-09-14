@@ -28,3 +28,7 @@ module.exports = class OrderLineItem extends Backbone.Model
       '項目'
 
   isProduct: -> @get('type') is 'product'
+
+  productImage: (version = 'original') ->
+    return unless @isProduct()
+    @related().product?.get('images')?[0]?[version]

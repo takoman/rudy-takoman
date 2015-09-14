@@ -1,0 +1,27 @@
+.panel.order-summary-panel
+  .merchant-summary
+    .merchant-logo
+      img
+    .merchant-source-countries
+      = order.related().merchant.get('source_countries').join(', ')
+    .merchant-name
+      = order.related().merchant.get('merchant_name')
+    .merchant-actions
+      +button("a", "聯絡賣家")(class="btn btn-sm btn-secondary btn-navy", data-icon="button-arrow" )
+  .order-summary
+    .order-summary-item
+      .order-summary-item-label 訂單編號
+      .order-summary-item-content
+        .order-summary-item-value
+          = order.get('_id')
+    .order-summary-item.order-due-at
+      .order-summary-item-label 訂單保留期限
+      .order-summary-item-content
+        .order-summary-item-value 訂單送出後 7 天
+    .order-summary-item
+      .order-summary-item-label 附註
+      .order-summary-item-content
+        p
+          | 請記得於指定日期內完成付款。
+          | 若超過繳費期限，請通知您的賣家，
+          | 另外建立一份訂單。

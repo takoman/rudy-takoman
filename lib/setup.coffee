@@ -110,6 +110,7 @@ module.exports = (app) ->
   app.use require "../apps/profile"
   app.use require "../apps/orders"
   app.use require "../apps/order"
+  app.use require "../apps/order_confirmation"
   app.use require "../apps/invoice"
   app.use require "../apps/payment"
   app.use require "../apps/allpay"
