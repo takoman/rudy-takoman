@@ -25,6 +25,12 @@ module.exports = class Order extends Backbone.Model
   urlRoot: ->
     "#{API_URL}/api/v1/orders"
 
+  url: ->
+    return @urlRoot() if @isNew()
+    url = "#{@urlRoot()}/#{@id}"
+    url = "#{url}?access_key=#{accessKey}" if (accessKey = @get('access_key'))?
+    url
+
   shippingAddress: ->
     [
       @get('shipping_address')?.zipcode,
