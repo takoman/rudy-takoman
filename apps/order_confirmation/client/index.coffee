@@ -1,6 +1,8 @@
 _ = require 'underscore'
+Q = require 'q'
 Backbone = require 'backbone'
 moment = require 'moment'
+Invoice = require '../../../models/invoice.coffee'
 Order = require '../../../models/order.coffee'
 OrderLineItems = require '../../../collections/invoice_line_items.coffee'
 OrderLineItem = require '../../../models/order_line_item.coffee'
@@ -18,6 +20,7 @@ acct.settings.currency = _.defaults
 module.exports = class OrderConfirmationView extends Backbone.View
   events:
     'change input.order-is-confirmed': 'toggleOrderConfirm'
+    'submit form.confirm-order': 'confirmOrder'
 
   initialize: (options) ->
     { @order, @orderLineItems } = options
@@ -35,6 +38,21 @@ module.exports = class OrderConfirmationView extends Backbone.View
     else
       $('.confirm-order').attr('disabled', 'disabled')
         .removeClass(enabledClasses).addClass(disabledClasses)
+
+  confirmOrder: (e) ->
+    return if ($form = $(e.currentTarget)).data('submitting') is 'true'
+    $form.addClass('is-loading').attr 'submitting', 'true'
+    invoice = new Invoice
+      order: @order.get('_id')
+      due_at: moment().add(7, 'days').utc().toISOString()
+      notes: ''
+
+    Q(invoice.save())
+      .then ->
+        location.href = "#{invoice.href()}/shipping?access_key=#{invoice.get('access_key')}"
+      .catch (error) ->
+        console.log error
+      .done()
 
 module.exports.init = ->
   new OrderConfirmationView

@@ -66,7 +66,7 @@ module.exports = class ShippingView extends Backbone.View
 
     Q(@customer.save())
       .then => Q @order.set(customer: @customer.get('_id')).save()
-      .then => Backbone.history.navigate "/invoices/#{@invoice.get('_id')}/payment", trigger: true
+      .then => Backbone.history.navigate "/invoices/#{@invoice.get('_id')}/payment?access_key=#{@invoice.get('access_key')}", trigger: true
       .catch (error) -> console.log error
       .done()
 

@@ -29,7 +29,8 @@ block body
                       input#order-is-confirmed.order-is-confirmed( name="order-is-confirmed" type="checkbox" )
                       label( for="order-is-confirmed" ) 我確定商品、數量跟金額正確。
                   .order-confirmation-action
-                    +button("button", "前往結賬")(class="btn btn-lg btn-full-width btn-disabled confirm-order", data-icon="button-arrow", disabled)
+                    form.confirm-order
+                      +button("button", "前往結賬")(class="btn btn-lg btn-full-width btn-disabled confirm-order", data-icon="button-arrow", type="submit" disabled)
         else if order.get('status') == 'invoiced'
           .notice 這份訂單已經確認，請使用以下連結前往付款。
         else if order.get('status') == 'paid'

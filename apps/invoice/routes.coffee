@@ -8,10 +8,12 @@ InvoiceLineItems = require '../../collections/invoice_line_items.coffee'
 Q= require 'q'
 
 @index = (req, res, next) ->
+  return next() unless (accessKey = req.query.access_key)
+
   merchant = new Merchant()
   invoice = new Invoice _id: req.params.id
   invoiceLineItems = new InvoiceLineItems()
-  Q(invoice.fetch())
+  Q(invoice.fetch(data: access_key: accessKey))
     .then ->
       Q.all [
         invoiceLineItems.fetch(data: invoice_id: invoice.get('_id'))
@@ -26,7 +28,8 @@ Q= require 'q'
         merchant: merchant
         invoice: invoice
         invoiceLineItems: invoiceLineItems
-    .catch (error) -> next(error?.body?.message)
+    .catch (error) ->
+      next error?.body?.message or 'failed to fetch invoice information'
     .done()
 
 @shipping = (req, res, next) =>

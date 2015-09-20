@@ -7,7 +7,13 @@ module.exports = class Invoice extends Backbone.Model
 
   _.extend @prototype, SantaModel
 
-  urlRoot: "#{API_URL}/api/v1/invoices"
+  urlRoot: -> "#{API_URL}/api/v1/invoices"
+
+  url: ->
+    return @urlRoot() if @isNew()
+    url = "#{@urlRoot()}/#{@id}"
+    url = "#{url}?access_key=#{accessKey}" if (accessKey = @get('access_key'))?
+    url
 
   href: -> "/invoices/#{@get('_id')}"
 
