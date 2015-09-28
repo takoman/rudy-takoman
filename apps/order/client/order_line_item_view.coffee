@@ -12,6 +12,7 @@ money = require '../../../lib/money.js'
 acct = require 'accounting'
 orderLineItemTemplate = -> require("../templates/order_line_item_form.jade") arguments...
 imagesTemplate = -> require("../templates/item_images.jade") arguments...
+deleteModalTemplate = -> require('../templates/delete_order_line_item_modal.jade') arguments...
 { API_URL } = require('sharify').data
 
 module.exports = class OrderLineItemView extends Backbone.View
@@ -102,13 +103,8 @@ module.exports = class OrderLineItemView extends Backbone.View
     @removeDialog.remove() if @removeDialog?
     @removeDialog = new ModalDialog
       $trigger: @$('.remove-item')
+      template: deleteModalTemplate lineItemTitle: @model.title(), _s: _s
       onConfirmation: => @model.destroy()
-      modalHeader: """
-        <h3>刪除#{_s.truncate @model.title(), 15}</h3>
-      """
-      modalContent: """
-        <p>刪除<strong>#{@model.title()}</strong>後將無法回復，你確定要刪除嗎？</p>
-      """
 
   setupDirtyForm: ->
     # We replace the entire form when saving the form (but not actually

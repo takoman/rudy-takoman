@@ -9,28 +9,18 @@ module.exports = class ModalDialogView extends Backbone.View
     closeOnCancel: true
     closeOnEscape: true
     closeOnOutsideClick: true
-    modalHeader: """
-    """
-    modalContent: """
-    """
-    cancelLabel: '取消'
-    confirmLabel: '確定'
+    template: template()
 
   initialize: (options = {}) ->
-    { @$trigger, @hashTracking, @closeOnConfirm, @closeOnCancel, @closeOnEscape,
-      @closeOnOutsideClick, @modalHeader, @modalContent, @cancelLabel,
-      @confirmLabel } = _.defaults options, @defaults
+    { @$trigger, @template, @hashTracking, @closeOnConfirm, @closeOnCancel,
+      @closeOnEscape, @closeOnOutsideClick } = _.defaults options, @defaults
+
+    @$el.html @template
 
     remodal = require '../../lib/vendor/remodal.js'
     modalId = "modal-dialog-id-#{_.uniqueId()}"
-    @$el.html template
-      modalId: modalId
-      modalHeader: @modalHeader
-      modalContent: @modalContent
-      cancelLabel: @cancelLabel
-      confirmLabel: @confirmLabel
-
     @$trigger.attr 'data-remodal-target', modalId
+    @$('.modal').attr 'data-remodal-id', modalId
 
     @modal = @$('.modal').remodal
       hashTracking: @hashTracking
