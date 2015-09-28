@@ -24,7 +24,7 @@ Q = require 'q'
     .then ->
       return next('The logged in user is not a merchant') if merchants.length is 0
 
-      order.urlRoot = "#{API_URL}/api/v2/orders"
+      order.urlRoot = -> "#{API_URL}/api/v2/orders"
       Q.all [
         order.fetch(data: access_token: user.get 'accessToken'),
         orderLineItems.fetch(data: order_id: req.params.id)
