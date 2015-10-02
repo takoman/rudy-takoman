@@ -39,4 +39,5 @@ block content
                 ol.order-actions.action-list
                   li: a( href="/orders/#{order.get('_id')}" ) 編輯訂單
                   li: a.preview-order-link( data-url="#{order.href()}?access_key=#{order.get('access_key')}" ) 預覽網址
-                  li: a.preview-invoice-link 付款網址
+                  if order.get('status') == 'invoiced'
+                    li: a.preview-invoice-link( data-order-id=order.get('_id') ) 付款網址

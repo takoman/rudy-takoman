@@ -15,7 +15,7 @@ module.exports = class Invoice extends Backbone.Model
     url = "#{url}?access_key=#{accessKey}" if (accessKey = @get('access_key'))?
     url
 
-  href: -> "/invoices/#{@get('_id')}"
+  href: -> "#{APP_URL}/invoices/#{@get('_id')}"
 
   isUnpaid: -> @get('status') is 'unpaid'
   isPaid: -> @get('status') is 'paid'
