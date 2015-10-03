@@ -1,13 +1,14 @@
-include ../buttons/index
+include ../../../components/buttons/index
 
-.modal.modal-confirm( data-remodal-id=modalId )
+.modal.modal-confirm.modal-invoice-link
   .modal-actions
     button.remodal-close( data-remodal-action='close' )
   .modal-header
-    | 標題
+    h3 付款網址
   .modal-content
-    | 內容
+    p
+      | 此訂單已經確認，買家可以至以下網址進行付款：
+    pre
+      = url
   .modal-footer
-    +button("button", "取消")(class="btn btn-sm btn-secondary btn-navy" data-icon="button-arrow" data-remodal-action="cancel")
-    | &nbsp;
     +button("button", "確定")(class="btn btn-sm btn-primary btn-navy" data-icon="button-arrow" data-remodal-action="confirm")

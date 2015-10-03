@@ -12,7 +12,7 @@ _ = require 'underscore'
 Backbone = require 'backbone'
 Relations = require './mixins/relations/order.coffee'
 SantaModel = require './mixins/santa_model.coffee'
-{ API_URL } = require('sharify').data
+{ APP_URL, API_URL } = require('sharify').data
 
 module.exports = class Order extends Backbone.Model
 
@@ -31,6 +31,8 @@ module.exports = class Order extends Backbone.Model
     url = "#{url}?access_key=#{accessKey}" if (accessKey = @get('access_key'))?
     url
 
+  href: -> "#{APP_URL}/orders/#{@get('_id')}"
+
   shippingAddress: ->
     [
       @get('shipping_address')?.zipcode,
@@ -39,3 +41,11 @@ module.exports = class Order extends Backbone.Model
       @get('shipping_address')?.address,
       @get('shipping_address')?.address_2
     ].join('')
+
+  statusLabel: ->
+    switch @get('status')
+      when 'new' then '新訂單'
+      when 'invoiced' then '等待付款'
+      when 'paid' then '已付款'
+      when 'appended' then '新增項目'
+      else ''

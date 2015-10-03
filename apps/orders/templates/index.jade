@@ -31,12 +31,13 @@ block content
         tbody
           each order in orders.models
             tr
-              td= moment(order.get('created_at')).format('YYYY-MM-DD')
+              td= moment(order.get('created_at')).format('YYYY/MM/DD')
               td= order.get('_id')
               td= acct.formatMoney(order.get('total'))
-              td= order.get('status')
+              td= order.statusLabel()
               td
                 ol.order-actions.action-list
                   li: a( href="/orders/#{order.get('_id')}" ) 編輯訂單
-                  li: a 預覽網址
-                  li: a 付款網址
+                  li: a.preview-order-link( data-url="#{order.href()}?access_key=#{order.get('access_key')}" ) 預覽網址
+                  if order.get('status') == 'invoiced'
+                    li: a.preview-invoice-link( data-order-id=order.get('_id') ) 付款網址
