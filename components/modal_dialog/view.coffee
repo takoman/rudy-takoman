@@ -3,7 +3,7 @@ Backbone    = require 'backbone'
 template    = -> require('./template.jade') arguments...
 
 module.exports = class ModalDialogView extends Backbone.View
-  defaults:
+  defaults: ->
     hashTracking: false
     closeOnConfirm: true
     closeOnCancel: true
@@ -13,7 +13,7 @@ module.exports = class ModalDialogView extends Backbone.View
 
   initialize: (options = {}) ->
     { @$trigger, @template, @hashTracking, @closeOnConfirm, @closeOnCancel,
-      @closeOnEscape, @closeOnOutsideClick } = _.defaults options, @defaults
+      @closeOnEscape, @closeOnOutsideClick } = _.defaults options, @defaults()
 
     @$el.html @template
 

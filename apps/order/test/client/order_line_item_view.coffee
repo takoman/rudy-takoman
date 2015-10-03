@@ -17,7 +17,7 @@ ModalDialog = benv.requireWithJadeify(
 )
 OrderLineItemView = benv.requireWithJadeify(
   resolve(__dirname, '../../client/order_line_item_view'),
-  ['orderLineItemTemplate', 'imagesTemplate']
+  ['orderLineItemTemplate', 'imagesTemplate', 'deleteModalTemplate']
 )
 OrderLineItemView.__set__ 'UploadForm', sinon.stub()
 OrderLineItemView.__set__ 'ModalDialog', ModalDialog
