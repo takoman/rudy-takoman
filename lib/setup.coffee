@@ -107,6 +107,7 @@ module.exports = (app) ->
   app.use require "../apps/commits"
   app.use require "../apps/auth"
   app.use require "../apps/merchant-onboard"
+  app.use require "../apps/merchant-dashboard"
   app.use require "../apps/profile"
   app.use require "../apps/orders"
   app.use require "../apps/order"

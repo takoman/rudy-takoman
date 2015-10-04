@@ -1,26 +1,252 @@
-@import '../../../components/main_layout/stylesheets/mixins'
+@import "../../../components/main_layout/stylesheets/variables"
 
 body
-  font-family 'Helvetica', 'Arial', 'sans-serif'
-  color #444
-  padding 10px 100px
-  line-height 1.4em
+  padding-bottom 0
 
-h1, h2
-  text-align center
-h1
-  font-size 21px
-  margin-bottom 20px
-h2
-  font-weight normal
-  font-size 18px
-
-#header
-  make-md-column(8)
-  make-md-column-offset(4)
-
-#commits-list
-  width 600px
-  margin 20px auto
-  li
-    margin: 20px
+.profile-section
+  .profile-section-h2
+    margin-top 70px
+    font-size 30px
+    font-weight 900
+    letter-spacing 2px
+    text-align center
+    &:after
+      display block
+      margin 20px auto
+      content ''
+      width 50px
+      height 3px
+      background-color $black
+.profile-products
+  .profile-product
+    min-height 400px
+    padding 20px 0
+    .profile-product-thumbnail
+      text-align center
+      max-width 256px
+      max-height 256px
+      width 100%
+      height 100%
+      margin 0 auto
+      img
+        max-width 100%
+        max-height 100%
+    .profile-product-info
+      text-align center
+    .profile-product-brand
+      letter-spacing 1px
+      margin-bottom 10px
+    .profile-product-title
+      letter-spacing 2px
+      margin-bottom 10px
+    .profile-product-price
+      font-size 22px
+      letter-spacing 2px
+  .profile-products-featured
+    .profile-product
+      min-height 800px
+      padding 80px 0
+      .profile-product-thumbnail
+        text-align center
+        max-width 512px
+        max-height 512px
+        width 100%
+        height 100%
+        margin 0 auto
+        img
+          width 100%
+          height 100%
+.profile-review
+  background-color #f6f6f6
+  padding 60px 0 30px 0
+  .profile-review-statistics
+    margin 80px 0
+    background $white
+    text-align center
+    position relative
+    padding 40px 0 60px 0
+    .profile-review-h4
+      position absolute
+      top -25px
+      left -75px
+      margin-left 50%
+      width 150px
+      height 50px
+      line-height 50px
+      background-color #303D46
+      color $white
+      letter-spacing 2px
+    .profile-review-score
+      height 160px
+      color $red
+      font-size 120px
+      font-weight 900
+      letter-spacing 10px
+    .profile-review-hearts
+      svg
+        width 30px
+        height 30px
+        margin 0 8px
+        .fillable
+          fill $red
+      &:after
+        display block
+        margin 38px auto 25px auto
+        content ''
+        width 40px
+        height 4px
+        background-color $black
+    .profile-review-count
+      font-size 16px
+      font-weight 900
+      letter-spacing 1px
+  .profile-review-list
+    .profile-review-item
+      padding 20px 0 30px 0
+      background-image linear-gradient(to right, $gray-dark 0%, $gray-dark 50%, rgba(255, 255, 255, 0) 51%, rgba(255, 255, 255, 0) 100%)
+      background-position top
+      background-size 4px 2px
+      background-repeat repeat-x
+      .profile-review-item-left
+        float left
+        padding-right 10px
+        img
+          width 50px
+          height 50px
+      .profile-review-item-body
+        float left
+        .profile-review-item-heading
+          font-size 20px
+          letter-spacing 2px
+          margin-bottom 10px
+        .profile-review-item-hearts
+          svg
+            width 25px
+            height 25px
+            margin-right 5px
+            .fillable
+              fill $red
+      .profile-review-item-right
+        float right
+        text-align right
+        .profile-review-item-thumbnail
+          margin 5px 0 0 10px
+          display inline-block
+          width 50px
+          height 50px
+          border 1px solid $gray-light
+          img
+            max-width 100%
+            max-height 100%
+    .profile-review-more
+      text-align center
+      .profile-review-more-link
+        text-decoration underline
+        font-size 12px
+        letter-spacing 2px
+.contact-section
+  background-color $navy-dark
+  padding-top 70px
+  .contact-wraper
+    margin 0 auto
+    width 780px
+    height 680px
+    position relative
+    overflow hidden
+    .contact-feedback
+      opacity 0
+      visibility hidden
+      position absolute
+      top 50px
+      width 100%
+      z-index 1002
+      text-align center
+      font-size 24px
+      line-height 40px
+      color $white
+      transition top 0.5s ease-out, opacity 0.5s ease-out, visibility ease-out 1s
+      transition-delay 0s
+      &.submitted
+        top 70px
+        opacity 1
+        visibility visible
+        transition top 0.5s ease-out, opacity 0.5s ease-out, visibility ease-out 2s
+        transition-delay 2s
+      .contact-feedback-action
+        padding 20px 0
+        z-index 1002
+    .contact-envelop-back
+      width 780px
+      height 360px
+      position absolute
+      bottom 0
+      z-index 996
+    .contact-envelop-top
+      width 780px
+      height 500px
+      position absolute
+      top 70px
+      z-index 996
+      transition all 0.5s ease-in-out
+      transition-delay 0.5s
+      &.submitted
+        transform rotate3d(0.1, 0, 0, 180.1deg)
+        transition all 0.8s ease-in-out
+        transition-delay 1.2s
+        z-index 1000
+    .contact-paper
+      width 680px
+      height 680px
+      position absolute
+      left 50px
+      bottom 0
+      background-color $white
+      z-index 997
+      transition height 0.5s ease-in-out
+      transition-delay 1.3s
+      &.submitted
+        height 320px
+        transition height 1s ease-in-out
+        transition-delay 0s
+    .contact-envelop-front
+      width 780px
+      height 360px
+      position absolute
+      bottom 0
+      z-index 999
+    .contact-form-block
+      width 680px
+      height 680px
+      position absolute
+      left 50px
+      bottom 0
+      padding 30px 70px
+      z-index 1000
+      opacity 1
+      transition opacity 0.5s ease-in-out, height 0.5s ease-in-out, z-index 5s
+      transition-delay 1.3s
+      &.submitted
+        height 320px
+        z-index 998
+        opacity 1
+        transition opacity 0.5s ease-in-out, height 1s ease-in-out
+        transition-delay 0s
+      .contact-icon
+        width 60px
+        height 60px
+        border-radius 32px
+        background-color $red
+        padding 10px
+        margin-bottom 15px
+        svg
+          width 40px
+          height 40px
+          .fillable
+            fill $white
+      .contact-h3
+        letter-spacing 2px
+        margin-bottom 15px
+      .contact-info
+        font-size 16px
+      .contact-form
+        margin-top 20px

@@ -1,0 +1,37 @@
+include ../buttons/index
+
+.cover-modal
+  button.remodal-close( data-remodal-action="close" )
+  h1 選擇封面照片
+  .row.cover-modal-preview
+    .col-sm-20.col-sm-offset-2.col-md-12.col-md-offset-6
+      .cover-modal-preview-img
+        img( src="/assets/img/bg/cover_01.jpg" )
+  .cover-modal-thumbnails.row
+    .col-xs-12.col-md-6.col-lg-4
+      a.thumbnail( href="#" )
+        img( src="/assets/img/bg/cover_01.jpg" )
+    .col-xs-12.col-md-6.col-lg-4
+      a.thumbnail( href="#" )
+        img( src="/assets/img/bg/cover_02.jpg" )
+    .col-xs-12.col-md-6.col-lg-4
+      a.thumbnail( href="#" )
+        img( src="/assets/img/bg/cover_01.jpg" )
+    .col-xs-12.col-md-6.col-lg-4
+      a.thumbnail( href="#" )
+        img( src="/assets/img/bg/cover_02.jpg" )
+    .col-xs-12.col-md-6.col-lg-4
+      a.thumbnail( href="#" )
+        img( src="/assets/img/bg/cover_01.jpg" )
+    .col-xs-12.col-md-6.col-lg-4
+      a.thumbnail( href="#" )
+        img( src="/assets/img/bg/cover_02.jpg" )
+    .col-xs-12.col-md-6.col-lg-4
+      a.thumbnail( href="#" )
+        img( src="/assets/img/bg/cover_01.jpg" )
+    .col-xs-12.col-md-6.col-lg-4
+      a.thumbnail( href="#" )
+        img( src="/assets/img/bg/cover_02.jpg" )
+  +button("button", "取消")(class="btn btn-sm btn-secondary btn-navy cancel-editing", data-icon="button-arrow", data-icon-align="right", data-remodal-action="cancel")
+  | 
+  +button("button", "確定")(class="btn btn-sm btn-primary btn-navy save-profile", data-icon="button-arrow", data-icon-align="right",  data-remodal-action="confirm")

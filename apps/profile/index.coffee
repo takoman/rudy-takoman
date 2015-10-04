@@ -1,14 +1,12 @@
 #
-# The express app for the "commits" app.
-#
-# Simply exports the express instance to be mounted into the project,
-# and loads the routes.
+# The express app for the "profile" app.
 #
 
-express = require "express"
-routes = require "./routes"
+express = require 'express'
+routes = require './routes'
 
 app = module.exports = express()
-app.set "views", __dirname + "/templates"
-app.set "view engine", "jade"
-app.get "/profile", routes.index
+app.set 'views', __dirname + '/templates'
+app.set 'view engine', 'jade'
+
+app.get '/profile/:id', routes.index
