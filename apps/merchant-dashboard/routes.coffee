@@ -14,6 +14,7 @@ Q = require 'q'
     .then ->
       return next('The logged in user is not a merchant') if merchants.length is 0
     .then ->
+      res.locals.sd.MERCHANT = merchants.at(0).toJSON()
       res.render 'profile',
         merchant: merchants.at(0)
     .catch (error) ->

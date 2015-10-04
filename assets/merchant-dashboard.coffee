@@ -7,4 +7,4 @@
 #
 
 require('backbone').$ = $
-$ require("../apps/merchant-dashboard/client/index.coffee").init
+$ require("../apps/merchant-dashboard/client/profile.coffee").init

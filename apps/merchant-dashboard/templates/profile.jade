@@ -21,32 +21,40 @@ block content
           .panel.panel-primary
             .panel-header 編輯賣場資訊
             .panel-content
-              .profile-preview
+              .profile
                 .row
                   .col-md-20.col-md-offset-2.col-lg-18.col-lg-offset-3
-                    .row
-                      .profile-preview-cover.col-sm-24
-                    .row
-                      .profile-preview-avatar.col-sm-3.col-sm-offset-2
-                      .profile-preview-info.col-sm-13
-                        .profile-preview-area 美國
-                        .profile-preview-name pingchieh代購
-                        .profile-preview-hearts
-                          include ../../../components/main_layout/public/svgs/circle-arrow.svg
-                          include ../../../components/main_layout/public/svgs/circle-arrow.svg
-                          include ../../../components/main_layout/public/svgs/circle-arrow.svg
-                          include ../../../components/main_layout/public/svgs/circle-arrow.svg
-                          include ../../../components/main_layout/public/svgs/circle-arrow.svg
-                      .col-md-5
-                        .profile-preview-contact
+                    .profile-cover
+                      h2.profile-cover-desc
+                        |熱衷於購物，喜愛流連在大大小小的精品
+                        br
+                        |百貨中，並把自己值得的物品分享給大家。
+                    .profile-info
+                      .row
+                        .col-sm-5
+                          .profile-info-avatar
+                            img( src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/p148x148/10987680_10202542002350642_7695256773315536575_n.jpg?oh=be15543f9c974efd0258c7d25f0dab5e&oe=5657D0A9&__gda__=1448515890_6d094427fdb7c3ff791c93668d30f4e5" )
+                        .col-sm-12
+                          .profile-info-main
+                            .profile-info-area 美國
+                            .profile-info-h1: = merchant.get('merchant_name')
+                            .profile-info-hearts
+                              include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                              include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                              include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                              include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                              include ../../../components/main_layout/public/svgs/circle-arrow.svg
+                        .col-sm-7
+                          .profile-info-contact.text-center
+                            +button("a", "聯絡賣家")(class="btn btn-cta btn-red btn-colored-bg", data-icon="button-arrow", data-icon-align="right")
               .row
                 .col-md-12.col-md-offset-1
-                  form#form-profile-info
+                  form#form-profile-info.form-profile
                     .form-group.form-profile-group
                       .form-profile-input-num 1
                       .form-profile-input
                         label( for="cover" ) 封面照片
-                        input.form-control( id="cover" name="cover" type="text")
+                        input.form-control.cover-choose( id="cover" name="cover" type="text")
                     .form-group.form-profile-group
                       .form-profile-input-num 2
                       .form-profile-input
@@ -56,7 +64,8 @@ block content
                       .form-profile-input-num 3
                       .form-profile-input
                         label( for="merchant-desc" ) 描述
-                        input.form-control( id="merchant-desc" name="merchant_desc" value=merchant.get('merchant_name') type="text")
+                        textarea.form-control( id="merchant-desc" name="merchant_desc")
+                          = merchant.get('merchant_desc')
           .pull-right
             +button("button", "取消編輯")(class="btn btn-sm btn-secondary btn-navy cancel-editing", data-icon="button-arrow", data-icon-align="right")
             | 
