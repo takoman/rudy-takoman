@@ -26,7 +26,7 @@ module.exports.ProfileEditingView = class ProfileEditingView extends Backbone.Vi
 
   updateMerchantDesc: ->
     desc = @$('.form-profile [name="merchant_desc"]').val()
-    desc = desc.replace(new RegExp('\r?\n','g'), '<br />');
+    desc = desc.replace new RegExp('\r?\n','g'), '<br>'
     @$('.profile-cover-desc').html(desc)
 
   saveProfile: (e) ->
