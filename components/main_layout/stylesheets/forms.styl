@@ -134,26 +134,50 @@ input[type=checkbox]:checked + label:after
 input[type="file"]
   padding 0
   -webkit-padding-before 12px
-.file-upload-control input[type="file"]
-  display none
-.file-upload-control
-  position relative
 .file-upload-label
+  position relative
+  padding 0
   &:hover
     cursor pointer
-.file-upload-control:after
-  display inline-block
-  content ''
-  background-image url(http://cdn.flaticon.com/png/256/70440.png)
-  background-size 20px 20px
-  background-repeat no-repeat
-  width 20px
-  height 20px
-  position absolute
-  top 50%
-  right 10px
-  margin-top -8px
-  pointer-events none
+.file-upload-control
+  position relative
+  input[type="file"]
+    display none
+  &:after
+    display inline-block
+    content ''
+    background-image url(http://cdn.flaticon.com/png/256/70440.png)
+    background-size 20px 20px
+    background-repeat no-repeat
+    width 20px
+    height 20px
+    position absolute
+    top 50%
+    right 10px
+    margin-top -8px
+    pointer-events none
+    opacity 1
+    transition opacity 0.25s
+  .file-upload-progress-bar
+  .file-upload-progress
+    display none
+  &[data-state="loading"]:after
+    opacity 0
+  &[data-state="loading"]
+    .file-upload-progress-bar
+      display block
+      position absolute
+      left 0
+      top 0
+      height 100%
+      text-align right
+      background-color $gray-lighter
+    .file-upload-progress
+      display block
+      position absolute
+      top 0
+      right 10px
+      line-height $input-height-base
 
 // Required input label
 label.required
