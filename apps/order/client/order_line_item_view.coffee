@@ -89,13 +89,20 @@ module.exports = class OrderLineItemView extends Backbone.View
   setupFileUpload: ->
     new UploadForm
       el: @$('#form-image-upload')
-      onSend: -> console.log 'onSend'
-      onProgress: -> console.log 'onProgress'
+      onSend: =>
+        @$('.file-upload-progress').text('0%')
+        @$('.file-upload-progress-bar').css('width', '0%')
+        @$('.file-upload-control').attr('data-state', 'loading')
       onFail: -> console.log 'onFail'
+      onProgress: (e, data) =>
+        percentage = Math.floor(data.loaded / data.total * 100) + '%'
+        @$('.file-upload-progress').text(percentage)
+        @$('.file-upload-progress-bar').css('width', percentage)
       onDone: (e, data) =>
         url = $(data.result).find('Location').text()
         @$('input[name="image"]').val url
         @$('.image-upload-preview, .order-line-item-preview .item-image').html imagesTemplate images: [{ original: url }]
+        @$('.file-upload-control').removeAttr 'data-state'
 
   setupRemoveDialog: ->
     # We replace the entire html when calling render() everytime,
