@@ -1,0 +1,19 @@
+@import '../../../components/main_layout/stylesheets/variables'
+@import "bootstrap/mixins/clearfix"
+
+.total-summary
+  .total-summary-breakdown
+    border-bottom 2px dotted $black
+    padding-bottom $table-condensed-cell-padding
+    margin-bottom $table-condensed-cell-padding
+  .total-summary-total
+    font-size 18px
+  .total-breakdown-item
+    clearfix()
+    padding $table-cell-padding
+    padding-top $table-condensed-cell-padding
+    padding-bottom $table-condensed-cell-padding
+  .total-breakdown-label
+    float left
+  .total-breakdown-amount
+    float right

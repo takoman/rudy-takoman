@@ -19,8 +19,6 @@ block content
       h1.pull-left
         = order.isNew() ? '新增訂單' : '編輯訂單'
       .pull-right
-        +button("a", "取消訂單")(class="btn btn-sm btn-secondary btn-navy cancel-order", data-icon="button-arrow")
-        | &nbsp;
         +button("a", "儲存訂單")(class="btn btn-sm btn-primary btn-navy save-order", data-icon="button-arrow")
       .clearfix
     .col-md-22.col-md-offset-1
@@ -36,7 +34,7 @@ block content
           .order-partial.order-due-at
             label
               | 訂單保留期限
-              a( data-toggle="tooltip" data-placement="right" title="當訂單確認送出後，買家有七天的時間可以付款。若買家在七天內沒有完成付款，此份訂單即失效。請記得善意提醒一下您的買家喔！" ) ?
+              a.help-tooltip( data-toggle="tooltip" data-placement="right" title="當訂單確認送出後，買家有七天的時間可以付款。若買家在七天內沒有完成付款，此份訂單即失效。請記得善意提醒一下您的買家喔！" )
             .order-partial-form
               form#form-set-due-at
                 //- TODO: need a partial form to set due date
@@ -72,29 +70,31 @@ block content
                   .row
                     .col-md-5
                       .item-image
-          .order-total-summary
-            .row
-              .col-md-10.col-md-offset-14
-                .order-total-breakdown.clearfix
-                  .order-total-breakdown-label.pull-left 商品總額
-                  #order-product-total.order-total-breakdown-amount.pull-right
-                    = acct.formatMoney(orderLineItems.total('product'))
-                .order-total-breakdown.clearfix
-                  .order-total-breakdown-label.pull-left 運費
-                  #order-shipping-total.order-total-breakdown-amount.pull-right
-                    = acct.formatMoney(orderLineItems.total('shipping'))
-                .order-total-breakdown.clearfix
-                  .order-total-breakdown-label.pull-left 代買費
-                  #order-commission-total.order-total-breakdown-amount.pull-right
-                    = acct.formatMoney(orderLineItems.total('commission'))
-                .order-total-breakdown.clearfix
-                  .order-total-breakdown-label.pull-left 稅金
-                  #order-tax-total.order-total-breakdown-amount.pull-right
-                    = acct.formatMoney(orderLineItems.total('tax'))
-                .order-total-breakdown.clearfix
-                  .order-total-breakdown-label.pull-left 總計
-                  #order-total.order-total-breakdown-amount.pull-right
-                    = acct.formatMoney(orderLineItems.total())
+          .row
+            .col-md-10.col-md-offset-14
+              .total-summary.order-total-summary
+                .total-summary-breakdown
+                  .total-breakdown-item
+                    .total-breakdown-label 商品總額
+                    #order-product-total.total-breakdown-amount
+                      = acct.formatMoney(orderLineItems.total('product'))
+                  .total-breakdown-item
+                    .total-breakdown-label 運費
+                    #order-shipping-total.total-breakdown-amount
+                      = acct.formatMoney(orderLineItems.total('shipping'))
+                  .total-breakdown-item
+                    .total-breakdown-label 代買費
+                    #order-commission-total.total-breakdown-amount
+                      = acct.formatMoney(orderLineItems.total('commission'))
+                  .total-breakdown-item
+                    .total-breakdown-label 稅金
+                    #order-tax-total.total-breakdown-amount
+                      = acct.formatMoney(orderLineItems.total('tax'))
+                .total-summary-total
+                  .total-breakdown-item
+                    .total-breakdown-label 總計
+                    #order-total.total-breakdown-amount
+                      = acct.formatMoney(orderLineItems.total())
 
         .panel-footer
           .order-line-items-actions
@@ -106,6 +106,4 @@ block content
             +button("a", "稅金")(class="btn btn-primary btn-red add-item", data-icon="product", data-item-type="tax", data-icon-align="left")
 
       p.btn-toolbar.text-right
-        +button("a", "取消訂單")(class="btn btn-sm btn-secondary btn-navy cancel-order", data-icon="button-arrow")
-        | &nbsp;
         +button("a", "儲存訂單")(class="btn btn-sm btn-primary btn-navy save-order", data-icon="button-arrow")
