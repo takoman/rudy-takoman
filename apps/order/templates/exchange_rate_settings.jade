@@ -11,7 +11,7 @@
           .col-md-12
             form#form-set-exchange-rate
               .form-group
-                label( for="currency-source" ) 選擇貨幣 *
+                label.required( for="currency-source" ) 選擇貨幣
                 .select-control
                   select.form-control( id="currency-source" name="currency-source")
                     - var pick = ['TWD', 'USD', 'JPY', 'KRW', 'CNY', 'EUR', 'GBP', 'CAD']
@@ -21,7 +21,7 @@
                       option( value=k ) #{v.cname} (#{k})
 
               .form-group.form-group-exchange-rate.hidden
-                label( for="exchange-rate" ) 對台幣匯率 *
+                label.required( for="exchange-rate" ) 對台幣匯率
                 input.form-control( id="exchange-rate" name="exchange-rate" type="number" min="0.01" step="0.01" value="1" placeholder="填入數字，如：31.50" required )
                 p#exchange-rate-settings-message.help-block
 
