@@ -3,7 +3,8 @@
 .order-line-item.product-item
   .order-line-item-form
     .order-line-item-form-header.clearfix
-      h3.pull-left 新增商品
+      h3.pull-left
+        = item.isNew() ? "新增商品" : "編輯商品"
       .pull-right
         ol.item-actions.action-list
           li: a.item-action.remove-item( href="#" ) 移除
@@ -12,7 +13,7 @@
       .col-md-12
         form.form-order-line-item
           .form-group
-            label( for="title-#{uid}" ) 商品名稱*
+            label.required( for="title-#{uid}" ) 商品名稱
             input.form-control( id="title-#{uid}" name="title" value=item.related().product.get('title') type="text" placeholder="商品名稱" required autofocus )
           .form-group
             label( for="brand-#{uid}" ) 品牌
@@ -29,19 +30,21 @@
             .image-upload-preview
               include ./item_images
           .form-group
-            label( for="color-#{uid}" ) 顏色
-            input.form-control( id="color-#{uid}" name="color" value=item.related().product.get('color') type="text" placeholder="顏色" )
+            .row
+              .col-md-12
+                label( for="color-#{uid}" ) 顏色
+                input.form-control( id="color-#{uid}" name="color" value=item.related().product.get('color') type="text" placeholder="顏色" )
+              .col-md-12
+                label( for="size-#{uid}" ) 尺寸
+                input.form-control( id="size-#{uid}" name="size" value=item.related().product.get('size') type="text" placeholder="尺寸" )
           .form-group
-            label( for="size-#{uid}" ) 尺寸
-            input.form-control( id="size-#{uid}" name="size" value=item.related().product.get('size') type="text" placeholder="尺寸" )
-          .form-group
-            label( for="quantity-#{uid}" ) 數量*
+            label.required( for="quantity-#{uid}" ) 數量
             input.form-control.quantity-field( id="quantity-#{uid}" name="quantity" value="#{item.get('quantity') || 1}" type="text" placeholder="數量" required )
             p.help-block.quantity-help
           .form-group
             // NOTE we have to somehow persist the selected input currency,
             // so we can edit with the same currency later.
-            label( for="currency-source" ) 金額幣別*
+            label.required( for="currency-source" ) 金額幣別
             .radio-inline
               input( type="radio" id="currency-twd-#{uid}" name="currency-source" value="TWD" checked=(currencySource == 'TWD') )
               label( for="currency-twd-#{uid}" ) 台幣
@@ -50,7 +53,7 @@
                 input( type="radio" id="currency-foreign-#{uid}" name="currency-source" value=currencySource checked )
                 label( for="currency-foreign-#{uid}" ) #{money.CURRENCIES[currencySource].cname} (#{currencySource})
           .form-group
-            label( for="price-#{uid}" ) 商品單價*
+            label.required( for="price-#{uid}" ) 商品單價
             input.form-control( id="price-#{uid}" name="price" type="text" placeholder="商品金額" required
               value=(acct.toFixed(fx(item.get('price')).from(currencyTarget).to(currencySource), 2)) )
             p.help-block.subtotal-message
@@ -68,7 +71,7 @@
 
   .order-line-item-preview
     .row
-      .col-md-5
+      .col-md-7
         .item-image
           include ./item_images
       .col-md-7
@@ -78,7 +81,7 @@
         .item-size= item.related().product.get('size')
         .item-quantity 數量：#{item.get('quantity')} 個
         .item-price 單價：#{acct.formatMoney(item.get('price'))}
-      .col-md-7
+      .col-md-5
         ol.item-actions.action-list
           li: a.item-action.edit-item( href="#" ) 編輯
           li: a.item-action.remove-item( href="#" ) 刪除

@@ -41,18 +41,19 @@ module.exports = class OrderConfirmationView extends Backbone.View
 
   confirmOrder: (e) ->
     return if ($form = $(e.currentTarget)).data('submitting') is 'true'
+
     $form.addClass('is-loading').attr 'submitting', 'true'
     invoice = new Invoice
       order: @order.get('_id')
       due_at: moment().add(7, 'days').utc().toISOString()
       notes: ''
-
     Q(invoice.save())
       .then ->
         location.href = "#{invoice.href()}/shipping?access_key=#{invoice.get('access_key')}"
       .catch (error) ->
         console.log error
       .done()
+    false
 
 module.exports.init = ->
   new OrderConfirmationView

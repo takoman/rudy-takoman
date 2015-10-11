@@ -3,7 +3,10 @@
 // --------------------------------------------------
 .form-control
   border 2px solid $input-border
-//custom radio style
+  &:focus
+    box-shadow none
+
+// Custom radio style
 input[type=radio]
   display none
 .radio-inline + .radio-inline
@@ -46,7 +49,7 @@ input[type=radio] + label:after
 input[type=radio]:checked + label:after
   opacity 1
 
-//custom checkbox
+// Custom checkbox
 input[type=checkbox]
   display none
 
@@ -90,7 +93,7 @@ input[type=checkbox] + label:after
 input[type=checkbox]:checked + label:after
   opacity 1
 
-//custom select
+// Custom select
 .select-control
   position relative
 .select-control select
@@ -100,6 +103,8 @@ input[type=checkbox]:checked + label:after
   outline none
   -webkit-border-radius 0
   border-radius 0
+  &:hover
+    cursor pointer
 .select-control:before
   display block
   position absolute
@@ -125,7 +130,7 @@ input[type=checkbox]:checked + label:after
   margin-top -4px
   pointer-events none
 
-//custom file input
+// Custom file input
 input[type="file"]
   padding 0
   -webkit-padding-before 12px
@@ -133,6 +138,9 @@ input[type="file"]
   display none
 .file-upload-control
   position relative
+.file-upload-label
+  &:hover
+    cursor pointer
 .file-upload-control:after
   display inline-block
   content ''
@@ -146,3 +154,10 @@ input[type="file"]
   right 10px
   margin-top -8px
   pointer-events none
+
+// Required input label
+label.required
+  &:after
+    content: '*';
+    color: $red;
+    margin: 0 10px 0 3px;

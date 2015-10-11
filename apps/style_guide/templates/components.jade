@@ -5,3 +5,35 @@ section
     .form-group
       label 請選擇日期/時間
       input#component-datetime-picker.form-control( type="text" )
+
+section
+  h3 Tooltips
+  p
+    | Tooltips can be displayed
+    a.help-tooltip( data-toggle="tooltip" title="我愈不耐煩了。換一碗飯吃？什麼。但那也不見得容易，掌櫃說，兩頰連耳根都熱起來。他媽罵他，和大家走下城樓！" )
+    | inline with content. The default placement is on the top.
+  p
+    | You can also place the tooltip on the right
+    a.help-tooltip( data-toggle="tooltip" data-placement="right" title="我愈不耐煩了。換一碗飯吃？什麼。但那也不見得容易，掌櫃說，兩頰連耳根都熱起來。他媽罵他，和大家走下城樓！" )
+    | , bottom
+    a.help-tooltip( data-toggle="tooltip" data-placement="bottom" title="我愈不耐煩了。換一碗飯吃？什麼。但那也不見得容易，掌櫃說，兩頰連耳根都熱起來。他媽罵他，和大家走下城樓！" )
+    | , left
+    a.help-tooltip( data-toggle="tooltip" data-placement="left" title="我愈不耐煩了。換一碗飯吃？什麼。但那也不見得容易，掌櫃說，兩頰連耳根都熱起來。他媽罵他，和大家走下城樓！" )
+    | , or, of course, top
+    a.help-tooltip( data-toggle="tooltip" data-placement="top" title="我愈不耐煩了。換一碗飯吃？什麼。但那也不見得容易，掌櫃說，兩頰連耳根都熱起來。他媽罵他，和大家走下城樓！" )
+    | .
+
+  pre: code
+    | a.help-tooltip( data-toggle="tooltip" title="我愈不耐煩了。換一碗..." )
+    | a.help-tooltip( data-toggle="tooltip" data-placement="right" title="我愈不耐煩了。換一碗..." )
+    | a.help-tooltip( data-toggle="tooltip" data-placement="bottom" title="我愈不耐煩了。換一碗..." )
+    | a.help-tooltip( data-toggle="tooltip" data-placement="left" title="我愈不耐煩了。換一碗..." )
+    | a.help-tooltip( data-toggle="tooltip" data-placement="top" title="我愈不耐煩了。換一碗..." )
+
+  p
+    | Note that Bootstrap Tooltip requires us to manually initialize it. For example,
+
+  pre: code
+    | $(function () {
+    |   $('[data-toggle="tooltip"]').tooltip()
+    | })

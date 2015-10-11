@@ -1,0 +1,37 @@
+.tooltip-arrow:before
+  position absolute
+  content ' '
+  border-style solid
+  border-color transparent
+
+.tooltip.top .tooltip-arrow:before
+  bottom 1px
+  left 50%
+  margin-left (-($tooltip-arrow-width))
+  border-width $tooltip-arrow-width $tooltip-arrow-width 0
+  border-top-color $tooltip-bg
+
+.tooltip.right .tooltip-arrow:before
+  top 50%
+  left 1px
+  margin-top (-($tooltip-arrow-width))
+  border-width $tooltip-arrow-width $tooltip-arrow-width $tooltip-arrow-width 0
+  border-right-color $tooltip-bg
+
+.tooltip.left .tooltip-arrow:before
+  top 50%
+  right 1px
+  margin-top (-($tooltip-arrow-width))
+  border-width $tooltip-arrow-width 0 $tooltip-arrow-width $tooltip-arrow-width
+  border-left-color $tooltip-bg
+
+.tooltip.bottom .tooltip-arrow:before
+  top 1px
+  left 50%
+  margin-left (-($tooltip-arrow-width))
+  border-width 0 $tooltip-arrow-width $tooltip-arrow-width
+  border-bottom-color $tooltip-bg
+
+.tooltip-inner
+  border 1px solid $gray-dark
+  padding 15px

@@ -14,6 +14,7 @@ setupJquery = ->
   require 'jquery.transition'
   require 'waypoints/lib/jquery.waypoints.min.js'
   require 'waypoints/lib/shortcuts/sticky.min.js'
+  require '../../lib/vendor/transition.js'
   require '../../lib/vendor/tooltip.js'
   require '../../lib/vendor/jquery.are-you-sure.js'
   $.ajaxSettings.headers =
@@ -22,7 +23,7 @@ setupJquery = ->
 
 # Setup global behaviors
 setupGlobal = ->
-  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip container: 'body'
 
 setupAnalytics = ->
   analytics(ga: ga) if ga?
