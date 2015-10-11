@@ -68,7 +68,7 @@
 
   .order-line-item-preview
     .row
-      .col-md-5
+      .col-md-7
         .item-image
           include ./item_images
       .col-md-7
@@ -78,7 +78,7 @@
         .item-size= item.related().product.get('size')
         .item-quantity 數量：#{item.get('quantity')} 個
         .item-price 單價：#{acct.formatMoney(item.get('price'))}
-      .col-md-7
+      .col-md-5
         ol.item-actions.action-list
           li: a.item-action.edit-item( href="#" ) 編輯
           li: a.item-action.remove-item( href="#" ) 刪除

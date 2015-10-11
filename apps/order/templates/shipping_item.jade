@@ -32,13 +32,13 @@
 
   .order-line-item-preview
     .row
-      .col-md-5
+      .col-md-7
         .item-image
           include ../../../components/main_layout/public/svgs/product.svg
       .col-md-7
         .item-title 運費
         .item-price= acct.formatMoney(item.get('price'))
-      .col-md-7
+      .col-md-5
         ol.item-actions.action-list
           li: a.item-action.edit-item( href="#" ) 編輯
           li: a.item-action.remove-item( href="#" ) 刪除
