@@ -1,0 +1,15 @@
+extends ../../../components/main_layout/templates/index
+
+append locals
+  - assetPackage = 'home'
+  - bodyClass = 'home'
+
+block head
+  title Takoman
+
+block body
+  .container
+    .brand
+      include ../../../components/main_layout/public/svgs/takoman.svg
+    a( href="/login" ) 登入
+    a( href="/logout" ) 登出
