@@ -8,6 +8,8 @@ mixin button(tag, label)
       include ../main_layout/public/svgs/circle-arrow.svg
     else if attributes['data-icon'] == 'product'
       include ../main_layout/public/svgs/product.svg
+    else if attributes['data-icon'] == 'facebook'
+      include ../main_layout/public/svgs/facebook.svg
 
     if attributes['data-icon-align'] == 'left'
       = label

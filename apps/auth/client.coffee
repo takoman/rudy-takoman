@@ -19,15 +19,15 @@ module.exports.AuthView = class AuthView extends Backbone.View
     @user = CurrentUser.orNull()
 
   events:
-    "submit #sign-up": "signUp"
-    "submit #log-in": "logIn"
+    "submit #form-signup": "signup"
+    "submit #form-login": "login"
 
-  logIn: (e) ->
+  login: (e) ->
     e.preventDefault()
 
     model = new Backbone.Model
-      email: $('form#log-in input[name="email"]').val()
-      password: $('form#log-in input[name="password"]').val()
+      email: $('#form-login input[name="email"]').val()
+      password: $('#form-login input[name="password"]').val()
 
     model.url = -> "/users/login"
     model.save {},
@@ -39,13 +39,13 @@ module.exports.AuthView = class AuthView extends Backbone.View
         $('#auth-message').html(error.message)
           .removeClass().addClass 'alert alert-danger'
 
-  signUp: (e) ->
+  signup: (e) ->
     e.preventDefault()
 
     model = new Backbone.Model
-      name: $('form#sign-up input[name="email"]').val()
-      email: $('form#sign-up input[name="email"]').val()
-      password: $('form#sign-up input[name="password"]').val()
+      name: $('#form-signup input[name="email"]').val()
+      email: $('#form-signup input[name="email"]').val()
+      password: $('#form-signup input[name="password"]').val()
 
     model.url = -> "/users/signup"
     model.save {},

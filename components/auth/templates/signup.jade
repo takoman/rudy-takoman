@@ -1,0 +1,36 @@
+include ../../../components/buttons/index
+
+#tab-signup.signup-wrapper.tab-pane.fade
+  .signup-description 註冊新帳號
+  .signup-options
+    .signup-option.signup-social
+      +button("a", "使用 Facebook 註冊")(href="/users/auth/facebook" class="btn btn-primary btn-navy btn-full-width" data-icon="facebook" data-icon-align="left")
+    .or-actions-separator
+    .signup-option.signup-email
+      form#form-signup.form-horizontal
+        .form-group
+          .col-md-24
+            input.form-control( id="name" name="name" type="text" placeholder="姓名" required autofacus )
+        .form-group
+          .col-md-24
+            input.form-control( id="email" name="email" type="text" placeholder="Email" required autofacus )
+        .form-group
+          .col-md-24
+            input.form-control( id="password" name="password" type="password" placeholder="密碼" requred="required" )
+        .form-group
+          .col-md-24
+            +button("button", "註冊")(type="submit" class="btn btn-primary btn-navy btn-full-width" data-icon="button-arrow")
+  .login-actions
+    .row
+      .col-md-24
+        .action-agree
+          | 按下註冊鈕的同時，表示您已詳閱我們的
+          a( href="#" )資料使用政策
+          | 與
+          a( href="#" )使用條款
+          | ，同意使用 Takoman 所提供的服務。
+    .row
+      .col-md-24
+        .action-signup
+          | 已經有帳號了？
+          a.toggle-signup( href="#tab-login" data-toggle="tab" ) 馬上登入
