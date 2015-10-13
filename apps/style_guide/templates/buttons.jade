@@ -140,23 +140,23 @@ section.component-subsection
     h4 Default Size
     .row
       .col-md-8
-        a.btn.btn-disabled 我要購買
+        +button("a", "我要購買")(class="btn btn-disabled", data-icon="button-arrow", data-icon-align="right")
       .col-md-16
-        pre: code a.btn.btn-disabled 我要購買
+        pre: code +button("a", "我要購買")(class="btn btn-disabled", data-icon="button-arrow", data-icon-align="right")
   .button-sample
     h4 Small Size
     .row
       .col-md-8
-        a.btn.btn-disabled.btn-small 我要購買
+        +button("a", "我要購買")(class="btn btn-sm btn-disabled", data-icon="button-arrow", data-icon-align="right")
       .col-md-16
-        pre: code a.btn.btn-disabled.btn-small 我要購買
+        pre: code +button("a", "我要購買")(class="btn btn-sm btn-disabled", data-icon="button-arrow", data-icon-align="right")
   .button-sample
     h4 Tiny Size
     .row
       .col-md-8
-        a.btn.btn-disabled.btn-tiny 我要購買
+        +button("a", "我要購買")(class="btn btn-lg btn-disabled", data-icon="button-arrow", data-icon-align="right")
       .col-md-16
-        pre: code a.btn.btn-disabled.btn-tiny 我要購買
+        pre: code +button("a", "我要購買")(class="btn btn-lg btn-disabled", data-icon="button-arrow", data-icon-align="right")
 section.component-subsection
   h3 Full Width Buttons
   .button-sample
