@@ -18,9 +18,7 @@ module.exports = class AuthView extends Backbone.View
     model.url = -> "/users/login"
 
     Q(model.save())
-      .then (result) =>
-        @$('.alert').html(result.message)
-          .removeClass().addClass 'alert alert-success'
+      .then (result, x, y) -> location.reload()
       .catch (error) =>
         error_dict = $.parseJSON(error.responseText)
         @$('.alert').html(error_dict.message)
@@ -37,9 +35,7 @@ module.exports = class AuthView extends Backbone.View
     model.url = -> "/users/signup"
 
     Q(model.save())
-      .then (result) =>
-        @$('.alert').html(result.message)
-          .removeClass().addClass 'alert alert-success'
+      .then (result) -> location.href = '/'
       .catch (error) =>
         error_dict = $.parseJSON(error.responseText)
         @$('.alert').html(error_dict.message)
