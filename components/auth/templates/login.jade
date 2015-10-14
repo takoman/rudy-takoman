@@ -1,0 +1,33 @@
+include ../../../components/buttons/index
+
+#tab-login.login-wrapper.tab-pane.fade.in.active( data-tab="login" )
+  .login-description 登入
+  .login-options
+    .login-option.login-social
+      +button("a", "使用 Facebook 登入")(href="/users/auth/facebook" class="btn btn-primary btn-navy btn-full-width" data-icon="facebook" data-icon-align="left")
+    .or-actions-separator
+    .login-option.login-email
+      form#form-login.form-horizontal
+        .form-group
+          .col-md-24
+            input.form-control( id="email" name="email" type="text" placeholder="Email" required autofacus )
+        .form-group
+          .col-md-24
+            input.form-control( id="password" name="password" type="password" placeholder="密碼" required )
+        .form-group
+          .col-md-24
+            +button("button", "登入")(type="submit" class="btn btn-primary btn-navy btn-full-width" data-icon="button-arrow")
+  .login-actions
+    .row
+      .col-md-24
+        .action-remember-me.pull-left
+          .checkbox
+            input#login-remember( type="checkbox" checked)
+            label( for="login-remember" ) 記住我
+        .action-forget-password.pull-right
+          a( href="#" ) 忘記密碼?
+    .row
+      .col-md-24
+        .action-signup
+          | 還沒有帳號嗎？
+          a.toggle-signup( href="#tab-signup" data-toggle="tab" ) 馬上註冊

@@ -105,6 +105,7 @@ module.exports = (app) ->
 
   # Mount apps
   app.use require "../apps/commits"
+  app.use require "../apps/home"
   app.use require "../apps/auth"
   app.use require "../apps/merchant-onboard"
   app.use require "../apps/profile"

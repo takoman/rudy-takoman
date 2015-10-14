@@ -4,58 +4,21 @@ include ../../../components/bordered_dropdown/mixin
 
 append locals
   - assetPackage = 'auth'
+  - bodyClass = 'auth'
 
 block head
   title Log in to Takoman
 
 block body
-  .container
-    .jumbotron
-      h1 Takoman is the HERO!
-      p This example is a quick exercise to illustrate how the default, static and fixed to top navbar work.
-        | It includes the responsive CSS and HTML, so it also adapts to your viewport and device.
-      p To see the difference between static and fixed top navbars, just scroll.
-
-    #auth-message.alert.alert-info
+  .container.is-constrained
+    .alert.alert-info
       if user
         | Logged in as #{user.get('email')}
       else
         | Not logged in
 
-    .col-md-4
-      h2 Log in
-      form#log-in.form-horizontal
-        .form-group
-          label.col-md-3( for="email" ) Email
-          .col-md-9
-            input.form-control( id="email", name="email" type="text" placeholder="email" requred="required" autofacus )
-        .form-group
-          label.col-md-3( for="password" ) Password
-          .col-md-9
-            input.form-control( id="password", name="password" type="password" placeholder="password" requred="required" )
-        .form-group
-          .col-md-12
-            button.btn.btn-lg.btn-primary.btn-block( type="submit" ) Log In
+    .brand
+      include ../../../components/main_layout/public/svgs/takoman.svg
 
-    .col-md-4
-      h2 Sign up
-      form#sign-up.form-horizontal
-        .form-group
-          label.col-md-3( for="name" ) Name
-          .col-md-9
-            input.form-control( id="name", name="name", type="text", placeholder="Full name", requred="required", autofacus )
-        .form-group
-          label.col-md-3( for="email" ) Email
-          .col-md-9
-            input.form-control( id="email", name="email", type="text", placeholder="Email", requred="required", autofacus )
-        .form-group
-          label.col-md-3( for="password" ) Password
-          .col-md-9
-            input.form-control( id="password", name="password", type="password", placeholder="password", requred="required" )
-        .form-group
-          .col-md-12
-            button.btn.btn-lg.btn-primary.btn-block( type="submit" ) Sign Up
-
-    .col-md-4
-      h2 Sign up with facebook
-      a.btn.btn-lg.btn-primary.btn-block( href="/users/auth/facebook" ) Sign up with Facebook
+    .auth
+      include ../../../components/auth/templates/index

@@ -1,10 +1,3 @@
-#
-# The express app for the "commits" app.
-#
-# Simply exports the express instance to be mounted into the project,
-# and loads the routes.
-#
-
 express = require 'express'
 routes = require './routes'
 { loginPath, signupPath, facebookCallbackPath } = require('../../lib/middleware/takoman-passport').options

@@ -70,9 +70,9 @@ input[type="submit"].btn:visited,
   > svg
     display inline-block
     position relative
-    vertical-align top
-    height 28px
-    width 28px
+    vertical-align middle
+    height 22px
+    width 22px
     margin -7px 5px
     transition transform 0.15s ease-in-out
     path, rect
@@ -98,8 +98,12 @@ a.btn.btn-disabled
     color $white
     &:after
       display none
+  > svg
+    transform none
+    .fillable
+      fill $white
 
-//btn-primary
+// btn-primary
 .btn.btn-primary
   color $white
   > svg
@@ -138,7 +142,7 @@ a.btn.btn-disabled
     background-color $gray-lightest
     border-color $gray-lightest
 
-//btn-secondary
+// btn-secondary
 .btn.btn-secondary
   background-color transparent
   color $black

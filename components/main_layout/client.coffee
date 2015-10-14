@@ -16,6 +16,7 @@ setupJquery = ->
   require 'waypoints/lib/shortcuts/sticky.min.js'
   require '../../lib/vendor/transition.js'
   require '../../lib/vendor/tooltip.js'
+  require '../../lib/vendor/tab.js'
   require '../../lib/vendor/jquery.are-you-sure.js'
   $.ajaxSettings.headers =
     'X-XAPP-TOKEN'  : sd.TAKOMAN_XAPP_TOKEN
