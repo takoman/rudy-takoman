@@ -31,7 +31,7 @@
     "newrelic": "1.10.1",
     "node-uuid": "1.4.1",
     "passport": "0.2.0",
-    "passport-facebook": "1.0.3",
+    "passport-facebook": "2.0.0",
     "passport-local": "1.0.0",
     "pm2": "0.12.13",
     "raven": "0.7.1",
