@@ -23,7 +23,7 @@
     "express": "4.4.1",
     "flake-idgen": "^1.0.0",
     "forever": "0.14.1",
-    "jade": "1.3.1",
+    "jade": "1.11.0",
     "jquery-datetimepicker": "git://github.com/xdan/datetimepicker.git",
     "mime": "1.3.4",
     "moment": "2.6.0",
