@@ -1,0 +1,11 @@
+include ../buttons/index
+
+.modal.modal-auth( data-remodal-id=modalId )
+  .modal-actions
+    button.remodal-close( data-remodal-action='close' )
+  .modal-header
+  .modal-content
+    .brand
+      include ../main_layout/public/svgs/takoman.svg
+    include ../auth/templates/index
+  .modal-footer

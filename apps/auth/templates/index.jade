@@ -11,7 +11,7 @@ block head
 
 block body
   .container.is-constrained
-    #auth-message.alert.alert-info
+    .alert.alert-info
       if user
         | Logged in as #{user.get('email')}
       else
@@ -20,6 +20,5 @@ block body
     .brand
       include ../../../components/main_layout/public/svgs/takoman.svg
 
-    .tab-content
-      include ../../../components/auth/templates/login
-      include ../../../components/auth/templates/signup
+    .auth
+      include ../../../components/auth/templates/index

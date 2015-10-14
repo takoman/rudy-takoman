@@ -12,50 +12,13 @@
 Backbone = require "backbone"
 sd = require("sharify").data
 CurrentUser = require "../../models/current_user.coffee"
+AuthView = require "../../components/auth/client/index.coffee"
 
-module.exports.AuthView = class AuthView extends Backbone.View
+module.exports.LoginView = class LoginView extends Backbone.View
 
   initialize: ->
     @user = CurrentUser.orNull()
-
-  events:
-    "submit #form-signup": "signup"
-    "submit #form-login": "login"
-
-  login: (e) ->
-    e.preventDefault()
-
-    model = new Backbone.Model
-      email: $('#form-login input[name="email"]').val()
-      password: $('#form-login input[name="password"]').val()
-
-    model.url = -> "/users/login"
-    model.save {},
-      success: (model, res, opt) ->
-        $('#auth-message').html(res.message)
-          .removeClass().addClass 'alert alert-success'
-      error: (model, xhr, opt) ->
-        error = $.parseJSON(xhr.responseText)
-        $('#auth-message').html(error.message)
-          .removeClass().addClass 'alert alert-danger'
-
-  signup: (e) ->
-    e.preventDefault()
-
-    model = new Backbone.Model
-      name: $('#form-signup input[name="email"]').val()
-      email: $('#form-signup input[name="email"]').val()
-      password: $('#form-signup input[name="password"]').val()
-
-    model.url = -> "/users/signup"
-    model.save {},
-      success: (model, res, opt) ->
-        $('#auth-message').html(res.message)
-          .removeClass().addClass 'alert alert-success'
-      error: (model, xhr, opt) ->
-        error = $.parseJSON(xhr.responseText)
-        $('#auth-message').html(error.message)
-          .removeClass().addClass 'alert alert-danger'
+    new AuthView el: @$('.auth')
 
 module.exports.init = ->
-  new AuthView el: $ "body"
+  new LoginView el: $ "body"
